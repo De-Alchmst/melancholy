@@ -1,0 +1,6 @@
+you will need:
+  Go     : https://go.dev/
+  tinygo : https://tinygo.org/
+
+you might need/want:
+  wasm-opt from binaryen : https://github.com/WebAssembly/binaryen
