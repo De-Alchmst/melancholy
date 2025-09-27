@@ -12,6 +12,7 @@ const (
 	KeyZ
 	KayAny
 	KeyAction
+	KeyMovement
 )
 
 func pressed(key InputKey) bool {
@@ -33,6 +34,8 @@ func pressed(key InputKey) bool {
 		return gamepad != 0
 	case KeyAction:
 		return gamepad&(w4.BUTTON_1|w4.BUTTON_2) != 0
+	case KeyMovement:
+		return gamepad&(w4.BUTTON_UP|w4.BUTTON_DOWN|w4.BUTTON_LEFT|w4.BUTTON_RIGHT) != 0
 	default:
 		return false
 	}

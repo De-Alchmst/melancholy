@@ -5,6 +5,13 @@ package w4
 
 import "unsafe"
 
+////////// THIS NEEDED FIXING ////////////////
+//go:linkname getCurrentStackPointer tinygo_getCurrentStackPointer
+func getCurrentStackPointer() uintptr {
+	return 0
+}
+//////////////////////////////////////////////
+
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // │                                                                           │
 // │ Platform Constants                                                        │

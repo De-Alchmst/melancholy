@@ -8,12 +8,11 @@ const (
 
 type GameState struct {
 	Status GameStatus
-	OverPosX, OverPosY int
+	CurrentRoom *Room
 }
 
 var State GameState
 func InitGameState() {
 	State.Status = StatusIntro
-	State.OverPosX = 64
-	State.OverPosY = 64
+	State.CurrentRoom = GetRoomAtID(0)
 }
