@@ -32,6 +32,8 @@ const (
 )
 
 var (
+	PassthroughTiles = [...]TileAtlasTile {TileFloor}
+
 	TileAtlas = [...]Tile {
 		Tile {
 			Flags: w4.BLIT_1BPP,

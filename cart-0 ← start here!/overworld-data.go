@@ -8,11 +8,16 @@ const (
 	DirRight
 )
 
+type Hitbox struct {
+	OffsetX, OffsetY, Width, Height int
+}
+
 type OverworldEntity struct {
 	X, Y float32
 	AnimationFrames []uint // Order of columns in sprite sheet
 	AnimationIndex int
 	AnimationCountdown float32
+	Hitbox Hitbox
 	Sprite Sprite
 	Direction Direction
 }
@@ -30,18 +35,18 @@ const (
 	TileSize = 16
 )
 
-var Player OverworldEntity
 
-func InitOverworldData() {
-	Player = OverworldEntity{
-		X: 64,
-		Y: 64,
-		AnimationFrames: []uint{1, 0, 1, 2},
-		AnimationIndex: 0,
-		AnimationCountdown: 0,
-		Sprite: PlayerSprite,
-		Direction: DirDown,
-	}
+var Player = OverworldEntity{
+	X: 64, Y: 64,
+	Hitbox: Hitbox {
+		OffsetX: 2, OffsetY: 9,
+		Width:  12, Height:   7,
+	},
+	AnimationFrames: []uint{1, 0, 1, 2},
+	AnimationIndex: 0,
+	AnimationCountdown: 0,
+	Sprite: PlayerSprite,
+	Direction: DirDown,
 }
 
 func GetRoomAtID(id RoomID) *Room {
