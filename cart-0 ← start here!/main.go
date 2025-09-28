@@ -13,8 +13,8 @@ func start() { // gruvbox light
 //go:export update
 func update() {
 	switch State.Status {
-	case StatusIntro:
-		UpdateIntro()
+	case StatusMessage:
+		UpdateMessage()
 	case StatusOverworld:
 		UpdateOverworld()
 	}

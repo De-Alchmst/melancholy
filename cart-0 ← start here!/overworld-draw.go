@@ -1,7 +1,7 @@
 package main
 
 import "cart/w4"
-import "sort"
+import "sort" // takes 4k, might write myself if run out of memory
 
 func (l OverworldEntityList) Draw() {
 	sort.Slice(l, func(i, j int) bool {
