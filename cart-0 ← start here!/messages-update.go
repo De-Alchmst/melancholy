@@ -8,30 +8,45 @@ type MessageText struct {
 	DrawColors uint16
 }
 
+type MessageImage struct {
+	Sprite Sprite
+	X, Y int
+	DrawColors uint16
+}
+
 type Message struct {
 	Texts []MessageText
-	after func()
+	Images []MessageImage
+	After func()
 }
 
 var (
-	IntroMessage = Message{
-		Texts: []MessageText{
+	IntroMessage = Message {
+		Texts: []MessageText {
 			{Text: "And so it begins", X: 5, Y: 10, DrawColors: 0x2},
 			{Text: "Like many times\n         before", X: 20, Y: 35, DrawColors: 0x2},
 			{Text: "Like many times\n          after", X: 20, Y: 70, DrawColors: 0x2},
 			{Text: "What is one\n  more time?", X:52, Y: 130, DrawColors: 0x4},
 		},
-		after: func() {State.Status = StatusOverworld},
+		Images: []MessageImage{},
+		After: BackToOverworld,
 	}
 )
 
+
+func BackToOverworld() {
+	State.Status = StatusOverworld
+}
+
+
 func UpdateMessage() {
-	for _, text := range IntroMessage.Texts {
+	msg := State.CurrentMessage
+	for _, text := range msg.Texts {
 		*w4.DRAW_COLORS = text.DrawColors
 		w4.Text(text.Text, text.X, text.Y)
 	}
 
-	if pressed(KeyAction) {
-		IntroMessage.after()
+	if Pressed(KeyAction) {
+		msg.After()
 	}
 }

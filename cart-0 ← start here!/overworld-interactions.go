@@ -1,7 +1,7 @@
 package main
 
 func HandleInteractions() {
-	if pressed(KeyX) {
+	if Pressed(KeyX) {
 		box := GetPlayerInteractionBox()
 
 		// here we will also use entities from the room directly.
@@ -9,6 +9,12 @@ func HandleInteractions() {
 		for _, ent := range State.CurrentRoom.Entities {
 			if box.Collides(ent.Hitbox) {
 				ent.OnInteract(ent)
+			}
+		}
+
+		for _, evnt := range State.CurrentRoom.Events {
+			if box.Collides(evnt.Hitbox) {
+				evnt.OnInteract(/*no arg here I presume...*/)
 			}
 		}
 	}

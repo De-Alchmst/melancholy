@@ -44,7 +44,7 @@ func Held(key InputKey) bool {
 }
 
 
-func pressed(key InputKey) bool {
+func Pressed(key InputKey) bool {
 	return Held(key) && !prevPressedKeys[key]
 }
 

@@ -62,6 +62,12 @@ var (
 // This allows to have rooms generate dynamically based on game state, but see
 // the ID without generating the room first.
 
+type PositionalEventList []PositionalEvent
+type PositionalEvent struct {
+	Hitbox Hitbox
+	OnInteract func()
+}
+
 type TilesMap [10][10]TileAtlasTile
 type RoomID int
 type Room struct {
@@ -69,6 +75,7 @@ type Room struct {
 	Left, Right, Up, Down RoomID
 	DrawColors uint16
 	Entities OverworldEntityList
+	Events PositionalEventList
 }
 
 type RoomMaker func() *Room
@@ -103,6 +110,15 @@ func tileToPos(tile int) float32 {
 	return float32(tile * TileSize)
 }
 
+func TileToHitbox(x, y float32) Hitbox {
+	return Hitbox {
+		X     : x*TileSize,
+		Y     : y*TileSize,
+		Width :   TileSize,
+		Height:   TileSize,
+	}
+}
+
 
 var (
 	RoomEntries = [...]RoomListEntry {
@@ -124,7 +140,8 @@ var (
 					},
 					Left: 0, Right: 1, Up: 0, Down: 0,
 					DrawColors: 0x41,
-					Entities : OverworldEntityList{},
+					Entities: OverworldEntityList{},
+					Events: PositionalEventList{},
 				}
 			}),
 		},
@@ -170,6 +187,7 @@ var (
 							Data: nil,
 						},
 					},
+					Events: PositionalEventList{},
 				}
 			}),
 		},
@@ -190,7 +208,25 @@ var (
 				},
 				Left: 1, Right: 0, Up: 1, Down: 0,
 				DrawColors: 0x41,
-				Entities : OverworldEntityList{},
+				Entities : OverworldEntityList {},
+				Events: PositionalEventList {
+					PositionalEvent {
+						Hitbox: TileToHitbox(7, 6),
+						OnInteract: func() {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "Do you remember\n what happened\n last week?",
+							  		X: 20, Y: 20,  DrawColors: 0x2 },
+									{ Text: "Did it even\n happen then?",
+								  	X: 50, Y: 100, DrawColors: 0x4 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}//, <- I hate you!
+						},
+					},
+				},
 			},
 		},
 	}
