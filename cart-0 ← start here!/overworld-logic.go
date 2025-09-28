@@ -12,6 +12,17 @@ func (e *OverworldEntity) NextFrame() {
 
 func SwitchRoom(newRoomID RoomID) {
 	State.CurrentRoom = GetRoomAtID(newRoomID)
+
+	// OverworldEnts needs to be a separate slice, as it needs player added in
+	// which would interfere with some roome being static and other generated
+	OverworldEnts = make(OverworldEntityList, len(State.CurrentRoom.Entities)+1)
+	OverworldEnts[0] = &Player
+	copy(OverworldEnts[1:], State.CurrentRoom.Entities)
+}
+
+
+func (b1 Hitbox) Collides(b2 Hitbox) bool {
+	return b1.X < b2.X+b2.Width && b1.X+b1.Width > b2.X && b1.Y < b2.Y+b2.Height && b1.Y+b1.Height > b2.Y
 }
 
 
@@ -21,6 +32,8 @@ func playerCollides() bool {
 	xEnd   := int(min((box.X + box.Width)    / TileSize, 9))
 	yStart := int(max( box.Y                / TileSize, 0))
 	yEnd   := int(min((box.Y + box.Height) / TileSize, 9))
+
+	/// MAP
 
 	// This does not make me happy, but since player hitbox size is constant
 	// it should be O(1)?
@@ -35,6 +48,16 @@ func playerCollides() bool {
 			return true
 		}
 	}
+
+	/// ENTITIES
+	// here we can use the entity list from the map itself, as it is a good thing
+	// that it does not include the player
+	for _, ent := range State.CurrentRoom.Entities {
+		if box.Collides(ent.Hitbox) {
+			return true
+		}
+	}
+
 	return false
 }
 

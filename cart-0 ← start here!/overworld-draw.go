@@ -1,6 +1,17 @@
 package main
 
 import "cart/w4"
+import "sort"
+
+func (l OverworldEntityList) Draw() {
+	sort.Slice(l, func(i, j int) bool {
+		return l[i].Hitbox.Y < l[j].Hitbox.Y
+	})
+
+	for i := range l {
+		l[i].Draw()
+	}
+}
 
 func (e *OverworldEntity) Draw() {
 	s := e.Sprite
@@ -9,8 +20,8 @@ func (e *OverworldEntity) Draw() {
 	srcX := e.AnimationFrames[e.AnimationIndex] * s.PiceWidth
 	srcY := uint(e.Direction) * s.PiceHeight
 
-	*w4.DRAW_COLORS = 0x0241
-	w4.BlitSub(&s.Data[0], x, y, s.PiceWidth, s.PiceHeight, srcX, srcY, s.ArchWidth, s.Flags)
+	*w4.DRAW_COLORS = s.DrawColors
+	w4.BlitSub(&s.Data[0], x, y,s.PiceWidth, s.PiceHeight, srcX, srcY, s.ArchWidth, s.Flags)
 }
 
 

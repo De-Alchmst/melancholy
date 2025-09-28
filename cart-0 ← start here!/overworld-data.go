@@ -8,10 +8,15 @@ const (
 	DirRight
 )
 
+const (
+	TileSize = 16
+)
+
 type Hitbox struct {
 	X, Y, Width, Height float32
 }
 
+type OverworldEntityList []*OverworldEntity
 type OverworldEntity struct {
 	Hitbox Hitbox
 	DrawOffsetX, DrawOffsetY int
@@ -20,26 +25,30 @@ type OverworldEntity struct {
 	AnimationCountdown float32
 	Sprite Sprite
 	Direction Direction
+	OnInteract func(self *OverworldEntity)
+	Data any
 }
 
+func EntityDoNothing (self *OverworldEntity) {}
 
-const (
-	TileSize = 16
+
+var (
+	OverworldEnts = OverworldEntityList{&Player}
+	Player = OverworldEntity{
+		DrawOffsetX: -2, DrawOffsetY: -9,
+		Hitbox: Hitbox {
+			X: 64, Y: 64,
+			Width: 12, Height: 7,
+		},
+		AnimationFrames: []uint{1, 0, 1, 2},
+		AnimationIndex: 0,
+		AnimationCountdown: 0,
+		Sprite: PlayerSprite,
+		Direction: DirDown,
+		OnInteract: EntityDoNothing,
+		Data: nil,
+	}
 )
-
-
-var Player = OverworldEntity{
-	DrawOffsetX: -2, DrawOffsetY: -9,
-	Hitbox: Hitbox {
-		X: 64, Y: 64,
-		Width: 12, Height: 7,
-	},
-	AnimationFrames: []uint{1, 0, 1, 2},
-	AnimationIndex: 0,
-	AnimationCountdown: 0,
-	Sprite: PlayerSprite,
-	Direction: DirDown,
-}
 
 ////////////////////
 
@@ -55,6 +64,7 @@ type Room struct {
 	Tiles TilesMap
 	Left, Right, Up, Down RoomID
 	DrawColors uint16
+	Entities OverworldEntityList
 }
 
 type RoomMaker func() *Room
@@ -85,26 +95,34 @@ func GetRoomAtID(id RoomID) *Room {
 }
 
 
+func tileToPos(tile int) float32 {
+	return float32(tile * TileSize)
+}
+
+
 var (
 	RoomEntries = [...]RoomListEntry {
 		RoomListEntry {
 			ID: 0,
-			Value: &Room {
-				Tiles: TilesMap {
-					{0,0,0,0,0,1,0,0,0,0},
-					{0,0,0,0,0,1,0,0,0,0},
-					{0,0,1,1,1,1,1,1,1,1},
-					{0,0,1,1,1,1,1,1,1,1},
-					{0,0,1,1,1,1,1,1,1,1},
-					{0,0,1,1,1,1,1,1,1,1},
-					{0,0,1,1,1,1,1,1,1,1},
-					{0,0,1,1,1,1,1,1,1,1},
-					{0,0,0,0,0,0,0,0,0,0},
-					{0,0,0,0,0,0,0,0,0,0},
-				},
-				Left: 0, Right: 1, Up: 0, Down: 0,
-				DrawColors: 0x41,
-			},
+			Value: RoomMaker(func() *Room {
+				return &Room {
+					Tiles: TilesMap {
+						{0,0,0,0,0,1,0,0,0,0},
+						{0,0,0,0,0,2,0,0,0,0},
+						{0,0,1,1,1,1,1,1,1,1},
+						{0,0,1,1,1,1,1,1,1,1},
+						{0,0,1,1,1,1,1,1,1,1},
+						{0,0,1,1,1,1,1,1,1,1},
+						{0,0,1,1,1,1,1,1,1,1},
+						{0,0,1,1,1,1,1,1,1,1},
+						{0,0,0,0,0,0,0,0,0,0},
+						{0,0,0,0,0,0,0,0,0,0},
+					},
+					Left: 0, Right: 1, Up: 0, Down: 0,
+					DrawColors: 0x41,
+					Entities : OverworldEntityList{},
+				}
+			}),
 		},
 		RoomListEntry {
 			ID: 1,
@@ -123,6 +141,24 @@ var (
 				},
 				Left: 0, Right: 2, Up: 0, Down: 2,
 				DrawColors: 0x41,
+				Entities : OverworldEntityList{
+					&OverworldEntity {
+						DrawOffsetX: -1, DrawOffsetY: -9,
+						Hitbox: Hitbox {
+							X: tileToPos(7)+1, Y: tileToPos(4)+9,
+							Width: 14, Height: 7,
+						},
+						AnimationFrames: []uint{0, 1},
+						AnimationIndex: 0,
+						AnimationCountdown: 0,
+						Sprite: KeyholderSprite,
+						Direction: DirDown,
+						OnInteract: func(self *OverworldEntity) {
+							self.AnimationIndex = 1
+						},
+						Data: nil,
+					},
+				},
 			},
 		},
 		RoomListEntry {
@@ -142,6 +178,7 @@ var (
 				},
 				Left: 1, Right: 0, Up: 1, Down: 0,
 				DrawColors: 0x41,
+				Entities : OverworldEntityList{},
 			},
 		},
 	}

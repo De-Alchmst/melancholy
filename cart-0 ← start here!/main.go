@@ -4,7 +4,9 @@ package main
 func start() { // gruvbox light
 	SetPallete(PalleteGruvboxLight)
 	InitGameState()
+
 	State.Status = StatusOverworld
+	State.CurrentRoom = GetRoomAtID(2)
 }
 
 //go:export update
