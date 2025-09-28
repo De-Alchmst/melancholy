@@ -16,6 +16,10 @@ type Hitbox struct {
 	X, Y, Width, Height float32
 }
 
+func (b1 Hitbox) Collides(b2 Hitbox) bool {
+	return b1.X < b2.X+b2.Width && b1.X+b1.Width > b2.X && b1.Y < b2.Y+b2.Height && b1.Y+b1.Height > b2.Y
+}
+
 type OverworldEntityList []*OverworldEntity
 type OverworldEntity struct {
 	Hitbox Hitbox
@@ -126,40 +130,48 @@ var (
 		},
 		RoomListEntry {
 			ID: 1,
-			Value: &Room {
-				Tiles: TilesMap {
-					{0,0,0,0,0,0,0,0,0,0},
-					{0,0,0,0,0,0,0,0,0,0},
-					{1,1,1,1,1,1,0,0,0,0},
-					{1,1,1,1,1,1,0,1,1,0},
-					{1,1,1,1,1,1,0,1,1,1},
-					{1,1,1,1,1,1,0,1,1,0},
-					{1,1,1,1,1,1,0,0,0,0},
-					{1,1,1,1,1,1,0,0,0,0},
-					{0,0,0,0,1,1,0,0,0,0},
-					{0,0,0,0,1,1,0,0,0,0},
-				},
-				Left: 0, Right: 2, Up: 0, Down: 2,
-				DrawColors: 0x41,
-				Entities : OverworldEntityList{
-					&OverworldEntity {
-						DrawOffsetX: -1, DrawOffsetY: -9,
-						Hitbox: Hitbox {
-							X: tileToPos(7)+1, Y: tileToPos(4)+9,
-							Width: 14, Height: 7,
-						},
-						AnimationFrames: []uint{0, 1},
-						AnimationIndex: 0,
-						AnimationCountdown: 0,
-						Sprite: KeyholderSprite,
-						Direction: DirDown,
-						OnInteract: func(self *OverworldEntity) {
-							self.AnimationIndex = 1
-						},
-						Data: nil,
+			Value: RoomMaker(func() *Room {
+				gotKey, ok := State.Events["got_first_key"]
+				if !ok {
+					gotKey = 0
+				}
+			
+				return &Room {
+					Tiles: TilesMap {
+						{0,0,0,0,0,0,0,0,0,0},
+						{0,0,0,0,0,0,0,0,0,0},
+						{1,1,1,1,1,1,0,0,0,0},
+						{1,1,1,1,1,1,0,1,1,0},
+						{1,1,1,1,1,1,0,1,1,1},
+						{1,1,1,1,1,1,0,1,1,0},
+						{1,1,1,1,1,1,0,0,0,0},
+						{1,1,1,1,1,1,0,0,0,0},
+						{0,0,0,0,1,1,0,0,0,0},
+						{0,0,0,0,1,1,0,0,0,0},
 					},
-				},
-			},
+					Left: 0, Right: 2, Up: 0, Down: 2,
+					DrawColors: 0x41,
+					Entities : OverworldEntityList{
+						&OverworldEntity {
+							DrawOffsetX: -1, DrawOffsetY: -9,
+							Hitbox: Hitbox {
+								X: tileToPos(7)+1, Y: tileToPos(4)+9,
+								Width: 14, Height: 7,
+							},
+							AnimationFrames: []uint{0, 1},
+							AnimationIndex: int(gotKey),
+							AnimationCountdown: 0,
+							Sprite: KeyholderSprite,
+							Direction: DirDown,
+							OnInteract: func(self *OverworldEntity) {
+								self.AnimationIndex = 1
+								State.Events["got_first_key"] = 1
+							},
+							Data: nil,
+						},
+					},
+				}
+			}),
 		},
 		RoomListEntry {
 			ID: 2,

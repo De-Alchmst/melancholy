@@ -4,6 +4,7 @@ package main
 func start() { // gruvbox light
 	SetPallete(PalleteGruvboxLight)
 	InitGameState()
+	UpdatePressed()
 
 	State.Status = StatusOverworld
 	State.CurrentRoom = GetRoomAtID(2)
@@ -17,4 +18,6 @@ func update() {
 	case StatusOverworld:
 		UpdateOverworld()
 	}
+
+	UpdatePressed()
 }

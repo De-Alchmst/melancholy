@@ -20,12 +20,6 @@ func SwitchRoom(newRoomID RoomID) {
 	copy(OverworldEnts[1:], State.CurrentRoom.Entities)
 }
 
-
-func (b1 Hitbox) Collides(b2 Hitbox) bool {
-	return b1.X < b2.X+b2.Width && b1.X+b1.Width > b2.X && b1.Y < b2.Y+b2.Height && b1.Y+b1.Height > b2.Y
-}
-
-
 func playerCollides() bool {
 	box := Player.Hitbox
 	xStart := int(max( box.X                  / TileSize, 0))
@@ -63,28 +57,28 @@ func playerCollides() bool {
 
 
 func movePlayerDirections() {
-	if pressed(KeyUp) {
+	if Held(KeyUp) {
 		Player.Hitbox.Y -= playerSpeed
 		if playerCollides() {
 			Player.Hitbox.Y += playerSpeed
 		}
 		Player.Direction = DirUp
 	}
-	if pressed(KeyDown) {
+	if Held(KeyDown) {
 		Player.Hitbox.Y += playerSpeed
 		if playerCollides() {
 			Player.Hitbox.Y -= playerSpeed
 		}
 		Player.Direction = DirDown
 	}
-	if pressed(KeyLeft) {
+	if Held(KeyLeft) {
 		Player.Hitbox.X -= playerSpeed
 		if playerCollides() {
 			Player.Hitbox.X += playerSpeed
 		}
 		Player.Direction = DirLeft
 	}
-	if pressed(KeyRight) {
+	if Held(KeyRight) {
 		Player.Hitbox.X += playerSpeed
 		if playerCollides() {
 			Player.Hitbox.X -= playerSpeed
@@ -95,7 +89,7 @@ func movePlayerDirections() {
 
 
 func movePlayerAnimation() {
-	if pressed(KeyMovement) {
+	if Held(KeyMovement) {
 		Player.AnimationCountdown -= playerSpeed
 		if Player.AnimationCountdown <= 0 {
 			Player.AnimationCountdown = playerAnimationDelay

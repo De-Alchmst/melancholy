@@ -15,7 +15,9 @@ const (
 	KeyMovement
 )
 
-func pressed(key InputKey) bool {
+var prevPressedKeys map[InputKey]bool = make(map[InputKey]bool)
+
+func Held(key InputKey) bool {
 	var gamepad = *w4.GAMEPAD1
 	switch key {
 	case KeyUp:
@@ -38,5 +40,17 @@ func pressed(key InputKey) bool {
 		return gamepad&(w4.BUTTON_UP|w4.BUTTON_DOWN|w4.BUTTON_LEFT|w4.BUTTON_RIGHT) != 0
 	default:
 		return false
+	}
+}
+
+
+func pressed(key InputKey) bool {
+	return Held(key) && !prevPressedKeys[key]
+}
+
+
+func UpdatePressed() {
+	for _, key := range [...]InputKey{KeyUp, KeyRight, KeyDown, KeyLeft, KeyX, KeyZ, KayAny, KeyAction, KeyMovement} {
+		prevPressedKeys[key] = Held(key)
 	}
 }
