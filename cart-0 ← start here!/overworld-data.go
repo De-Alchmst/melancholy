@@ -23,14 +23,6 @@ type OverworldEntity struct {
 }
 
 
-type RoomID int
-type Room struct {
-	ID RoomID
-	Tiles [10][10]TileAtlasTile
-	Left, Right, Up, Down RoomID
-	DrawColors uint16
-}
-
 const (
 	TileSize = 16
 )
@@ -49,50 +41,108 @@ var Player = OverworldEntity{
 	Direction: DirDown,
 }
 
-func GetRoomAtID(id RoomID) *Room {
-	for i := range Rooms {
-		if Rooms[i].ID == id {
-			return &Rooms[i]
-		}
-	}
-	return &Rooms[0]
+////////////////////
+
+// hear me out
+// This implements a list of RoomEntries, each of which holds a room ID and
+// Either a Room, or a function that generates a Room.
+// This allows to have rooms generate dynamically based on game state, but see
+// the ID without generating the room first.
+
+type TilesMap [10][10]TileAtlasTile
+type RoomID int
+type Room struct {
+	Tiles TilesMap
+	Left, Right, Up, Down RoomID
+	DrawColors uint16
 }
 
+type RoomMaker func() *Room
+type RoomGetter interface {
+	GetRoom() *Room
+}
+
+func (e *Room)     GetRoom() *Room { return e   }
+func (f RoomMaker) GetRoom() *Room { return f() }
+
+type RoomListEntry struct {
+	ID RoomID
+	Value RoomGetter
+}
+func (e *RoomListEntry) Room() *Room { return e.Value.GetRoom() }
+
+
+////////////////////
+
+
+func GetRoomAtID(id RoomID) *Room {
+	for i := range RoomEntries {
+		if RoomEntries[i].ID == id {
+			return RoomEntries[i].Room()
+		}
+	}
+	return RoomEntries[0].Room()
+}
+
+
 var (
-	Rooms = [...]Room {
-		Room {
+	RoomEntries = [...]RoomListEntry {
+		RoomListEntry {
 			ID: 0,
-			Tiles: [10][10]TileAtlasTile {
-				{0,0,0,0,0,1,0,0,0,0},
-				{0,0,0,0,0,1,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0},
+			Value: &Room {
+				Tiles: TilesMap {
+					{0,0,0,0,0,1,0,0,0,0},
+					{0,0,0,0,0,1,0,0,0,0},
+					{0,0,1,1,1,1,1,1,1,1},
+					{0,0,1,1,1,1,1,1,1,1},
+					{0,0,1,1,1,1,1,1,1,1},
+					{0,0,1,1,1,1,1,1,1,1},
+					{0,0,1,1,1,1,1,1,1,1},
+					{0,0,1,1,1,1,1,1,1,1},
+					{0,0,0,0,0,0,0,0,0,0},
+					{0,0,0,0,0,0,0,0,0,0},
+				},
+				Left: 0, Right: 1, Up: 0, Down: 0,
+				DrawColors: 0x41,
 			},
-			Left: 0, Right: 1, Up: 0, Down: 0,
-			DrawColors: 0x41,
 		},
-		Room {
+		RoomListEntry {
 			ID: 1,
-			Tiles: [10][10]TileAtlasTile {
-				{0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0},
-				{1,1,1,1,1,1,0,0,0,0},
-				{1,1,1,1,1,1,0,1,1,0},
-				{1,1,1,1,1,1,0,1,1,1},
-				{1,1,1,1,1,1,0,1,1,0},
-				{1,1,1,1,1,1,0,0,0,0},
-				{1,1,1,1,1,1,0,0,0,0},
-				{0,0,0,0,1,1,0,0,0,0},
-				{0,0,0,0,1,1,0,0,0,0},
+			Value: &Room {
+				Tiles: TilesMap {
+					{0,0,0,0,0,0,0,0,0,0},
+					{0,0,0,0,0,0,0,0,0,0},
+					{1,1,1,1,1,1,0,0,0,0},
+					{1,1,1,1,1,1,0,1,1,0},
+					{1,1,1,1,1,1,0,1,1,1},
+					{1,1,1,1,1,1,0,1,1,0},
+					{1,1,1,1,1,1,0,0,0,0},
+					{1,1,1,1,1,1,0,0,0,0},
+					{0,0,0,0,1,1,0,0,0,0},
+					{0,0,0,0,1,1,0,0,0,0},
+				},
+				Left: 0, Right: 2, Up: 0, Down: 2,
+				DrawColors: 0x41,
 			},
-			Left: 0, Right: 1, Up: 0, Down: 0,
-			DrawColors: 0x41,
+		},
+		RoomListEntry {
+			ID: 2,
+			Value: &Room {
+				Tiles: TilesMap {
+					{0,0,0,0,1,1,0,0,0,0},
+					{0,0,1,1,1,1,0,0,0,0},
+					{0,0,1,1,1,1,0,0,0,0},
+					{0,0,1,1,1,1,0,0,0,0},
+					{1,1,1,1,1,1,1,1,0,0},
+					{0,0,0,0,0,1,1,1,1,0},
+					{0,0,0,0,0,1,1,1,1,0},
+					{0,0,0,0,0,1,1,1,1,0},
+					{0,0,0,0,0,1,1,1,0,0},
+					{0,0,0,0,0,0,0,0,0,0},
+				},
+				Left: 1, Right: 0, Up: 1, Down: 0,
+				DrawColors: 0x41,
+			},
 		},
 	}
 )

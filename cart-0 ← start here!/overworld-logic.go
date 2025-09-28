@@ -10,6 +10,11 @@ func (e *OverworldEntity) NextFrame() {
 }
 
 
+func SwitchRoom(newRoomID RoomID) {
+	State.CurrentRoom = GetRoomAtID(newRoomID)
+}
+
+
 func playerCollides() bool {
 	box := Player.Hitbox
 	xStart := int(max( box.X                  / TileSize, 0))
@@ -81,14 +86,27 @@ func movePlayerAnimation() {
 }
 
 
-// func movePlayerRooms() {
-	
-// }
+func movePlayerRooms() {
+	box := &Player.Hitbox
+	if box.X < 0 {
+		SwitchRoom(State.CurrentRoom.Left)
+		box.X = 10*TileSize - box.Width
+	} else if box.X + box.Width > 10*TileSize {
+		SwitchRoom(State.CurrentRoom.Right)
+		box.X = 0
+	} else if box.Y < 0 {
+		SwitchRoom(State.CurrentRoom.Up)
+		box.Y = 10*TileSize - box.Height
+	} else if box.Y + box.Height > 10*TileSize {
+		SwitchRoom(State.CurrentRoom.Down)
+		box.Y = 0
+	}
+}
 
 
 func MovePlayer() {
 	movePlayerDirections()
 	movePlayerAnimation()
-	// movePlayerRooms()
+	movePlayerRooms()
 }
 
