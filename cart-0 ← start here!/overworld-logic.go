@@ -12,13 +12,10 @@ func (e *OverworldEntity) NextFrame() {
 
 func playerCollides() bool {
 	box := Player.Hitbox
-	px  := int(Player.X) + box.OffsetX
-	py  := int(Player.Y) + box.OffsetY
-
-	xStart := max( px                  / TileSize, 0)
-	xEnd   := min((px + box.Width)    / TileSize, 9)
-	yStart := max( py                / TileSize, 0)
-	yEnd   := min((py + box.Height) / TileSize, 9)
+	xStart := int(max( box.X                  / TileSize, 0))
+	xEnd   := int(min((box.X + box.Width)    / TileSize, 9))
+	yStart := int(max( box.Y                / TileSize, 0))
+	yEnd   := int(min((box.Y + box.Height) / TileSize, 9))
 
 	// This does not make me happy, but since player hitbox size is constant
 	// it should be O(1)?
@@ -37,36 +34,39 @@ func playerCollides() bool {
 }
 
 
-func movePlayer() {
+func movePlayerDirections() {
 	if pressed(KeyUp) {
-		Player.Y -= playerSpeed
+		Player.Hitbox.Y -= playerSpeed
 		if playerCollides() {
-			Player.Y += playerSpeed
+			Player.Hitbox.Y += playerSpeed
 		}
 		Player.Direction = DirUp
 	}
 	if pressed(KeyDown) {
-		Player.Y += playerSpeed
+		Player.Hitbox.Y += playerSpeed
 		if playerCollides() {
-			Player.Y -= playerSpeed
+			Player.Hitbox.Y -= playerSpeed
 		}
 		Player.Direction = DirDown
 	}
 	if pressed(KeyLeft) {
-		Player.X -= playerSpeed
+		Player.Hitbox.X -= playerSpeed
 		if playerCollides() {
-			Player.X += playerSpeed
+			Player.Hitbox.X += playerSpeed
 		}
 		Player.Direction = DirLeft
 	}
 	if pressed(KeyRight) {
-		Player.X += playerSpeed
+		Player.Hitbox.X += playerSpeed
 		if playerCollides() {
-			Player.X -= playerSpeed
+			Player.Hitbox.X -= playerSpeed
 		}
 		Player.Direction = DirRight
 	}
+}
 
+
+func movePlayerAnimation() {
 	if pressed(KeyMovement) {
 		Player.AnimationCountdown -= playerSpeed
 		if Player.AnimationCountdown <= 0 {
@@ -78,5 +78,17 @@ func movePlayer() {
 		Player.AnimationIndex = 0
 		Player.AnimationCountdown = 0
 	}
+}
+
+
+// func movePlayerRooms() {
+	
+// }
+
+
+func MovePlayer() {
+	movePlayerDirections()
+	movePlayerAnimation()
+	// movePlayerRooms()
 }
 

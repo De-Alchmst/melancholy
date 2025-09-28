@@ -1,7 +1,7 @@
 package main
 
 func UpdateOverworld() {
-	movePlayer()
+	MovePlayer()
 	DrawBackground()
 	Player.Draw()
 }

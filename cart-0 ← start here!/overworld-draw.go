@@ -4,11 +4,13 @@ import "cart/w4"
 
 func (e *OverworldEntity) Draw() {
 	s := e.Sprite
+	x := int(e.Hitbox.X) + e.DrawOffsetX
+	y := int(e.Hitbox.Y) + e.DrawOffsetY
 	srcX := e.AnimationFrames[e.AnimationIndex] * s.PiceWidth
 	srcY := uint(e.Direction) * s.PiceHeight
 
 	*w4.DRAW_COLORS = 0x0241
-	w4.BlitSub(&s.Data[0], int(e.X), int(e.Y), s.PiceWidth, s.PiceHeight, srcX, srcY, s.ArchWidth, s.Flags)
+	w4.BlitSub(&s.Data[0], x, y, s.PiceWidth, s.PiceHeight, srcX, srcY, s.ArchWidth, s.Flags)
 }
 
 

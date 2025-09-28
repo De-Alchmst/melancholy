@@ -9,15 +9,15 @@ const (
 )
 
 type Hitbox struct {
-	OffsetX, OffsetY, Width, Height int
+	X, Y, Width, Height float32
 }
 
 type OverworldEntity struct {
-	X, Y float32
+	Hitbox Hitbox
+	DrawOffsetX, DrawOffsetY int
 	AnimationFrames []uint // Order of columns in sprite sheet
 	AnimationIndex int
 	AnimationCountdown float32
-	Hitbox Hitbox
 	Sprite Sprite
 	Direction Direction
 }
@@ -37,10 +37,10 @@ const (
 
 
 var Player = OverworldEntity{
-	X: 64, Y: 64,
+	DrawOffsetX: -2, DrawOffsetY: -9,
 	Hitbox: Hitbox {
-		OffsetX: 2, OffsetY: 9,
-		Width:  12, Height:   7,
+		X: 64, Y: 64,
+		Width: 12, Height: 7,
 	},
 	AnimationFrames: []uint{1, 0, 1, 2},
 	AnimationIndex: 0,
@@ -63,16 +63,33 @@ var (
 		Room {
 			ID: 0,
 			Tiles: [10][10]TileAtlasTile {
+				{0,0,0,0,0,1,0,0,0,0},
+				{0,0,0,0,0,1,0,0,0,0},
+				{0,0,1,1,1,1,1,1,1,1},
+				{0,0,1,1,1,1,1,1,1,1},
+				{0,0,1,1,1,1,1,1,1,1},
+				{0,0,1,1,1,1,1,1,1,1},
+				{0,0,1,1,1,1,1,1,1,1},
+				{0,0,1,1,1,1,1,1,1,1},
 				{0,0,0,0,0,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0,0},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{1,1,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
-				{0,0,1,1,1,1,1,1,1,1},
+			},
+			Left: 0, Right: 1, Up: 0, Down: 0,
+			DrawColors: 0x41,
+		},
+		Room {
+			ID: 1,
+			Tiles: [10][10]TileAtlasTile {
 				{0,0,0,0,0,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0,0},
+				{1,1,1,1,1,1,0,0,0,0},
+				{1,1,1,1,1,1,0,1,1,0},
+				{1,1,1,1,1,1,0,1,1,1},
+				{1,1,1,1,1,1,0,1,1,0},
+				{1,1,1,1,1,1,0,0,0,0},
+				{1,1,1,1,1,1,0,0,0,0},
+				{0,0,0,0,1,1,0,0,0,0},
+				{0,0,0,0,1,1,0,0,0,0},
 			},
 			Left: 0, Right: 1, Up: 0, Down: 0,
 			DrawColors: 0x41,
