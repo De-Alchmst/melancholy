@@ -23,3 +23,13 @@ func InitGameState() {
 	State.CurrentMessage = IntroMessage
 	SwitchRoom(0)
 }
+
+
+func RegisterEvent(name string, value byte) {
+	State.Events[name] = value
+}
+
+func EventRegistered(name string) bool {
+	_, ok := State.Events[name]
+	return ok
+}

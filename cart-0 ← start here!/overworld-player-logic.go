@@ -14,6 +14,7 @@ func SwitchRoom(newRoomID RoomID) {
 	State.OverworldEntsWithPlayer = make(OverworldEntityList, len(State.CurrentRoom.Entities)+1)
 	State.OverworldEntsWithPlayer[0] = &Player
 	copy(State.OverworldEntsWithPlayer[1:], State.CurrentRoom.Entities)
+	SetPallete(State.CurrentRoom.Pallete)
 }
 
 

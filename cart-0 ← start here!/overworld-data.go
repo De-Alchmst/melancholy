@@ -77,6 +77,7 @@ type Room struct {
 	Tiles TilesMap
 	Left, Right, Up, Down RoomID
 	DrawColors uint16
+	Pallete Pallete
 	Entities OverworldEntityList
 	Events PositionalEventList
 }
@@ -128,7 +129,7 @@ var (
 		RoomListEntry {
 			ID: 0,
 			Value: RoomMaker(func() *Room {
-				return &Room {
+				room := &Room {
 					Tiles: TilesMap {
 						{0,0,0,0,0,1,0,0,0,0},
 						{0,0,0,0,0,2,0,0,0,0},
@@ -141,11 +142,49 @@ var (
 						{0,0,0,0,0,0,0,0,0,0},
 						{0,0,0,0,0,0,0,0,0,0},
 					},
-					Left: 0, Right: 1, Up: 0, Down: 0,
+					Left: 0, Right: 1, Up: 3, Down: 0,
+					Pallete: PalleteGruvboxLight,
 					DrawColors: 0x41,
 					Entities: OverworldEntityList{},
 					Events: PositionalEventList{},
 				}
+
+				// cannot refer to 'room' when defined inside as it's part.
+				// Go's FP could certainly be improved...
+				room.Events = PositionalEventList {
+					PositionalEvent {
+						Hitbox: TileToHitbox(5,1),
+						OnInteract: func () {
+							if EventRegistered("got_first_key") {
+								RegisterEvent("first_unlocked", 1)
+								room.Tiles[1][5] = 1
+
+							} else {
+								State.Status = StatusMessage
+								State.CurrentMessage = Message {
+									Texts: []MessageText {
+										{ Text: "You are locked here",
+											X: 5, Y: 20,  DrawColors: 0x2 },
+										{ Text: "Why do you want\n to leave anyways?",
+										  // It's not like there's anything to see anyways
+										 // it's good here as is, you don't need to go anywhere
+										// you have here everything you'llllllllllllllllllllll
+									 // ever need
+									// no really, don't!
+								 //             don't!1!
+											X: 5, Y: 100, DrawColors: 0x4 },
+									},
+									Images: []MessageImage{},
+									After: BackToOverworld,
+								}
+							}
+						},
+					},
+				}
+				if EventRegistered("first_unlocked") {
+					room.Tiles[1][5] = 1
+				}
+				return room
 			}),
 		},
 
@@ -161,7 +200,7 @@ var (
 					Tiles: TilesMap {
 						{0,0,0,0,0,0,0,0,0,0},
 						{0,0,0,0,0,0,0,0,0,0},
-						{1,1,1,1,1,1,0,0,0,0},
+						{1,1,1,4,1,1,0,0,0,0},
 						{1,1,1,1,1,1,0,1,1,0},
 						{1,1,1,1,1,1,0,1,1,1},
 						{1,1,1,1,1,1,0,1,1,0},
@@ -171,6 +210,7 @@ var (
 						{0,0,0,0,1,1,0,0,0,0},
 					},
 					Left: 0, Right: 2, Up: 0, Down: 2,
+					Pallete: PalleteGruvboxLight,
 					DrawColors: 0x41,
 					Entities : OverworldEntityList{
 						&OverworldEntity {
@@ -186,12 +226,31 @@ var (
 							Direction: DirDown,
 							OnInteract: func(self *OverworldEntity) {
 								self.AnimationIndex = 1
-								State.Events["got_first_key"] = 1
+								RegisterEvent("got_first_key", 1)
 							},
 							Data: nil,
 						},
 					},
-					Events: PositionalEventList{},
+					Events: PositionalEventList {
+						PositionalEvent {
+							Hitbox: TileToHitbox(3,2),
+							OnInteract: func() {
+								State.Status = StatusMessage
+								State.CurrentMessage = Message {
+									Texts: []MessageText {
+										{ Text: "This is your\n computer.",
+											X: 5, Y: 20,  DrawColors: 0x2 },
+										{ Text: "It makes you happy.",
+											X: 10, Y: 60, DrawColors: 0x2 },
+										{ Text: "It makes YOU able\n to feel this\n\n  [EXPERIENCE]!",
+											X: 5, Y: 90, DrawColors: 0x3 },
+									},
+									Images: []MessageImage{},
+									After: BackToOverworld,
+								}
+							},
+						},
+					},
 				}
 			}),
 		},
@@ -212,8 +271,9 @@ var (
 					{0,0,0,0,0,0,0,0,0,0},
 				},
 				Left: 1, Right: 0, Up: 1, Down: 0,
+				Pallete: PalleteGruvboxLight,
 				DrawColors: 0x41,
-				Entities : OverworldEntityList {},
+				Entities: OverworldEntityList {},
 				Events: PositionalEventList {
 					PositionalEvent {
 						Hitbox: TileToHitbox(7, 6),
@@ -229,6 +289,90 @@ var (
 								Images: []MessageImage{},
 								After: BackToOverworld,
 							}//, <- I hate you!
+						},
+					},
+				},
+			},
+		},
+
+		RoomListEntry {
+			ID: 3, // the outside
+			Value: &Room {
+				Tiles: TilesMap {
+					{0,0,0,0,0,3,0,0,0,0},
+					{1,1,1,1,1,1,1,0,0,0},
+					{1,1,1,1,1,1,1,0,0,0},
+					{0,0,0,0,1,1,1,0,0,0},
+					{0,0,0,0,1,1,1,1,1,2},
+					{0,0,0,0,1,1,1,0,0,0},
+					{0,0,0,0,1,1,1,0,0,0},
+					{0,0,0,0,1,1,1,0,0,0},
+					{0,0,0,0,0,1,0,0,0,0},
+					{0,0,0,0,0,1,0,0,0,0},
+				},
+				Left: 0, Right: 0, Up: 4, Down: 0,
+				Pallete: PalleteGruvboxLight,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		RoomListEntry {
+			ID: 4, // outside what?
+			Value: &Room {
+				Tiles: TilesMap {
+					{0,0,0,0,0,0,0,0,3,0},
+					{0,3,3,3,3,0,3,3,3,0},
+					{0,3,0,3,0,3,3,3,0,0},
+					{0,0,3,3,0,3,0,3,3,3},
+					{0,0,3,3,3,3,0,3,0,0},
+					{0,0,3,0,0,3,0,3,3,0},
+					{0,3,3,3,0,3,3,0,3,0},
+					{0,3,0,3,3,3,3,0,3,0},
+					{0,3,3,3,0,3,0,0,3,1},
+					{0,0,0,0,0,1,0,0,0,0},
+				},
+				Left: 0, Right: 5, Up: 5, Down: 3,
+				Pallete: PalleteRustGold,
+				DrawColors: 0x21,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		RoomListEntry {
+			ID: 5, // outside what?
+			Value: &Room {
+				Tiles: TilesMap {
+					{0,0,0,0,0,0,0,0,0,0},
+					{0,0,0,0,0,1,1,1,0,0},
+					{0,3,0,0,1,1,1,1,1,0},
+					{3,3,0,1,1,1,1,1,1,0},
+					{0,0,0,1,1,1,1,1,1,0},
+					{0,0,0,1,1,1,1,1,1,0},
+					{0,0,0,1,1,1,1,1,1,0},
+					{0,0,0,0,1,1,1,1,1,0},
+					{1,1,0,0,0,1,1,0,1,0},
+					{0,0,0,0,0,0,0,0,1,0},
+				},
+				Left: 4, Right: 4, Up: 4, Down: 4,
+				Pallete: PalleteRustGold,
+				DrawColors: 0x21,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{
+					PositionalEvent {
+						Hitbox: TileToHitbox(1,1),
+						OnInteract: func() {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "Are you Lost?",
+							  		X: 20, Y: 20,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
 						},
 					},
 				},
