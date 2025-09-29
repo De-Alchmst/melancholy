@@ -45,13 +45,14 @@ const (
 	TileLock     TileAtlasTile = 2
 	TileFakeVoid TileAtlasTile = 3
 	TilePC       TileAtlasTile = 4
+	TileFridge   TileAtlasTile = 5
 )
 
 var (
 	PassthroughTiles = [...]TileAtlasTile {TileFloor, TileFakeVoid}
 
 	TileAtlas = [...]Tile {
-		Tile {
+		{
 			Flags: w4.BLIT_1BPP,
 			Data: TileData {
 				0b11111111,0b11111111,
@@ -71,8 +72,7 @@ var (
 				0b11111111,0b11111111,
 				0b11111111,0b11111111,
 			},
-		},
-		Tile {
+		}, {
 			Flags: w4.BLIT_1BPP,
 			Data: TileData {
 				0b11111111,0b11111111,
@@ -92,8 +92,7 @@ var (
 				0b00000000,0b00000001,
 				0b00000000,0b00000001,
 			},
-		},
-		Tile {
+		}, {
 			Flags: w4.BLIT_1BPP,
 			Data: TileData {
 				0b11111111,0b11111111,
@@ -113,8 +112,7 @@ var (
 				0b10101000,0b00010101,
 				0b11111111,0b11111111,
 			},
-		},
-		Tile {
+		}, {
 			Flags: w4.BLIT_1BPP,
 			Data: TileData {
 				0b11111111,0b11111111,
@@ -134,8 +132,7 @@ var (
 				0b11111111,0b11111111,
 				0b11111111,0b11111111,
 			},
-		},
-		Tile {
+		}, {
 			Flags: w4.BLIT_1BPP,
 			Data: TileData {
 				0b11111111,0b11111111,
@@ -154,6 +151,26 @@ var (
 				0b11111111,0b11111111,
 				0b11000000,0b00000111,
 				0b11000000,0b00000111,
+			},
+		}, {
+			Flags: w4.BLIT_1BPP,
+			Data: TileData {
+				0b11111111,0b11111111,
+				0b00111111,0b11111100,
+				0b00100000,0b00000100,
+				0b00100000,0b00000100,
+				0b00111000,0b00000100,
+				0b00101000,0b00000100,
+				0b00100000,0b00000100,
+				0b00111111,0b11111100,
+				0b11100000,0b00000111,
+				0b00100000,0b00000101,
+				0b00111000,0b00000101,
+				0b00101000,0b00000101,
+				0b00100000,0b00000101,
+				0b00100000,0b00000101,
+				0b00100000,0b00000101,
+				0b00111111,0b11111101,
 			},
 		},
 	}

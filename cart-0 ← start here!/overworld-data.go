@@ -126,7 +126,7 @@ func TileToHitbox(x, y float32) Hitbox {
 
 var (
 	RoomEntries = [...]RoomListEntry {
-		RoomListEntry {
+		{
 			ID: 0,
 			Value: RoomMaker(func() *Room {
 				room := &Room {
@@ -152,7 +152,7 @@ var (
 				// cannot refer to 'room' when defined inside as it's part.
 				// Go's FP could certainly be improved...
 				room.Events = PositionalEventList {
-					PositionalEvent {
+					{
 						Hitbox: TileToHitbox(5,1),
 						OnInteract: func () {
 							if EventRegistered("got_first_key") {
@@ -188,7 +188,7 @@ var (
 			}),
 		},
 
-		RoomListEntry {
+		{
 			ID: 1,
 			Value: RoomMaker(func() *Room {
 				gotKey, ok := State.Events["got_first_key"]
@@ -213,7 +213,7 @@ var (
 					Pallete: PalleteGruvboxLight,
 					DrawColors: 0x41,
 					Entities : OverworldEntityList{
-						&OverworldEntity {
+						{
 							DrawOffsetX: -1, DrawOffsetY: -9,
 							Hitbox: Hitbox {
 								X: tileToPos(7)+1, Y: tileToPos(4)+9,
@@ -232,7 +232,7 @@ var (
 						},
 					},
 					Events: PositionalEventList {
-						PositionalEvent {
+						{
 							Hitbox: TileToHitbox(3,2),
 							OnInteract: func() {
 								State.Status = StatusMessage
@@ -255,12 +255,12 @@ var (
 			}),
 		},
 
-		RoomListEntry {
+		{
 			ID: 2,
 			Value: &Room {
 				Tiles: TilesMap {
 					{0,0,0,0,1,1,0,0,0,0},
-					{0,0,1,1,1,1,0,0,0,0},
+					{0,0,5,1,1,1,0,0,0,0},
 					{0,0,1,1,1,1,0,0,0,0},
 					{0,0,1,1,1,1,0,0,0,0},
 					{1,1,1,1,1,1,1,1,0,0},
@@ -275,7 +275,7 @@ var (
 				DrawColors: 0x41,
 				Entities: OverworldEntityList {},
 				Events: PositionalEventList {
-					PositionalEvent {
+					{
 						Hitbox: TileToHitbox(7, 6),
 						OnInteract: func() {
 							State.Status = StatusMessage
@@ -290,12 +290,29 @@ var (
 								After: BackToOverworld,
 							}//, <- I hate you!
 						},
+					}, {
+						Hitbox: TileToHitbox(2, 1),
+						OnInteract: func() {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "This is your\n fridge.",
+										X: 5, Y: 20,  DrawColors: 0x2 },
+									{ Text: "It has probably\n been runing since\n the last regime.",
+										X: 5, Y: 55,  DrawColors: 0x2 },
+									{ Text: "It's been\n refilling itself\n less and less\n lately tho...",
+										X: 5, Y: 100, DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
 					},
 				},
 			},
 		},
 
-		RoomListEntry {
+		{
 			ID: 3, // the outside
 			Value: &Room {
 				Tiles: TilesMap {
@@ -318,7 +335,7 @@ var (
 			},
 		},
 
-		RoomListEntry {
+		{
 			ID: 4, // outside what?
 			Value: &Room {
 				Tiles: TilesMap {
@@ -341,7 +358,7 @@ var (
 			},
 		},
 
-		RoomListEntry {
+		{
 			ID: 5, // outside what?
 			Value: &Room {
 				Tiles: TilesMap {
@@ -361,7 +378,7 @@ var (
 				DrawColors: 0x21,
 				Entities: OverworldEntityList{},
 				Events: PositionalEventList{
-					PositionalEvent {
+					{
 						Hitbox: TileToHitbox(1,1),
 						OnInteract: func() {
 							State.Status = StatusMessage
