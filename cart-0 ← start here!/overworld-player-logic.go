@@ -5,30 +5,26 @@ const (
 	playerAnimationDelay = 10
 )
 
-func (e *OverworldEntity) NextFrame() {
-	e.AnimationIndex = (e.AnimationIndex + 1) % len(e.AnimationFrames)
-}
-
 
 func SwitchRoom(newRoomID RoomID) {
 	State.CurrentRoom = GetRoomAtID(newRoomID)
 
 	// OverworldEnts needs to be a separate slice, as it needs player added in
 	// which would interfere with some roome being static and other generated
-	OverworldEnts = make(OverworldEntityList, len(State.CurrentRoom.Entities)+1)
-	OverworldEnts[0] = &Player
-	copy(OverworldEnts[1:], State.CurrentRoom.Entities)
+	State.OverworldEntsWithPlayer = make(OverworldEntityList, len(State.CurrentRoom.Entities)+1)
+	State.OverworldEntsWithPlayer[0] = &Player
+	copy(State.OverworldEntsWithPlayer[1:], State.CurrentRoom.Entities)
 }
 
+
 func playerCollides() bool {
-	box := Player.Hitbox
+	box    := Player.Hitbox
 	xStart := int(max( box.X                  / TileSize, 0))
 	xEnd   := int(min((box.X + box.Width)    / TileSize, 9))
 	yStart := int(max( box.Y                / TileSize, 0))
 	yEnd   := int(min((box.Y + box.Height) / TileSize, 9))
 
 	/// MAP
-
 	// This does not make me happy, but since player hitbox size is constant
 	// it should be O(1)?
 	for x := xStart; x <= xEnd; x++ {

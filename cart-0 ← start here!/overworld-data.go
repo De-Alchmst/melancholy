@@ -33,11 +33,14 @@ type OverworldEntity struct {
 	Data any
 }
 
+func (e *OverworldEntity) NextFrame() {
+	e.AnimationIndex = (e.AnimationIndex + 1) % len(e.AnimationFrames)
+}
+
 func EntityDoNothing (self *OverworldEntity) {}
 
 
 var (
-	OverworldEnts = OverworldEntityList{&Player}
 	Player = OverworldEntity{
 		DrawOffsetX: -2, DrawOffsetY: -9,
 		Hitbox: Hitbox {
@@ -145,6 +148,7 @@ var (
 				}
 			}),
 		},
+
 		RoomListEntry {
 			ID: 1,
 			Value: RoomMaker(func() *Room {
@@ -191,6 +195,7 @@ var (
 				}
 			}),
 		},
+
 		RoomListEntry {
 			ID: 2,
 			Value: &Room {

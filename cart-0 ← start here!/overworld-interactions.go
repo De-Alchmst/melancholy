@@ -24,6 +24,7 @@ func HandleInteractions() {
 func GetPlayerInteractionBox() Hitbox {
 	const reach = 5
 	var box Hitbox
+
 	switch Player.Direction {
 	case DirUp:
 		box = Hitbox {

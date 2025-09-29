@@ -36,6 +36,8 @@ var (
 	}
 )
 
+
+
 type TileAtlasTile byte
 const (
 	TileVoid  TileAtlasTile = 0

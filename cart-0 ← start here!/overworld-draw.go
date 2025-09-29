@@ -13,6 +13,7 @@ func (l OverworldEntityList) Draw() {
 	}
 }
 
+
 func (e *OverworldEntity) Draw() {
 	s := e.Sprite
 	x := int(e.Hitbox.X) + e.DrawOffsetX

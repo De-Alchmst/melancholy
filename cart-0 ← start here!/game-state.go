@@ -11,6 +11,8 @@ type GameState struct {
 	CurrentRoom *Room
 	Events map[string]byte
 	CurrentMessage Message
+	// sometimes I need entities with and somwtimes without the player
+	OverworldEntsWithPlayer OverworldEntityList
 }
 
 var State GameState
@@ -19,4 +21,5 @@ func InitGameState() {
 	State.CurrentRoom = GetRoomAtID(0)
 	State.Events = make(map[string]byte)
 	State.CurrentMessage = IntroMessage
+	SwitchRoom(0)
 }

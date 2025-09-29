@@ -4,5 +4,5 @@ func UpdateOverworld() {
 	MovePlayer()
 	HandleInteractions()
 	DrawBackground()
-	OverworldEnts.Draw()
+	State.OverworldEntsWithPlayer.Draw()
 }
