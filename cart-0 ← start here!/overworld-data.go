@@ -507,7 +507,7 @@ var (
 
 				room.Events = PositionalEventList{
 					{
-						Hitbox: TileToHitbox(4, 8),
+					Hitbox: TileToHitbox(4, 8),
 						OnInteract: func() {
 							State.Status = StatusMessage
 							State.CurrentMessage = Message {
@@ -861,7 +861,22 @@ var (
 				Left: 0, Right: 0, Up: 15, Down: 16,
 				Pallete: PalleteBlessing,
 				DrawColors: 0x31,
-				Entities: OverworldEntityList{},
+				Entities: OverworldEntityList{
+					{
+						DrawOffsetX: -3, DrawOffsetY: -6,
+						Hitbox: Hitbox {
+							X: tileToPos(5)+3-8, Y: tileToPos(5)+6-11,
+							Width: 10, Height: 9,
+						},
+						AnimationFrames: []uint{0},
+						AnimationIndex: 0,
+						AnimationCountdown: 0,
+						Sprite: AdversarySprite,
+						Direction: DirDown,
+						OnInteract: EntityDoNothing,
+						Data: nil,
+					},
+				},
 				Events: PositionalEventList{
 					{
 						Hitbox: Hitbox{
