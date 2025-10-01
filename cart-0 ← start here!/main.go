@@ -2,7 +2,6 @@ package main
 
 //go:export start
 func start() { // gruvbox light
-	SetPallete(PalleteGruvboxLight)
 	InitGameState()
 	UpdatePressed()
 
