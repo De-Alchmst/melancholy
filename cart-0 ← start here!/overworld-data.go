@@ -131,8 +131,8 @@ var (
 			Value: RoomMaker(func() *Room {
 				room := &Room {
 					Tiles: TilesMap {
-						{0,0,0,0,0,1,0,0,0,0},
-						{0,0,0,0,0,2,0,0,0,0},
+						{0,3,0,0,0,1,0,0,0,0},
+						{3,3,0,0,0,2,0,0,0,0},
 						{0,0,1,1,1,1,1,1,1,1},
 						{0,0,1,1,1,1,1,1,1,1},
 						{0,0,1,1,1,1,1,1,1,1},
@@ -142,7 +142,7 @@ var (
 						{0,0,0,0,0,0,0,0,0,0},
 						{0,0,0,0,0,0,0,0,0,0},
 					},
-					Left: 0, Right: 1, Up: 3, Down: 0,
+					Left: 11, Right: 1, Up: 3, Down: 0,
 					Pallete: PalleteGruvboxLight,
 					DrawColors: 0x41,
 					Entities: OverworldEntityList{},
@@ -214,10 +214,10 @@ var (
 					DrawColors: 0x41,
 					Entities : OverworldEntityList{
 						{
-							DrawOffsetX: -1, DrawOffsetY: -9,
+							DrawOffsetX: -1, DrawOffsetY: -13,
 							Hitbox: Hitbox {
 								X: tileToPos(7)+1, Y: tileToPos(4)+9,
-								Width: 14, Height: 7,
+								Width: 14, Height: 3,
 							},
 							AnimationFrames: []uint{0, 1},
 							AnimationIndex: int(gotKey),
@@ -322,12 +322,12 @@ var (
 					{0,0,0,0,1,1,1,0,0,0},
 					{0,0,0,0,1,1,1,1,1,2},
 					{0,0,0,0,1,1,1,0,0,0},
-					{0,0,0,0,1,1,1,0,0,0},
-					{0,0,0,0,1,1,1,0,0,0},
-					{0,0,0,0,0,1,0,0,0,0},
-					{0,0,0,0,0,1,0,0,0,0},
+					{3,3,0,0,1,1,1,0,0,0},
+					{3,3,0,0,1,1,1,0,0,0},
+					{3,3,0,0,0,1,0,0,0,0},
+					{0,3,0,0,0,1,0,0,0,0},
 				},
-				Left: 0, Right: 0, Up: 4, Down: 0,
+				Left: 6, Right: 0, Up: 4, Down: 0,
 				Pallete: PalleteGruvboxLight,
 				DrawColors: 0x31,
 				Entities: OverworldEntityList{},
@@ -471,6 +471,242 @@ var (
 					},
 				},
 			},
+		},
+
+		{
+			ID: 6,
+			Value: RoomMaker(func() *Room {
+				room := &Room{
+					Tiles: TilesMap {
+						{0,0,0,2,0,0,2,0,0,0},
+						{1,1,1,1,1,1,1,1,1,1},
+						{1,1,1,1,1,1,1,1,1,1},
+						{0,0,0,0,1,1,0,0,0,0},
+						{0,0,0,0,1,1,0,0,0,0},
+						{0,0,0,0,1,1,0,0,0,0},
+						{1,0,0,0,1,1,0,0,0,1},
+						{1,1,2,1,1,1,1,2,1,1},
+						{1,0,0,0,1,1,0,0,0,1},
+						{0,0,0,0,0,0,0,0,0,0},
+					},
+					Left: 7, Right: 3, Up: 0, Down: 0,
+					Pallete: PalleteGruvboxLight,
+					DrawColors: 0x31,
+					Entities: OverworldEntityList{},
+					Events: PositionalEventList{},
+				}
+
+				room.Events = PositionalEventList{
+					{
+						Hitbox: TileToHitbox(4, 8),
+						OnInteract: func() {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "It feels safe here.",
+										X: 5, Y: 80,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
+					}, {
+						Hitbox: TileToHitbox(7,7),
+						OnInteract: func () {
+							if EventRegistered("got_second_key") {
+								RegisterEvent("second_6_unlocked", 1)
+								room.Tiles[7][7] = 1
+
+							} else {
+								State.Status = StatusMessage
+								State.CurrentMessage = Message {
+									Texts: []MessageText {
+										{ Text: "It's a door...",
+											X: 20, Y: 40,  DrawColors: 0x2 },
+										{ Text: "What else can\n I say?",
+											X: 10, Y: 100, DrawColors: 0x2 },
+									},
+									Images: []MessageImage{},
+									After: BackToOverworld,
+								}
+							}
+						},
+					},
+				}
+				if EventRegistered("second_6_unlocked") {
+					room.Tiles[7][7] = 1
+				}
+				return room
+			}),
+		},
+
+		{
+			ID: 7,
+			Value: &Room{
+				Tiles: TilesMap {
+					{0,0,0,0,2,0,0,0,2,0},
+					{0,0,0,1,1,1,1,1,1,1},
+					{0,0,0,1,1,1,1,1,1,1},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+				},
+				Left: 0, Right: 11, Up: 0, Down: 8,
+				Pallete: PalleteGruvboxLight,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 8,
+			Value: &Room{
+				Tiles: TilesMap {
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,6,6,6,0,0,0,0},
+					{0,0,0,1,1,1,1,1,1,1},
+					{3,3,3,1,1,1,1,1,1,1},
+					{0,0,0,0,2,0,0,0,2,0},
+				},
+				Left: 6, Right: 9, Up: 7, Down: 0,
+				Pallete: PalleteGruvboxLight,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 9,
+			Value: &Room{
+				Tiles: TilesMap {
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{1,1,1,1,1,1,1,0,0,0},
+					{1,1,1,1,1,1,1,0,0,0},
+					{0,2,0,0,0,2,0,0,0,0},
+				},
+				Left: 8, Right: 0, Up: 10, Down: 0,
+				Pallete: PalleteGruvboxLight,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 10,
+			Value: &Room{
+				Tiles: TilesMap {
+					{0,2,0,0,0,2,0,0,0,0},
+					{1,1,1,1,1,1,1,0,0,0},
+					{1,1,1,1,1,1,1,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+					{0,0,0,0,6,6,6,0,0,0},
+				},
+				Left: 7, Right: 0, Up: 0, Down: 9,
+				Pallete: PalleteGruvboxLight,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 11,
+			Value: RoomMaker(func() *Room {
+				gotKey, ok := State.Events["got_second_key"]
+				if !ok {
+					gotKey = 0
+				}
+
+				room := &Room {
+					Tiles: TilesMap {
+						{0,0,0,0,0,0,0,0,0,0},
+						{1,1,1,1,1,1,1,0,1,1},
+						{1,1,1,1,1,1,1,0,6,0},
+						{0,0,0,0,6,6,0,0,6,0},
+						{0,0,0,0,6,6,0,0,6,0},
+						{0,0,0,0,6,6,6,0,1,0},
+						{0,0,0,0,0,6,6,0,0,0},
+						{0,0,0,0,0,6,0,0,0,0},
+						{0,0,0,0,6,6,0,0,0,0},
+						{0,0,0,0,0,2,0,0,0,0},
+					},
+					Left: 7, Right: 0, Up: 0, Down: 0,
+					Pallete: PalleteGruvboxLight,
+					DrawColors: 0x31,
+					Entities: OverworldEntityList{
+						{
+							DrawOffsetX: -1, DrawOffsetY: -13,
+							Hitbox: Hitbox {
+								X: tileToPos(8)+1, Y: tileToPos(5)+7,
+								Width: 14, Height: 3,
+							},
+							AnimationFrames: []uint{0, 1},
+							AnimationIndex: int(gotKey),
+							AnimationCountdown: 0,
+							Sprite: KeyholderSpriteRev,
+							Direction: DirDown,
+							OnInteract: func(self *OverworldEntity) {
+								self.AnimationIndex = 1
+								RegisterEvent("got_second_key", 1)
+							},
+							Data: nil,
+						},
+					},
+					Events: PositionalEventList{},
+				}
+
+				room.Events = PositionalEventList {
+					{
+						Hitbox: TileToHitbox(5,9),
+						OnInteract: func () {
+							if EventRegistered("got_second_key") {
+								RegisterEvent("second_11_unlocked", 1)
+								room.Tiles[9][5] = 1
+
+							} else {
+								State.Status = StatusMessage
+								State.CurrentMessage = Message {
+									Texts: []MessageText {
+										{ Text: "The door doesn't\n want to let \n you out.",
+											X: 15, Y: 40,  DrawColors: 0x4 },
+										{ Text: "It's the door\n I swear...",
+											X: 15, Y: 100, DrawColors: 0x4 },
+									},
+									Images: []MessageImage{},
+									After: BackToOverworld,
+								}
+							}
+						},
+					},
+				}
+				if EventRegistered("second_11_unlocked") {
+					room.Tiles[9][5] = 1
+				}
+				return room
+			}),
 		},
 	}
 )

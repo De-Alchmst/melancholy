@@ -7,9 +7,9 @@ func start() { // gruvbox light
 	UpdatePressed()
 
 	State.Status = StatusOverworld
-	SwitchRoom(5)
-	Player.Hitbox.X = tileToPos(1) + 3
-	Player.Hitbox.Y = tileToPos(2) + 3
+	SwitchRoom(6)
+	// Player.Hitbox.X = tileToPos(8) + 3
+	// Player.Hitbox.Y = tileToPos(4) + 3
 }
 
 //go:export update
