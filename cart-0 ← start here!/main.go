@@ -6,6 +6,9 @@ func start() { // gruvbox light
 	InitGameState()
 	UpdatePressed()
 
+	 // here is where I would put my 'load save function...'
+	//  if I had any!     
+
 	State.Status = StatusOverworld
 	SwitchRoom(6)
 	// Player.Hitbox.X = tileToPos(8) + 3

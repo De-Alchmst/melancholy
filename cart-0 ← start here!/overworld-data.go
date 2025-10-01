@@ -16,6 +16,8 @@ type Hitbox struct {
 	X, Y, Width, Height float32
 }
 
+ // Oh, look! Math!
+//  https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection#Axis-Aligned_Bounding_Box
 func (b1 Hitbox) Collides(b2 Hitbox) bool {
 	return b1.X < b2.X+b2.Width && b1.X+b1.Width > b2.X && b1.Y < b2.Y+b2.Height && b1.Y+b1.Height > b2.Y
 }
@@ -38,6 +40,11 @@ func (e *OverworldEntity) NextFrame() {
 }
 
 func EntityDoNothing (self *OverworldEntity) {}
+    // this is so called /dev/null function
+   //  it takes a bunch of data, pretends to be super important, but it actually
+  //   does absolutely nothing!
+ //
+//     very relatable
 
 
 var (
@@ -359,7 +366,7 @@ var (
 		},
 
 		{
-			ID: 5, // outside what?
+			ID: 5, // outside of what?
 			Value: &Room {
 				Tiles: TilesMap {
 					{0,0,0,0,0,0,0,0,0,0},
@@ -488,6 +495,8 @@ var (
 						{1,1,2,1,1,1,1,2,1,1},
 						{1,0,0,0,1,1,0,0,0,1},
 						{0,0,0,0,0,0,0,0,0,0},
+						 // ↑
+						// but what is here tho???
 					},
 					Left: 7, Right: 3, Up: 0, Down: 0,
 					Pallete: PalleteGruvboxLight,
@@ -542,8 +551,8 @@ var (
 
 		{
 			ID: 7,
-			Value: &Room{
-				Tiles: TilesMap {
+			Value: &Room{       // but who does live here?
+				Tiles: TilesMap {//↓ 
 					{0,0,0,0,2,0,0,0,2,0},
 					{0,0,0,1,1,1,1,1,1,1},
 					{0,0,0,1,1,1,1,1,1,1},
@@ -600,7 +609,7 @@ var (
 					{1,1,1,1,1,1,1,0,0,0},
 					{1,1,1,1,1,1,1,0,0,0},
 					{0,2,0,0,0,2,0,0,0,0},
-				},
+				}, //        ↑ you never was there, now were you?
 				Left: 8, Right: 0, Up: 10, Down: 0,
 				Pallete: PalleteGruvboxLight,
 				DrawColors: 0x31,
