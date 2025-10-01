@@ -620,25 +620,43 @@ var (
 
 		{
 			ID: 10,
-			Value: &Room{
-				Tiles: TilesMap {
-					{0,2,0,0,0,2,0,0,0,0},
-					{1,1,1,1,1,1,1,0,0,0},
-					{1,1,1,1,1,1,1,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-					{0,0,0,0,6,6,6,0,0,0},
-				},
-				Left: 7, Right: 0, Up: 0, Down: 9,
-				Pallete: PalleteGruvboxLight,
-				DrawColors: 0x31,
-				Entities: OverworldEntityList{},
-				Events: PositionalEventList{},
-			},
+			Value: RoomMaker(func() *Room {
+				room := &Room{
+					Tiles: TilesMap {
+						{0,2,0,0,0,2,0,0,0,0},
+						{1,1,1,1,1,1,1,0,0,0},
+						{1,1,1,1,1,1,1,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+						{0,0,0,0,6,6,6,0,0,0},
+					},
+					Left: 7, Right: 0, Up: 13, Down: 9,
+					Pallete: PalleteGruvboxLight,
+					DrawColors: 0x31,
+					Entities: OverworldEntityList{},
+					Events: PositionalEventList{ },
+				}
+
+				room.Events = PositionalEventList {
+						{
+						Hitbox: TileToHitbox(5,0),
+						OnInteract: func () {
+							if EventRegistered("got_second_key") {
+								RegisterEvent("second_10_unlocked", 1)
+								room.Tiles[0][5] = 1
+							}
+						},
+					},
+				}
+				if EventRegistered("second_10_unlocked") {
+					room.Tiles[0][5] = 1
+				}
+				return room
+			}),
 		},
 
 		{
@@ -737,6 +755,44 @@ var (
 				Pallete: PalleteBlessing,
 				DrawColors: 0x31,
 				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 13,
+			Value: &Room{
+				Tiles: TilesMap {
+					{0,0,0,0,0,0,0,0,0,0},
+					{0,0,0,0,8,8,8,0,0,0},
+					{0,0,0,8,8,8,8,8,0,0},
+					{0,0,0,8,8,8,8,8,0,0},
+					{0,0,8,8,8,8,8,8,8,0},
+					{0,0,8,8,8,8,8,8,8,0},
+					{0,0,8,8,8,8,8,8,8,0},
+					{0,0,0,8,8,8,8,8,0,0},
+					{0,0,0,8,8,1,8,8,0,0},
+					{0,0,0,0,0,1,0,0,0,0},
+				},
+				Left: 0, Right: 0, Up: 0, Down: 10,
+				Pallete: PalleteRustGold,
+				DrawColors: 0x21,
+				Entities: OverworldEntityList{
+					{
+						DrawOffsetX: 0, DrawOffsetY: -6,
+						Hitbox: Hitbox {
+							X: tileToPos(5)+1, Y: tileToPos(4)+9,
+							Width: 14, Height: 6,
+						},
+						AnimationFrames: []uint{0},
+						AnimationIndex: 0,
+						AnimationCountdown: 0,
+						Sprite: BenchSprite,
+						Direction: DirDown,
+						OnInteract: EntityDoNothing,
+						Data: nil,
+					},
+				},
 				Events: PositionalEventList{},
 			},
 		},
