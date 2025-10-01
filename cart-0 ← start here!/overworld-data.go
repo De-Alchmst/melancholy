@@ -392,9 +392,9 @@ var (
 							State.Status = StatusMessage
 							State.CurrentMessage = Message {
 								Texts: []MessageText {
-									{ Text: "It has probably\n been runing since\n the last regime.",
+									{ Text: "I am the magician.\n You seem lost\n out there child.",
 										X: 5, Y: 55,  DrawColors: 0x2 },
-									{ Text: "It's been\n refilling itself\n less and less\n lately tho...",
+									{ Text: "//HE// is always\n watching.\n //HE// will take\n care of you.",
 										X: 5, Y: 100, DrawColors: 0x2 },
 								},
 								Images: []MessageImage{
@@ -404,7 +404,43 @@ var (
 										Y: 10,
 									},
 								},
-								After: BackToOverworld,
+								After: func() {
+									State.CurrentMessage = Message {
+										Texts: []MessageText {
+											{ Text: "You have not lost\n //HIS// favor, did\n you?",
+										   X: 5, Y: 55, DrawColors: 0x2,},
+											{ Text: "Terrible fate\n awaits those that\n do, so make sure\n to keep //HIM//\n on your side.",
+												X: 5, Y: 100, DrawColors: 0x2 },
+										},
+										Images: []MessageImage{
+											{
+												Sprite: MagicianFaceSprite,
+												X: 5,
+												Y: 10,
+											},
+										},
+										After: func() {
+											State.CurrentMessage = Message {
+												Texts: []MessageText {
+													{ Text: "I am the magician.",
+													  X: 10, Y: 65, DrawColors: 0x2,},
+													{ Text: "I am the darkness.",
+														X: 10, Y: 80, DrawColors: 0x3 },
+													{ Text: "I am //HIS// will.",
+														X: 10, Y: 95, DrawColors: 0x4 },
+												},
+												Images: []MessageImage{
+													{
+														Sprite: MagicianFaceSprite,
+														X: 64,
+														Y: 20,
+													},
+												},
+												After: BackToOverworld,
+											}
+										},
+									}
+								},
 							}
 						},
 						Data: nil,
@@ -418,9 +454,17 @@ var (
 							State.CurrentMessage = Message {
 								Texts: []MessageText {
 									{ Text: "Are you Lost?",
-							  		X: 20, Y: 20,  DrawColors: 0x2 },
+							  		X: 25, Y: 20,  DrawColors: 0x2 },
+									{ Text: "Shouldn't you be\n  somewhere else?",
+							  		X: 10, Y: 130,  DrawColors: 0x2 },
 								},
-								Images: []MessageImage{},
+								Images: []MessageImage{
+									{
+										Sprite: TalkToTheHandSprite,
+										X: 56,
+										Y: 65,
+									},
+								},
 								After: BackToOverworld,
 							}
 						},
