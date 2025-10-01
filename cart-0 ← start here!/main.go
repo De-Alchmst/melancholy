@@ -10,7 +10,7 @@ func start() { // gruvbox light
 	//  if I had any!     
 
 	State.Status = StatusOverworld
-	SwitchRoom(6)
+	SwitchRoom(12)
 	// Player.Hitbox.X = tileToPos(8) + 3
 	// Player.Hitbox.Y = tileToPos(4) + 3
 }

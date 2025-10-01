@@ -80,10 +80,12 @@ const (
 	TileFridge   TileAtlasTile = 5
 	TileStairs   TileAtlasTile = 6
 	TileSlabs    TileAtlasTile = 7
+	TileGrass    TileAtlasTile = 8
+	TilePath     TileAtlasTile = 9
 )
 
 var (
-	PassthroughTiles = [...]TileAtlasTile {TileFloor, TileFakeVoid, TileStairs}
+	PassthroughTiles = [...]TileAtlasTile {TileFloor, TileFakeVoid, TileStairs, TileGrass, TilePath}
 
 	TileAtlas = [...]Tile {
 		{
@@ -245,6 +247,46 @@ var (
 				0b10101010,0b10101010,
 				0b01010101,0b01010101,
 				0b10101010,0b10101010,
+			},
+		}, {
+			Flags: w4.BLIT_1BPP,
+			Data: TileData {
+				0b00000000,0b00000000,
+				0b00101000,0b00000000,
+				0b00010000,0b00000000,
+				0b00000000,0b00000000,
+				0b00000000,0b00101000,
+				0b00000000,0b00010000,
+				0b00000101,0b00000000,
+				0b00000010,0b00000000,
+				0b00000000,0b00000000,
+				0b00000000,0b00000000,
+				0b00000000,0b00001010,
+				0b01010000,0b00000100,
+				0b00100000,0b00000000,
+				0b00000000,0b00000000,
+				0b00000000,0b00000000,
+				0b00000000,0b00000000,
+			},
+		}, {
+			Flags: w4.BLIT_1BPP,
+			Data: TileData {
+				0b11111111,0b11111111,
+				0b10001000,0b10001000,
+				0b10001000,0b10001000,
+				0b10001000,0b10001000,
+				0b11111111,0b11111111,
+				0b00100010,0b00100010,
+				0b00100010,0b00100010,
+				0b00100010,0b00100010,
+				0b11111111,0b11111111,
+				0b10001000,0b10001000,
+				0b10001000,0b10001000,
+				0b10001000,0b10001000,
+				0b11111111,0b11111111,
+				0b00100010,0b00100010,
+				0b00100010,0b00100010,
+				0b00100010,0b00100010,
 			},
 		},
 	}

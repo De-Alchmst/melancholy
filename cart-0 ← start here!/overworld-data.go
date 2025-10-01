@@ -662,7 +662,7 @@ var (
 						{0,0,0,0,6,6,0,0,0,0},
 						{0,0,0,0,0,2,0,0,0,0},
 					},
-					Left: 7, Right: 0, Up: 0, Down: 0,
+					Left: 7, Right: 0, Up: 0, Down: 12,
 					Pallete: PalleteGruvboxLight,
 					DrawColors: 0x31,
 					Entities: OverworldEntityList{
@@ -716,6 +716,29 @@ var (
 				}
 				return room
 			}),
+		},
+
+		{
+			ID: 12,
+			Value: &Room{
+				Tiles: TilesMap {
+					{7,7,7,7,7,1,7,7,7,7},
+					{7,7,7,7,7,1,7,7,7,7},
+					{0,8,8,8,8,9,8,8,8,0},
+					{9,9,9,9,9,9,8,8,8,0},
+					{9,9,9,9,9,9,8,8,8,0},
+					{0,8,8,8,8,8,8,8,8,0},
+					{0,8,8,8,8,8,8,8,8,0},
+					{0,8,8,8,8,8,8,8,8,0},
+					{0,8,8,8,8,8,8,8,8,0},
+					{0,0,0,0,0,0,0,0,0,0},
+				},
+				Left: 0, Right: 0, Up: 11, Down: 0,
+				Pallete: PalleteBlessing,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
 		},
 	}
 )

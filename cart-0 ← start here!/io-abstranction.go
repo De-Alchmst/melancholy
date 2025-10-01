@@ -19,6 +19,7 @@ var prevPressedKeys map[InputKey]bool = make(map[InputKey]bool)
 
 func Held(key InputKey) bool {
 	var gamepad = *w4.GAMEPAD1
+	// Yandere dev in shambels
 	switch key {
 	case KeyUp:
 		return gamepad&w4.BUTTON_UP != 0
@@ -41,6 +42,7 @@ func Held(key InputKey) bool {
 	default:
 		return false
 	}
+	// probably...
 }
 
 
