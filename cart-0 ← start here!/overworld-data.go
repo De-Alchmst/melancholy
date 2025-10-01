@@ -738,20 +738,20 @@ var (
 
 		{
 			ID: 12,
-			Value: &Room{
-				Tiles: TilesMap {
+			Value: &Room{ /// outside!!
+				Tiles: TilesMap { // you finally touched grass!!!
 					{7,7,7,7,7,1,7,7,7,7},
 					{7,7,7,7,7,1,7,7,7,7},
-					{0,8,8,8,8,9,8,8,8,0},
+					{8,8,8,8,8,9,8,8,8,0},
 					{9,9,9,9,9,9,8,8,8,0},
 					{9,9,9,9,9,9,8,8,8,0},
-					{0,8,8,8,8,8,8,8,8,0},
-					{0,8,8,8,8,8,8,8,8,0},
-					{0,8,8,8,8,8,8,8,8,0},
-					{0,8,8,8,8,8,8,8,8,0},
-					{0,0,0,0,0,0,0,0,0,0},
+					{8,8,8,8,8,8,8,8,8,0},
+					{8,8,8,8,8,8,8,8,8,0},
+					{8,8,8,8,8,8,8,8,8,0},
+					{7,8,8,8,8,8,8,8,8,0},
+					{7,0,0,0,0,0,0,0,0,0},
 				},
-				Left: 0, Right: 0, Up: 11, Down: 0,
+				Left: 14, Right: 0, Up: 11, Down: 0,
 				Pallete: PalleteBlessing,
 				DrawColors: 0x31,
 				Entities: OverworldEntityList{},
@@ -794,6 +794,93 @@ var (
 					},
 				},
 				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 14,
+			Value: &Room{
+				Tiles: TilesMap {
+					{7,7,7,7,7,7,7,7,7,7},
+					{7,7,7,7,7,7,7,7,7,7},
+					{8,8,8,8,8,8,8,8,8,8},
+					{9,9,9,9,9,9,9,9,9,9},
+					{9,9,9,9,9,9,9,9,9,9},
+					{8,8,8,9,9,8,8,8,8,8},
+					{8,8,8,9,9,8,8,8,8,8},
+					{8,8,8,9,9,8,8,8,8,8},
+					{7,7,8,9,9,8,8,7,7,7},
+					{7,7,8,9,9,8,8,7,7,7},
+				},
+				Left: 14, Right: 12, Up: 0, Down: 15,
+				Pallete: PalleteBlessing,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 15,
+			Value: &Room{
+				Tiles: TilesMap {
+					{7,7,8,9,9,8,8,7,7,7},
+					{7,7,8,9,9,8,8,7,7,7},
+					{0,8,8,9,9,8,8,7,7,7},
+					{0,8,8,9,9,9,8,8,8,0},
+					{0,8,8,9,9,9,8,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{7,7,7,8,9,9,8,8,8,0},
+					{7,7,7,8,9,9,8,8,8,0},
+					{7,7,7,8,9,9,8,8,8,0},
+				},
+				Left: 0, Right: 0, Up: 14, Down: 16,
+				Pallete: PalleteBlessing,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{},
+			},
+		},
+
+		{
+			ID: 16,
+			Value: &Room{
+				Tiles: TilesMap {
+					{7,7,7,8,9,9,8,8,8,0},
+					{7,7,7,8,9,9,8,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{0,8,8,9,9,9,9,8,8,0},
+					{0,8,8,9,9,9,9,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{0,8,8,8,9,9,8,8,8,0},
+					{0,0,0,0,2,2,0,0,0,0},
+				},
+				Left: 0, Right: 0, Up: 15, Down: 16,
+				Pallete: PalleteBlessing,
+				DrawColors: 0x31,
+				Entities: OverworldEntityList{},
+				Events: PositionalEventList{
+					{
+						Hitbox: Hitbox{
+							X: tileToPos(4), Y: tileToPos(9),
+							Width: 32, Height: 16,
+						},
+						OnInteract: func () {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "A menacing presence\n prevents you from\n proceeding...",
+								  	X: 5, Y: 70,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
+					},
+				},
 			},
 		},
 	}
