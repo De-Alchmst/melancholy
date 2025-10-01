@@ -11,7 +11,6 @@ type MessageText struct {
 type MessageImage struct {
 	Sprite Sprite
 	X, Y int
-	DrawColors uint16
 }
 
 type Message struct {
@@ -41,6 +40,13 @@ func BackToOverworld() {
 
 func UpdateMessage() {
 	msg := State.CurrentMessage
+
+	for _, img := range msg.Images {
+		sprite := &img.Sprite
+		*w4.DRAW_COLORS = sprite.DrawColors
+		w4.Blit(&sprite.Data[0], img.X, img.Y, sprite.PiceWidth, sprite.PiceHeight, sprite.Flags)
+	}
+
 	for _, text := range msg.Texts {
 		*w4.DRAW_COLORS = text.DrawColors
 		w4.Text(text.Text, text.X, text.Y)

@@ -7,7 +7,7 @@ func start() { // gruvbox light
 	UpdatePressed()
 
 	State.Status = StatusOverworld
-	SwitchRoom(2)
+	SwitchRoom(5)
 }
 
 //go:export update

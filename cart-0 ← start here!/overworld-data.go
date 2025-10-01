@@ -376,7 +376,40 @@ var (
 				Left: 4, Right: 4, Up: 4, Down: 4,
 				Pallete: PalleteRustGold,
 				DrawColors: 0x21,
-				Entities: OverworldEntityList{},
+				Entities: OverworldEntityList{
+					{
+						DrawOffsetX: -2, DrawOffsetY: -10,
+						Hitbox: Hitbox {
+							X: tileToPos(6)+2, Y: tileToPos(4)+10,
+							Width: 11, Height: 6,
+						},
+						AnimationFrames: []uint{0},
+						AnimationIndex: 0,
+						AnimationCountdown: 0,
+						Sprite: MagicianSprite,
+						Direction: DirDown,
+						OnInteract: func(self *OverworldEntity) {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "It has probably\n been runing since\n the last regime.",
+										X: 5, Y: 55,  DrawColors: 0x2 },
+									{ Text: "It's been\n refilling itself\n less and less\n lately tho...",
+										X: 5, Y: 100, DrawColors: 0x2 },
+								},
+								Images: []MessageImage{
+									{
+										Sprite: MagicianFaceSprite,
+										X: 5,
+										Y: 10,
+									},
+								},
+								After: BackToOverworld,
+							}
+						},
+						Data: nil,
+					},
+				},
 				Events: PositionalEventList{
 					{
 						Hitbox: TileToHitbox(1,1),
