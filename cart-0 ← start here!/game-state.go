@@ -4,6 +4,7 @@ type GameStatus int
 const (
 	StatusMessage GameStatus = iota
 	StatusOverworld
+	StatusBoss
 )
 
 type GameState struct {
