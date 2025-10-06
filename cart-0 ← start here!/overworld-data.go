@@ -873,7 +873,24 @@ var (
 						AnimationCountdown: 0,
 						Sprite: AdversarySprite,
 						Direction: DirDown,
-						OnInteract: EntityDoNothing,
+						OnInteract: func(self *OverworldEntity) {
+							State.Status = StatusMessage
+							SetPallete(PalleteRustGold)
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "I Am The\n Forgotten Soul",
+										X: 5, Y: 10,  DrawColors: 0x2 },
+									{ Text: "You Shall Not Pass\n The Gate!",
+										X: 5, Y: 130, DrawColors: 0x2 },
+								},
+								Images: []MessageImage{
+									{ Sprite: BossFaceSprite, X: 57, Y: 47 },
+								},
+								After: func() {
+									State.Status = StatusBoss
+								},
+							}
+						},
 						Data: nil,
 					},
 				},

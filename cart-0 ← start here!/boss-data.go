@@ -48,7 +48,7 @@ func (s Soul) Draw() {
 
 
 var (
-	TheLostDarknessBoss = BossConfig {
+	TheForgottenSoulBoss = BossConfig {
 		Pallete: PalleteRustGold,
 		HP: 100,
 		Soul: Soul {
@@ -73,5 +73,5 @@ var (
 		},
 	}
 
-	CurrentBossData = TheLostDarknessBoss
+	CurrentBossData = TheForgottenSoulBoss
 )
