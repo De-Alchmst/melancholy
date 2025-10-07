@@ -5,6 +5,7 @@ import "cart/w4"
 type Soul struct {
 	Hitbox Hitbox
 	Sprite Sprite
+	Direction Direction
 }
 
 
@@ -36,17 +37,6 @@ type BossConfig struct {
 }
 
 
-func (s Soul) Draw() {
-	*w4.DRAW_COLORS = s.Sprite.DrawColors
-	x := int  (s.Hitbox.X)
-	y := int  (s.Hitbox.Y)
-	w := uint (s.Hitbox.Width)
-	h := uint (s.Hitbox.Height)
-
-	w4.BlitSub(&s.Sprite.Data[0], x, y, w, h, 0, 0, s.Sprite.ArchWidth, s.Sprite.Flags)
-}
-
-
 var (
 	TheForgottenSoulBoss = BossConfig {
 		Pallete: PalleteRustGold,
@@ -70,6 +60,7 @@ var (
 			self.Soul.Draw()
 		},
 		Update: func(self *BossConfig) {
+			self.Soul.Update()
 		},
 	}
 

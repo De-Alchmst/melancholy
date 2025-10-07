@@ -8,10 +8,10 @@ func start() { // gruvbox light
 	 // here is where I would put my 'load save function...'
 	//  if I had any!     
 
-	// State.Status = StatusBoss
-	State.Status = StatusOverworld
-	SwitchRoom(16)
-	// SetPallete(PalleteRustGold)
+	State.Status = StatusBoss
+	// State.Status = StatusOverworld
+	SwitchRoom(13)
+	SetPallete(PalleteRustGold)
 	RegisterEvent("got_second_key", 1)
 	// Player.Hitbox.X = tileToPos(8) + 3
 	// Player.Hitbox.Y = tileToPos(4) + 3

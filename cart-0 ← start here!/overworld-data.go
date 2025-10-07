@@ -789,7 +789,19 @@ var (
 						AnimationCountdown: 0,
 						Sprite: BenchSprite,
 						Direction: DirDown,
-						OnInteract: EntityDoNothing,
+						OnInteract: func(self *OverworldEntity) {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "Here be dragons",
+								  	X: 5, Y: 20,  DrawColors: 0x2 },
+									{ Text: "But not now...",
+								  	X: 45, Y: 130,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
 						Data: nil,
 					},
 				},
