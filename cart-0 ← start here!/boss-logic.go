@@ -1,12 +1,14 @@
 package main
 
+import "cart/w4"
+
 const(
 	soulSpeed = 1.4
 	soulShotSpeed = 1.6
 )
 
 // a lot of garbage here...
-func removeAtIndex[T interface{}](s []T, i int) []T {
+func removeAtIndex[T any](s []T, i int) []T {
 	return append(s[:i], s[i+1:]...)
 }
 
@@ -128,7 +130,80 @@ func KillSoulShots(l *SoulShotList) {
 	for i, s := range *l {
 		h := s.Hitbox
 		if h.X < 0 || h.Y < 0 || h.X+h.Width > 160 || h.Y+h.Height > 160 {
-			*l = removeAtIndex[SoulShot](*l, i)
+			*l = removeAtIndex(*l, i)
+		}
+	}
+}
+
+
+func newHand() BossPart {
+	var box Hitbox
+
+	sprite    := BossHandSprite
+	flags     := sprite.Flags
+	randomDir := [4]Direction {DirUp, DirRight, DirDown, DirLeft}[GetRandomN(4)]
+	switch (randomDir) {
+	case DirUp:
+		flags |= w4.BLIT_FLIP_Y | w4.BLIT_FLIP_X
+		box = Hitbox {
+			Width: float32(sprite.PiceWidth), Height: float32(sprite.PiceHeight),
+			X: (160 - float32(sprite.PiceWidth)) / 2,
+			Y:  160 - float32(sprite.PiceHeight),
+		}
+	case DirRight:
+		flags |=  w4.BLIT_ROTATE
+		box = Hitbox {
+			Width: float32(sprite.PiceHeight), Height: float32(sprite.PiceWidth),
+			X: 0,
+			Y: (160 - float32(sprite.PiceWidth)) / 2,
+		}
+	case DirDown:
+		box = Hitbox {
+			Width: float32(sprite.PiceWidth), Height: float32(sprite.PiceHeight),
+			X: (160 - float32(sprite.PiceWidth)) / 2,
+			Y: 0,
+		}
+	case DirLeft:
+		flags |= w4.BLIT_FLIP_Y | w4.BLIT_ROTATE | w4.BLIT_FLIP_X
+		box = Hitbox {
+			Width: float32(sprite.PiceHeight), Height: float32(sprite.PiceWidth),
+			X:  160 - float32(sprite.PiceHeight),
+			Y: (160 - float32(sprite.PiceWidth)) / 2,
+		}
+	}
+
+
+	countdown := 60
+
+	return BossPart {
+		Sprite: BossHandSprite,
+		Hitbox: box,
+		DrawOffsetX: 0, DrawOffsetY: 0,
+		Update: func(self *BossPart) bool {
+			countdown -= 1
+			return countdown < 0
+		},
+		Flags: flags,
+		DrawColors: sprite.DrawColors,
+	}
+}
+
+
+func HandleHandsPopulation(parts *BossPartList) {
+	if len(*parts) == 0 {
+		*parts = append(*parts, newHand())
+	}
+}
+
+
+func UpdateHands(b *BossConfig) {
+	parts := &b.BossParts
+
+	HandleHandsPopulation(parts)
+
+	for i := range *parts {
+		if (*parts)[i].Update(&(*parts)[i]) {
+			*parts = removeAtIndex(*parts, i)
 		}
 	}
 }

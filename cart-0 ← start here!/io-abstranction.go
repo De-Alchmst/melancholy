@@ -2,6 +2,9 @@ package main
 
 import "cart/w4"
 
+// We will do what's called a "pro gamer move"
+import "math/rand"
+
 type InputKey int
 const (
 	KeyUp InputKey = iota
@@ -15,10 +18,16 @@ const (
 	KeyMovement
 )
 
-var prevPressedKeys map[InputKey]bool = make(map[InputKey]bool)
+var (
+	prevPressedKeys map[InputKey]bool = make(map[InputKey]bool)
+	randomSeed int64 = 37 // the most random of numbers
+)
 
 func Held(key InputKey) bool {
 	var gamepad = *w4.GAMEPAD1
+	// we are about to do what's called a pro gamer move
+	randomSeed += int64(gamepad)
+
 	// Yandere dev in shambels
 	switch key {
 	case KeyUp:
@@ -55,4 +64,11 @@ func UpdatePressed() {
 	for _, key := range [...]InputKey{KeyUp, KeyRight, KeyDown, KeyLeft, KeyX, KeyZ, KayAny, KeyAction, KeyMovement} {
 		prevPressedKeys[key] = Held(key)
 	}
+}
+
+
+func GetRandomN(n int) int {
+	Rnd := rand.New(rand.NewSource(randomSeed))
+	randomSeed += int64(rand.Int())
+	return Rnd.Intn(n)
 }

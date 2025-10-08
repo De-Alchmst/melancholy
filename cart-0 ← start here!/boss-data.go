@@ -15,16 +15,17 @@ type BossPart struct {
 	Hitbox Hitbox
 	DrawOffsetX, DrawOffsetY int
 	Sprite Sprite
-	Update func(self *BossPart)
-	Data any
+	Update func(self *BossPart) bool
+	Flags uint
+	DrawColors uint16
 }
 
 type BossAttackList []BossAttack
 type BossAttack struct {
 	Hitbox Hitbox
-	Draw func(self *BossAttack)    // not all attacks need to be sprites
-	Update func(self *BossAttack) //  I mean like, beams are pretty cool, right?
-	Data any
+	Draw func(self *BossAttack)         // not all attacks need to be sprites
+	Update func(self *BossAttack) bool //  I mean like, beams are pretty cool, right?
+	Flags uint
 }
 
 type SoulShotList []SoulShot
@@ -69,6 +70,7 @@ var (
 
 			self.Soul.Draw()
 			self.SoulShots.Draw()
+			self.BossParts.Draw()
 		},
 		
 		Update: func(self *BossConfig) {
@@ -76,7 +78,7 @@ var (
 			self.BossParts.Update(self)
 			self.BossAttacks.Update(self)
 			self.SoulShots.Update(self)
-			
+			UpdateHands(self)
 		},
 	}
 	CurrentBossData = TheForgottenSoulBoss

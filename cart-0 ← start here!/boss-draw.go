@@ -51,3 +51,20 @@ func (l SoulShotList) Draw() {
 		}
 	}
 }
+
+
+func (parts BossPartList) Draw() {
+	var (
+		x, y int
+		s Sprite
+	)
+
+	for _, p := range parts {
+		s = p.Sprite
+		x = int(p.Hitbox.X) + p.DrawOffsetX
+		y = int(p.Hitbox.Y) + p.DrawOffsetY
+
+		*w4.DRAW_COLORS = p.DrawColors
+		w4.Blit(&s.Data[0], x, y, uint(s.ArchWidth), uint(s.ArchHeight), p.Flags)
+	}
+}
