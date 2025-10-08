@@ -32,13 +32,12 @@ func (s *Soul) Draw() {
 
 
 func (l SoulShotList) Draw() {
-	*w4.DRAW_COLORS = 0x4
-
-	var (
+	var ( // one must respect the Pascal legacy...
 		x, y  int
 		w, h uint
 	)
 
+	*w4.DRAW_COLORS = 0x4
 	for _, s := range l {
 		x = int  (s.Hitbox.X)
 		y = int  (s.Hitbox.Y)

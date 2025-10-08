@@ -5,6 +5,11 @@ const(
 	soulShotSpeed = 1.6
 )
 
+// a lot of garbage here...
+func removeAtIndex[T interface{}](s []T, i int) []T {
+	return append(s[:i], s[i+1:]...)
+}
+
 
  // let's consider just the current box dimensions and rewrite as needed
 //  Moore approved! 
@@ -102,7 +107,8 @@ func UpdateSoulShooting(s *Soul, b *BossConfig) {
 }
 
 
-func MoveSoulShots(s SoulShotList) {
+func MoveSoulShots(sl *SoulShotList) {
+	s := *sl
 	for i := range s {
 		switch (s[i].Direction) {
 		case DirUp:
@@ -113,6 +119,16 @@ func MoveSoulShots(s SoulShotList) {
 			s[i].Hitbox.Y += soulShotSpeed
 		case DirLeft:
 			s[i].Hitbox.X -= soulShotSpeed
+		}
+	}
+}
+
+
+func KillSoulShots(l *SoulShotList) {
+	for i, s := range *l {
+		h := s.Hitbox
+		if h.X < 0 || h.Y < 0 || h.X+h.Width > 160 || h.Y+h.Height > 160 {
+			*l = removeAtIndex[SoulShot](*l, i)
 		}
 	}
 }
