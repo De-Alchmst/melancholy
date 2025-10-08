@@ -29,3 +29,26 @@ func (s *Soul) Draw() {
 
 	w4.BlitSub(&s.Sprite.Data[0], x, y, w, h, 0, 0, s.Sprite.ArchWidth, flags)
 }
+
+
+func (l SoulShotList) Draw() {
+	*w4.DRAW_COLORS = 0x4
+
+	var (
+		x, y  int
+		w, h uint
+	)
+
+	for _, s := range l {
+		x = int  (s.Hitbox.X)
+		y = int  (s.Hitbox.Y)
+		w = uint (s.Hitbox.Width)
+		h = uint (s.Hitbox.Height)
+
+		if s.Direction == DirUp || s.Direction == DirDown {
+			w4.VLine(x, y, h)
+		} else {
+			w4.HLine(x, y, w)
+		}
+	}
+}

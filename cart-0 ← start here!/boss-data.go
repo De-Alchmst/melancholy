@@ -6,6 +6,7 @@ type Soul struct {
 	Hitbox Hitbox
 	Sprite Sprite
 	Direction Direction
+	Cooldown int
 }
 
 
@@ -26,16 +27,23 @@ type BossAttack struct {
 	Data any
 }
 
+type SoulShotList []SoulShot
+type SoulShot struct {
+	Direction	Direction
+	Hitbox Hitbox
+	Damage int
+}
+
 type BossConfig struct {
 	Pallete Pallete
 	HP int
 	Soul Soul
 	BossParts BossPartList
 	BossAttacks BossAttackList
+	SoulShots SoulShotList
 	Draw func(self *BossConfig)
 	Update func(self *BossConfig)
 }
-
 
 var (
 	TheForgottenSoulBoss = BossConfig {
@@ -47,9 +55,11 @@ var (
 				Width: 7, Height: 7,
 			},
 			Sprite: SoulSprite,
+			Cooldown: 0,
 		},
 		BossParts: BossPartList{},
 		BossAttacks: BossAttackList{},
+		SoulShots: SoulShotList{},
 		Draw: func(self *BossConfig) {
 			*w4.DRAW_COLORS = BossFaceSprite.DrawColors
 			w4.Blit(&BossFaceSprite.Data[0], 57, 47, uint(BossFaceSprite.PiceWidth), uint(BossFaceSprite.PiceHeight), BossFaceSprite.Flags)
@@ -58,11 +68,16 @@ var (
 			DrawRectLines(40, 40, 80, 80)
 
 			self.Soul.Draw()
+			self.SoulShots.Draw()
 		},
+		
 		Update: func(self *BossConfig) {
-			self.Soul.Update()
+			self.Soul.Update(self)
+			self.BossParts.Update(self)
+			self.BossAttacks.Update(self)
+			self.SoulShots.Update(self)
+			
 		},
 	}
-
 	CurrentBossData = TheForgottenSoulBoss
 )

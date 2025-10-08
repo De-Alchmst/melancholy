@@ -4,3 +4,25 @@ func UpdateBoss() {
 	CurrentBossData.Update(&CurrentBossData)
 	CurrentBossData. Draw (&CurrentBossData)
 }
+
+func (s *Soul) Update(b *BossConfig) {
+	UpdateSoulDirections(s)
+	UpdateSoulShooting(s, b)
+}
+
+func (p BossPartList) Update(b *BossConfig) {
+	for i := range p {
+		p[i].Update(&p[i])
+	}
+}
+
+func (a BossAttackList) Update(b *BossConfig) {
+	for i := range a {
+		a[i].Update(&a[i])
+	}
+}
+
+
+func (s SoulShotList) Update(b *BossConfig) {
+	MoveSoulShots(s)
+}

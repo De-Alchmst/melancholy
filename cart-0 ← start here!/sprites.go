@@ -101,7 +101,7 @@ var (
 
 	SoulSprite = Sprite {
 		DrawColors: 0x0040,
-		ArchWidth: 8, ArchHeight: 8,
+		ArchWidth: 8, ArchHeight: 7,
 		PiceWidth: 7, PiceHeight: 7,
 		Flags: w4.BLIT_1BPP,
 		Data: []byte {
@@ -112,7 +112,26 @@ var (
 			0b01111100,
 			0b00111000,
 			0b00010000,
-			0b00000000,
+		},
+	}
+
+	BossShotSprite = Sprite {
+		DrawColors: 0x0010,
+		ArchWidth: 16, ArchHeight: 11,
+		PiceWidth: 11, PiceHeight: 11,
+		Flags: w4.BLIT_1BPP,
+		Data: []byte {
+			0b01000111,0b10000000,
+			0b01101110,0b00100000,
+			0b00110011,0b11100000,
+			0b11111111,0b01000000,
+			0b01111010,0b11100000, // is this art?
+			0b11010111,0b11000000,
+			0b11111110,0b11000000,
+			0b01110100,0b01100000,
+			0b01101111,0b11000000,
+			0b11111111,0b11100000,
+			0b01000011,0b00100000,
 		},
 	}
 )
