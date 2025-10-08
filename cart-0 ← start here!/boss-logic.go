@@ -1,10 +1,15 @@
 package main
 
-import "cart/w4"
+import (
+	"cart/w4"
+
+	"math"
+)
 
 const(
 	soulSpeed = 1.4
 	soulShotSpeed = 1.6
+	handSpeed = 0.02
 )
 
 // a lot of garbage here...
@@ -137,7 +142,10 @@ func KillSoulShots(l *SoulShotList) {
 
 
 func newHand() BossPart {
-	var box Hitbox
+	var (
+		width, height, x, y  float32
+		counter float64 = 0
+	)
 
 	sprite    := BossHandSprite
 	flags     := sprite.Flags
@@ -145,47 +153,60 @@ func newHand() BossPart {
 	switch (randomDir) {
 	case DirUp:
 		flags |= w4.BLIT_FLIP_Y | w4.BLIT_FLIP_X
-		box = Hitbox {
-			Width: float32(sprite.PiceWidth), Height: float32(sprite.PiceHeight),
-			X: (160 - float32(sprite.PiceWidth)) / 2,
-			Y:  160 - float32(sprite.PiceHeight),
-		}
+		width  = float32(sprite.PiceWidth)
+		height = float32(sprite.PiceHeight)
+		x      = (160 - float32(sprite.PiceWidth)) / 2
+		y      = (160)
 	case DirRight:
 		flags |=  w4.BLIT_ROTATE
-		box = Hitbox {
-			Width: float32(sprite.PiceHeight), Height: float32(sprite.PiceWidth),
-			X: 0,
-			Y: (160 - float32(sprite.PiceWidth)) / 2,
-		}
+		width  = float32(sprite.PiceHeight)
+		height = float32(sprite.PiceWidth)
+		x      = (    - float32(sprite.PiceHeight)) 
+		y      = (160 - float32(sprite.PiceWidth)) / 2
 	case DirDown:
-		box = Hitbox {
-			Width: float32(sprite.PiceWidth), Height: float32(sprite.PiceHeight),
-			X: (160 - float32(sprite.PiceWidth)) / 2,
-			Y: 0,
-		}
+		width  = float32(sprite.PiceWidth)
+		height = float32(sprite.PiceHeight)
+		x      = (160 - float32(sprite.PiceWidth)) / 2
+		y      = (    - float32(sprite.ArchHeight) )
 	case DirLeft:
 		flags |= w4.BLIT_FLIP_Y | w4.BLIT_ROTATE | w4.BLIT_FLIP_X
-		box = Hitbox {
-			Width: float32(sprite.PiceHeight), Height: float32(sprite.PiceWidth),
-			X:  160 - float32(sprite.PiceHeight),
-			Y: (160 - float32(sprite.PiceWidth)) / 2,
-		}
+		width  = float32(sprite.PiceHeight)
+		height = float32(sprite.PiceWidth)
+		x      = (160)
+		y      = (160 - float32(sprite.PiceWidth)) / 2
 	}
 
-
-	countdown := 60
-
-	return BossPart {
+	part := BossPart {
 		Sprite: BossHandSprite,
-		Hitbox: box,
+		Hitbox: Hitbox {Width: width, Height: height, X: x, Y:y},
 		DrawOffsetX: 0, DrawOffsetY: 0,
-		Update: func(self *BossPart) bool {
-			countdown -= 1
-			return countdown < 0
-		},
 		Flags: flags,
 		DrawColors: sprite.DrawColors,
+
+		Update: func(self *BossPart) bool {
+			counter += handSpeed
+			sinc := float32(math.Sin(counter)) * float32(sprite.ArchHeight)
+			cosc := float32(math.Cos(counter)) * float32(sprite.ArchWidth) / 2
+
+			switch (randomDir) {
+			case DirUp:
+				self.Hitbox.X = x - cosc
+				self.Hitbox.Y = y - sinc
+			case DirRight:
+				self.Hitbox.X = x + sinc
+				self.Hitbox.Y = y - cosc
+			case DirDown:
+				self.Hitbox.X = x + cosc
+				self.Hitbox.Y = y + sinc
+			case DirLeft:
+				self.Hitbox.X = x - sinc
+				self.Hitbox.Y = y + cosc
+			}
+			return counter > math.Pi
+		},
 	}
+
+	return part
 }
 
 
