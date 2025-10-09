@@ -872,75 +872,107 @@ var (
 
 		{
 			ID: 16,
-			Value: &Room{
-				Tiles: TilesMap {
-					{7,7,7,8,9,9,8,8,8,0},
-					{7,7,7,8,9,9,8,8,8,0},
-					{0,8,8,8,9,9,8,8,8,0},
-					{0,8,8,8,9,9,8,8,8,0},
-					{0,8,8,9,9,9,9,8,8,0},
-					{0,8,8,9,9,9,9,8,8,0},
-					{0,8,8,8,9,9,8,8,8,0},
-					{0,8,8,8,9,9,8,8,8,0},
-					{0,8,8,8,9,9,8,8,8,0},
-					{0,0,0,0,2,2,0,0,0,0},
-				},
-				Left: 0, Right: 0, Up: 15, Down: 16,
-				Pallete: PalleteBlessing,
-				DrawColors: 0x31,
-				Entities: OverworldEntityList{
-					{
-						DrawOffsetX: -3, DrawOffsetY: -6,
-						Hitbox: Hitbox {
-							X: tileToPos(5)+3-8, Y: tileToPos(5)+6-11,
-							Width: 10, Height: 9,
-						},
-						AnimationFrames: []uint{0},
-						AnimationIndex: 0,
-						AnimationCountdown: 0,
-						Sprite: AdversarySprite,
-						Direction: DirDown,
-						OnInteract: func(self *OverworldEntity) {
-							State.Status = StatusMessage
-							SetPallete(PalleteRustGold)
-							State.CurrentMessage = Message {
-								Texts: []MessageText {
-									{ Text: "I Am The\n Forgotten Soul",
-										X: 5, Y: 10,  DrawColors: 0x2 },
-									{ Text: "You Shall Not Pass\n The Gate!",
-										X: 5, Y: 130, DrawColors: 0x2 },
-								},
-								Images: []MessageImage{
-									{ Sprite: BossFaceSprite, X: 57, Y: 47 },
-								},
-								After: func() {
-									State.Status = StatusBoss
-								},
-							}
-						},
-						Data: nil,
+			Value: RoomMaker(func() *Room {
+				room := &Room{
+					Tiles: TilesMap {
+						{7,7,7,8,9,9,8,8,8,0},
+						{7,7,7,8,9,9,8,8,8,0},
+						{0,8,8,8,9,9,8,8,8,0},
+						{0,8,8,8,9,9,8,8,8,0},
+						{0,8,8,9,9,9,9,8,8,0},
+						{0,8,8,9,9,9,9,8,8,0},
+						{0,8,8,8,9,9,8,8,8,0},
+						{0,8,8,8,9,9,8,8,8,0},
+						{0,8,8,8,9,9,8,8,8,0},
+						{0,0,0,0,2,2,0,0,0,0},
 					},
-				},
-				Events: PositionalEventList{
-					{
-						Hitbox: Hitbox{
-							X: tileToPos(4), Y: tileToPos(9),
-							Width: 32, Height: 16,
-						},
-						OnInteract: func () {
-							State.Status = StatusMessage
-							State.CurrentMessage = Message {
-								Texts: []MessageText {
-									{ Text: "A menacing presence\n prevents you from\n proceeding...",
-								  	X: 5, Y: 70,  DrawColors: 0x2 },
-								},
-								Images: []MessageImage{},
-								After: BackToOverworld,
-							}
+					Left: 0, Right: 0, Up: 15, Down: 16,
+					Pallete: PalleteBlessing,
+					DrawColors: 0x31,
+					Events: PositionalEventList{
+						{
+							Hitbox: Hitbox{
+								X: tileToPos(4), Y: tileToPos(9),
+								Width: 32, Height: 16,
+							},
+							OnInteract: func () {
+								State.Status = StatusMessage
+
+								if !EventRegistered("boss_defeated") {
+									State.CurrentMessage = Message {
+										Texts: []MessageText {
+											{ Text: "A menacing presence\n prevents you from\n proceeding...",
+											  X: 5, Y: 70,  DrawColors: 0x2 },
+										},
+										Images: []MessageImage{},
+										After: BackToOverworld,
+									}
+
+								// if you manage to slay the beast...
+								} else {
+									State.CurrentMessage = Message {
+										Texts: []MessageText {
+											{ Text: "And so the\n time flows.",
+											  X: 5, Y: 30,  DrawColors: 0x2 },
+											{ Text: "Absence of light\n does not imply\n darkness.",
+											  X: 15, Y: 70,  DrawColors: 0x2 },
+											{ Text: "//HE// is\n watching, so\n make it count!",
+											  X: 25, Y: 120,  DrawColors: 0x2 },
+										},
+										Images: []MessageImage{},
+										After: func() {PlayInteract()},
+									}
+								}
+							},
 						},
 					},
-				},
-			},
+				}
+
+				if !EventRegistered("boss_defeated") {
+					// and yet, no save feature to be found...
+					room.Entities = OverworldEntityList{
+						{
+							DrawOffsetX: -3, DrawOffsetY: -6,
+							Hitbox: Hitbox {
+								X: tileToPos(5)+3-8, Y: tileToPos(5)+6-11,
+								Width: 10, Height: 9,
+							},
+							AnimationFrames: []uint{0},
+							AnimationIndex: 0,
+							AnimationCountdown: 0,
+							Sprite: AdversarySprite,
+							Direction: DirDown,
+
+							OnInteract: func(self *OverworldEntity) {
+								State.Status = StatusMessage
+								SetPallete(PalleteRustGold)
+								State.CurrentMessage = Message {
+									Texts: []MessageText {
+										{ Text: "I Am The\n Forgotten Soul",
+					   				  X: 5, Y: 10,  DrawColors: 0x2 },
+										{ Text: "You Shall Not Pass\n The Gate!",
+										  X: 5, Y: 130, DrawColors: 0x2 },
+									},
+									Images: []MessageImage{
+										{ Sprite: BossFaceSprite, X: 57, Y: 47 },
+									},
+									After: func() {
+										State.Status = StatusBoss
+										room.Entities = OverworldEntityList{}
+										room.Pallete = PalleteRustGold
+									},
+								}
+							},
+							Data: nil,
+						},
+					}
+				} else {
+					room.Entities = OverworldEntityList{}
+					room.Pallete = PalleteRustGold
+				}
+
+				return room
+			}),
 		},
 	}
 )

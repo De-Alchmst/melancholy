@@ -1,5 +1,7 @@
 package main
 
+// this is the future FP wants
+
 func UpdateBoss() {
 	CurrentBossData.Update(&CurrentBossData)
 	CurrentBossData. Draw (&CurrentBossData)
@@ -35,5 +37,5 @@ func (a *BossAttackList) Update(b *BossConfig) {
 
 func (s *SoulShotList) Update(b *BossConfig) {
 	MoveSoulShots(s)
-	KillSoulShots(s)
+	KillSoulShots(s, b)
 }

@@ -9,7 +9,7 @@ const (
 	musicDuration = 5
 	musicFlags = w4.TONE_TRIANGLE | w4.TONE_MODE2
 	musicGap = 10
-	footstepsDelay = 25
+	footstepsDelay = 20
 	footstepsVolume = 25
 	footstepsDuration = 4
 	footstepsDelayOffset = 20
@@ -67,6 +67,14 @@ func PlayInteract() {
 	w4.Tone(uint(137 + GetRandomN(69)), 10, 42, w4.TONE_NOISE)
 }
 
+func PlayBossShotCollide() {
+	w4.Tone(uint(169 + GetRandomN(69)), 4, 55, w4.TONE_NOISE)
+}
+
 func PlayShootingSound() {
 	w4.Tone(uint(250 + GetRandomN(42)), 3, 37, w4.TONE_PULSE2)
+}
+
+func PlaySoulShotCollide() {
+	w4.Tone(uint(370 + GetRandomN(32)), 3, 42, w4.TONE_PULSE1)
 }

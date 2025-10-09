@@ -9,10 +9,11 @@ func start() { // gruvbox light
 	//  if I had any!     
 
 	State.Status = StatusOverworld
-	State.Status = StatusBoss
+	// State.Status = StatusBoss
 	SwitchRoom(16)
-	SetPallete(PalleteRustGold)
-	RegisterEvent("got_second_key", 1)
+	// SetPallete(PalleteRustGold)
+	// RegisterEvent("got_second_key", 1)
+	// RegisterEvent("boss_defeated", 1)
 	Player.Hitbox.X = tileToPos(8) + 3
 	Player.Hitbox.Y = tileToPos(4) + 3
 }

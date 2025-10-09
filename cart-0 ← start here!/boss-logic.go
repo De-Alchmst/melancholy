@@ -77,7 +77,7 @@ func UpdateSoulDirections(s *Soul) {
 func newSoulShot(s *Soul) SoulShot {
 	shot := SoulShot {
 		Direction: s.Direction,
-		Damage: 1,
+		Damage: SoulDamage,
 	}
 
 	h := s.Hitbox
@@ -142,11 +142,23 @@ func MoveSoulShots(sl *SoulShotList) {
 }
 
 
-func KillSoulShots(l *SoulShotList) {
+func soulShotCollide(s *SoulShot, b *BossConfig) bool {
+	for _, part := range b.BossParts {
+		if part.Hitbox.Collides(s.Hitbox) {
+			b.HP -= s.Damage
+			PlaySoulShotCollide()
+			return true
+		}
+	}
+	return false
+}
+
+
+func KillSoulShots(l *SoulShotList, b *BossConfig) {
 	i := 0
 	for i < len(*l) {
 		h := (*l)[i].Hitbox
-		if h.X < 0 || h.Y < 0 || h.X+h.Width > 160 || h.Y+h.Height > 160 {
+		if soulShotCollide(&(*l)[i], b) || h.X < 0 || h.Y < 0 || h.X+h.Width > 160 || h.Y+h.Height > 160 {
 			*l = RemoveAtIndex(*l, i)
 		} else {
 			i++
@@ -258,14 +270,16 @@ func newHand(b *BossConfig) BossPart {
 
 
 func HandleHandsPopulation(parts *BossPartList, b *BossConfig) {
-	var handsNum int = 0
-	if b.HP < 37 {
+	var handsNum int = 1
+	if b.HP < 25 {
+		handsNum = 4
+	} else if b.HP < 50 {
 		handsNum = 3
 	} else if (b.HP < 75) {
 		handsNum = 2
 	}
 
-	if len(*parts) == handsNum {
+	if len(*parts) < handsNum {
 		*parts = append(*parts, newHand(b))
 	}
 }
@@ -295,8 +309,8 @@ func getVectOffset(start, end float32) float32 {
 func spawnBossAttacks(startX, startY float32, direction Direction, list *BossAttackList) {
 	s := BossShotSprite
 
-	for range 5 + GetRandomN(10) {
-		primary   := getVectOffset(1, 3)
+	for range 3 + GetRandomN(4) {
+		primary   := getVectOffset(0.5, 1.5)
 		secondary := getVectOffset(-2, 2)
 		sx := startX
 		sy := startY
@@ -319,7 +333,7 @@ func spawnBossAttacks(startX, startY float32, direction Direction, list *BossAtt
 
 		case DirRight:
 			vect = Vect {X: primary, Y: secondary}
-			sx += 20
+			sx += 25
 			// sx += getVectOffset(1,10)
 			// sy -= float32(s.PiceHeight) /2 + getVectOffset(-10, 10)
 			
@@ -370,6 +384,7 @@ func BossAttackCollision(a BossAttack, b *BossConfig) bool {
 		if b.HP > BossMaxHealth {
 			b.HP = BossMaxHealth
 		}
+		PlayBossShotCollide()
 		return true
 	}
 	return false

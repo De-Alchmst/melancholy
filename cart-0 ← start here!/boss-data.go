@@ -5,6 +5,7 @@ import "cart/w4"
 const (
 	BossHealFactor = 5
 	BossMaxHealth  = 100
+	SoulDamage = 20
 )
 
 type Soul struct {
@@ -85,6 +86,15 @@ var (
 			self.BossAttacks.Update(self)
 			self.SoulShots.Update(self)
 			UpdateHands(self)
+
+			if self.HP <= 0 {
+				State.Status = StatusOverworld
+				RegisterEvent("boss_defeated", 1)
+				// WHY OH WHY CAN I NOT CALL FUNCTION FEFERENING A DATA STRUCTURE FROM
+				// WITHIN THAT STRUCTURE?
+				// THAT IS LIKE, VERY COMMON THING TO DO!
+				SwitchRoom(16)
+			}
 		},
 	}
 	CurrentBossData = TheForgottenSoulBoss
