@@ -30,3 +30,10 @@ endif
 .PHONY: clean
 clean:
 	rm -rf build
+
+.PHONY: release
+release: all
+	w4 bundle --html    build/cart0.html  --title cart0 build/cart.wasm
+	w4 bundle --windows build/cart0.exe   --title cart0 build/cart.wasm
+	w4 bundle --mac     build/cart0.mac   --title cart0 build/cart.wasm
+	w4 bundle --linux   build/cart0.linux --title cart0 build/cart.wasm
