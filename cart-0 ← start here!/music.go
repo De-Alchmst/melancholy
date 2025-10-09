@@ -9,6 +9,10 @@ const (
 	musicDuration = 5
 	musicFlags = w4.TONE_TRIANGLE | w4.TONE_MODE2
 	musicGap = 10
+	footstepsDelay = 25
+	footstepsVolume = 25
+	footstepsDuration = 4
+	footstepsDelayOffset = 20
 )
 
 var (
@@ -31,6 +35,7 @@ var (
     1661, 1760, 1864, 1975, 2093, 2217, 2349, 2489,
     2637, 2793, 2959, 3135, 3322, 3520, 3729, 3951,
 	}
+	footstepsCounter = 0
 )
 
 
@@ -46,4 +51,18 @@ func UpdateMusic() {
 			MusicIndex = 0
 		}
 	}
+}
+
+
+func UpdateFootsteps() {
+	footstepsCounter -= 1
+	if footstepsCounter <= 0 {
+		footstepsCounter = footstepsDelay + GetRandomN(footstepsDelayOffset)
+		w4.Tone(uint(160 + GetRandomN(75)), footstepsDuration, footstepsVolume, w4.TONE_PULSE1 | w4.TONE_MODE2)
+	}
+}
+
+
+func PlayInteract() {
+	w4.Tone(uint(137 + GetRandomN(69)), 10, 42, w4.TONE_NOISE)
 }

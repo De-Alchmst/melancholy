@@ -93,6 +93,9 @@ func movePlayerAnimation() {
 			Player.NextFrame()
 		}
 
+		// and also play some NOISE
+		UpdateFootsteps()
+
 	} else {
 		Player.AnimationIndex = 0
 		Player.AnimationCountdown = 0

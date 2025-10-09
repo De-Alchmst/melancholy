@@ -163,9 +163,11 @@ var (
 						Hitbox: TileToHitbox(5,1),
 						OnInteract: func () {
 							if EventRegistered("got_first_key") {
-								RegisterEvent("first_unlocked", 1)
-								room.Tiles[1][5] = 1
-
+								if !EventRegistered("first_unlocked") {
+									RegisterEvent("first_unlocked", 1)
+									room.Tiles[1][5] = 1
+									PlayInteract()
+								}
 							} else {
 								State.Status = StatusMessage
 								State.CurrentMessage = Message {
@@ -232,8 +234,11 @@ var (
 							Sprite: KeyholderSprite,
 							Direction: DirDown,
 							OnInteract: func(self *OverworldEntity) {
-								self.AnimationIndex = 1
-								RegisterEvent("got_first_key", 1)
+								if !EventRegistered("got_first_key") {
+									self.AnimationIndex = 1
+									RegisterEvent("got_first_key", 1)
+									PlayInteract()
+								}
 							},
 							Data: nil,
 						},
@@ -496,7 +501,7 @@ var (
 						{1,0,0,0,1,1,0,0,0,1},
 						{0,0,0,0,0,0,0,0,0,0},
 						 // ↑
-						// but what is here tho???
+						// but what is there tho???
 					},
 					Left: 7, Right: 3, Up: 0, Down: 0,
 					Pallete: PalleteGruvboxLight,
@@ -523,9 +528,11 @@ var (
 						Hitbox: TileToHitbox(7,7),
 						OnInteract: func () {
 							if EventRegistered("got_second_key") {
-								RegisterEvent("second_6_unlocked", 1)
-								room.Tiles[7][7] = 1
-
+								if !EventRegistered("second_6_unlocked") {
+									RegisterEvent("second_6_unlocked", 1)
+									room.Tiles[7][7] = 1
+									PlayInteract()
+								}
 							} else {
 								State.Status = StatusMessage
 								State.CurrentMessage = Message {
@@ -646,8 +653,11 @@ var (
 						Hitbox: TileToHitbox(5,0),
 						OnInteract: func () {
 							if EventRegistered("got_second_key") {
-								RegisterEvent("second_10_unlocked", 1)
-								room.Tiles[0][5] = 1
+								if !EventRegistered("second_10_unlocked") {
+									RegisterEvent("second_10_unlocked", 1)
+									room.Tiles[0][5] = 1
+									PlayInteract()
+								}
 							}
 						},
 					},
@@ -696,8 +706,11 @@ var (
 							Sprite: KeyholderSpriteRev,
 							Direction: DirDown,
 							OnInteract: func(self *OverworldEntity) {
-								self.AnimationIndex = 1
-								RegisterEvent("got_second_key", 1)
+								if !EventRegistered("got_second_key") {
+									self.AnimationIndex = 1
+									RegisterEvent("got_second_key", 1)
+									PlayInteract()
+								}
 							},
 							Data: nil,
 						},
@@ -710,9 +723,11 @@ var (
 						Hitbox: TileToHitbox(5,9),
 						OnInteract: func () {
 							if EventRegistered("got_second_key") {
-								RegisterEvent("second_11_unlocked", 1)
-								room.Tiles[9][5] = 1
-
+								if !EventRegistered("second_11_unlocked") {
+									RegisterEvent("second_11_unlocked", 1)
+									room.Tiles[9][5] = 1
+									PlayInteract()
+								}
 							} else {
 								State.Status = StatusMessage
 								State.CurrentMessage = Message {

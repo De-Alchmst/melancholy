@@ -13,8 +13,8 @@ func start() { // gruvbox light
 	SwitchRoom(16)
 	// SetPallete(PalleteRustGold)
 	RegisterEvent("got_second_key", 1)
-	// Player.Hitbox.X = tileToPos(8) + 3
-	// Player.Hitbox.Y = tileToPos(4) + 3
+	Player.Hitbox.X = tileToPos(8) + 3
+	Player.Hitbox.Y = tileToPos(4) + 3
 }
 
 //go:export update
