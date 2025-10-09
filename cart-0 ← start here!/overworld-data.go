@@ -770,7 +770,25 @@ var (
 				Pallete: PalleteBlessing,
 				DrawColors: 0x31,
 				Entities: OverworldEntityList{},
-				Events: PositionalEventList{},
+				Events: PositionalEventList{
+					{
+						Hitbox: Hitbox{
+							X: tileToPos(7), Y: tileToPos(6),
+							Width: 16, Height: 16,
+						},
+						OnInteract: func () {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "There's always\n more secrets!",
+										X: 20, Y: 80,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
+					},
+				},
 			},
 		},
 
@@ -820,7 +838,25 @@ var (
 						Data: nil,
 					},
 				},
-				Events: PositionalEventList{},
+				Events: PositionalEventList{
+					{
+						Hitbox: Hitbox{
+							X: tileToPos(6), Y: tileToPos(2),
+							Width: 16, Height: 16,
+						},
+						OnInteract: func () {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "Are you enjoying\n yourself so far?",
+										X: 5, Y: 80,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
+					},
+				},
 			},
 		},
 
@@ -922,6 +958,25 @@ var (
 										Images: []MessageImage{},
 										After: func() {PlayInteract()},
 									}
+								}
+							},
+						},
+						{
+							Hitbox: Hitbox{
+								X: tileToPos(8), Y: tileToPos(8),
+								Width: 16, Height: 16,
+							},
+							OnInteract: func () {
+								State.Status = StatusMessage
+								State.CurrentMessage = Message {
+									Texts: []MessageText {
+										{ Text: "But\n [EXPERIENCE]\n  is never finished",
+											X: 5, Y: 30,  DrawColors: 0x2 },
+										{ Text: "it just stops\n moving",
+											X: 28, Y: 120,  DrawColors: 0x2 },
+									},
+									Images: []MessageImage{},
+									After: BackToOverworld,
 								}
 							},
 						},

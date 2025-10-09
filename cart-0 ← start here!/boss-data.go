@@ -5,7 +5,7 @@ import "cart/w4"
 const (
 	BossHealFactor = 5
 	BossMaxHealth  = 100
-	SoulDamage = 20
+	SoulDamage = 2//0
 )
 
 type Soul struct {

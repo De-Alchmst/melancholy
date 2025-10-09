@@ -10,7 +10,7 @@ const (
 	musicFlags = w4.TONE_TRIANGLE | w4.TONE_MODE2
 	musicGap = 10
 	footstepsDelay = 20
-	footstepsVolume = 25
+	footstepsVolume = 20
 	footstepsDuration = 4
 	footstepsDelayOffset = 20
 )
