@@ -293,44 +293,73 @@ func getVectOffset(start, end float32) float32 {
 
 
 func spawnBossAttacks(startX, startY float32, direction Direction, list *BossAttackList) {
-	for range 15 + GetRandomN(10) {
-		primary   := -1   - getVectOffset(0, 2)
-		secondary := -0.5 + getVectOffset(0, 1)
+	s := BossShotSprite
 
+	for range 5 + GetRandomN(10) {
+		primary   := getVectOffset(1, 3)
+		secondary := getVectOffset(-2, 2)
+		sx := startX
+		sy := startY
+
+		/*
+		Sometimes the magic is stronger than the magician.
+		I do admit that I have no controll over the following code.
+		Usually, I'm setting the rules and the machine follows;
+		this time, however, the roles haeve changed.
+		The machine chose these numers and who am I to protest.
+		Sometimes, you are not destined to know everything.
+		Today is sometimes...
+		*/
 		var vect Vect
 		switch (direction) {
-		case DirUp:    vect = Vect { X:  secondary , Y:  primary   }
-		case DirRight: vect = Vect { X: -primary   , Y:  secondary }
-		case DirDown:  vect = Vect { X:  secondary , Y: -primary   }
-		case DirLeft:  vect = Vect { X:  primary   , Y:  secondary }
+		case DirUp:
+			vect = Vect {X: secondary, Y: -primary}
+			// sx -= float32(s.PiceWidth)  /2 + getVectOffset(-10, 10)
+			// sy -= float32(s.PiceHeight)    + getVectOffset(  0, 10)
+
+		case DirRight:
+			vect = Vect {X: primary, Y: secondary}
+			sx += 20
+			// sx += getVectOffset(1,10)
+			// sy -= float32(s.PiceHeight) /2 + getVectOffset(-10, 10)
+			
+		case DirDown:
+			vect = Vect {X: secondary, Y: primary}
+			sy += 30
+			sx += 50
+			// sx -= float32(s.PiceWidth)  /2 + getVectOffset(-10, 10)
+			// sy += getVectOffset(1,10)
+			
+		case DirLeft:
+			vect = Vect {X: -primary, Y: secondary}
+			sy += 50
+			// sx -= float32(s.PiceWidth)     + getVectOffset(  0, 10)
+			// sy -= float32(s.PiceHeight) /2 + getVectOffset(-10, 10)
 		}
 
 
 		*list = append(*list, BossAttack {
 			Hitbox: Hitbox{
-				X: startX - float32(BossShotSprite.ArchWidth)  /2 + float32(GetRandomN(20)),
-				Y: startY - float32(BossShotSprite.ArchHeight) /2 + float32(GetRandomN(20)),
-				Width:      float32(BossShotSprite.PiceWidth),
-				Height:     float32(BossShotSprite.PiceHeight),
+				X: sx, Y: sy,
+				Width:  float32(s.PiceWidth),
+				Height: float32(s.PiceHeight),
+			},
+
+			Update: func(self *BossAttack) bool {
+				self.Hitbox.X += vect.X
+				self.Hitbox.Y += vect.Y
+
+				return self.Hitbox.X < -self.Hitbox.Width  ||
+				self.Hitbox.X > 160                        ||
+				self.Hitbox.Y < -self.Hitbox.Height        ||
+				self.Hitbox.Y > 160
+			},
+
+			Draw: func(self *BossAttack) {
+				*w4.DRAW_COLORS = s.DrawColors
+				w4.BlitSub(&s.Data[0], int(self.Hitbox.X), int(self.Hitbox.Y), s.PiceWidth, s.PiceHeight, 0, 0, s.ArchWidth, s.Flags)
 			},
 		})
-
-		attack := &(*list)[len(*list)-1]
-
-		attack.Update = func(self *BossAttack) bool {
-			attack.Hitbox.X += vect.X
-			attack.Hitbox.Y += vect.Y
-
-			return attack.Hitbox.X < -attack.Hitbox.Width  ||
-						 attack.Hitbox.X > 160                   ||
-						 attack.Hitbox.Y < -attack.Hitbox.Height ||
-						 attack.Hitbox.Y > 160
-		}
-
-		attack.Draw = func(self *BossAttack) {
-			*w4.DRAW_COLORS = BossShotSprite.DrawColors
-			w4.Blit(&BossShotSprite.Data[0], int(attack.Hitbox.X), int(attack.Hitbox.Y), BossShotSprite.PiceWidth, BossFaceSprite.PiceHeight, BossShotSprite.Flags)
-		}
 	}
 }
 

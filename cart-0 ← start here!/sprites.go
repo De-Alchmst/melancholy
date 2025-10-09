@@ -118,7 +118,7 @@ var (
 	BossShotSprite = Sprite {
 		DrawColors: 0x0020,
 		ArchWidth: 16, ArchHeight: 11,
-		PiceWidth: 11, PiceHeight: 11,
+		PiceWidth: 16, PiceHeight: 11,
 		Flags: w4.BLIT_1BPP,
 		Data: []byte {
 			0b01000111,0b10000000,
