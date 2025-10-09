@@ -17,13 +17,13 @@ const (
 
 var (
 	prevPressedKeys map[InputKey]bool = make(map[InputKey]bool)
-	randomSeed int = 37 // the most random of numbers
+	randomSeed int64 = 37 // the most random of numbers
 )
 
 func Held(key InputKey) bool {
 	var gamepad = *w4.GAMEPAD1
 	// we are about to do what's called a pro gamer move
-	randomSeed += int(gamepad)
+	randomSeed += int64(gamepad)
 
 	// Yandere dev in shambels
 	switch key {
@@ -66,6 +66,16 @@ func UpdatePressed() {
 
 func GetRandomN(n int) int {
 	// todo implement
-	randomSeed += 1
-	return randomSeed % n
+	return getRAndomNumber() % n
+}
+
+
+func getRAndomNumber() int {
+	 // https://en.wikipedia.org/wiki/Linear_congruential_generator
+	//  ZX spectrum values, cause TinyGO||WASM-4 was not happy with larger values
+	randomSeed = (randomSeed * 75) % (2 << 15 + 1) // look mom, no power!
+	  // I wnoder how
+	 //  I wonder why?
+	//   ...
+	return int(randomSeed)
 }

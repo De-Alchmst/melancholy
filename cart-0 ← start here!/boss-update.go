@@ -9,6 +9,7 @@ func UpdateBoss() {
 func (s *Soul) Update(b *BossConfig) {
 	UpdateSoulDirections(s)
 	UpdateSoulShooting(s, b)
+	UpdateMusic()
 }
 
 
@@ -30,3 +31,5 @@ func (s *SoulShotList) Update(b *BossConfig) {
 	MoveSoulShots(s)
 	KillSoulShots(s)
 }
+
+

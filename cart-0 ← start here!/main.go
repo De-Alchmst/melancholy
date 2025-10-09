@@ -10,7 +10,7 @@ func start() { // gruvbox light
 
 	// State.Status = StatusBoss
 	State.Status = StatusOverworld
-	// SwitchRoom(13)
+	SwitchRoom(16)
 	// SetPallete(PalleteRustGold)
 	RegisterEvent("got_second_key", 1)
 	// Player.Hitbox.X = tileToPos(8) + 3
@@ -28,6 +28,5 @@ func update() {
 		UpdateBoss()
 	}
 
-	UpdateMusic()
 	UpdatePressed()
 }
