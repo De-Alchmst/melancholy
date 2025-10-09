@@ -2,6 +2,11 @@ package main
 
 import "cart/w4"
 
+const (
+	BossHealFactor = 5
+	BossMaxHealth  = 100
+)
+
 type Soul struct {
 	Hitbox Hitbox
 	Sprite Sprite
@@ -25,13 +30,13 @@ type BossAttack struct {
 	Hitbox Hitbox
 	Draw func(self *BossAttack)         // not all attacks need to be sprites
 	Update func(self *BossAttack) bool //  I mean like, beams are pretty cool, right?
-	Flags uint
 }
 
 type SoulShotList []SoulShot
 type SoulShot struct {
 	Direction	Direction
 	Hitbox Hitbox
+
 	Damage int
 }
 
@@ -49,7 +54,7 @@ type BossConfig struct {
 var (
 	TheForgottenSoulBoss = BossConfig {
 		Pallete: PalleteRustGold,
-		HP: 100,
+		HP: BossMaxHealth,
 		Soul: Soul {
 			Hitbox: Hitbox {
 				X: 78, Y: 78,
@@ -71,6 +76,7 @@ var (
 			self.Soul.Draw()
 			self.SoulShots.Draw()
 			self.BossParts.Draw()
+			self.BossAttacks.Draw()
 		},
 		
 		Update: func(self *BossConfig) {

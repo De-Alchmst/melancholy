@@ -21,8 +21,14 @@ func (p *BossPartList) Update(b *BossConfig) {
 
 
 func (a *BossAttackList) Update(b *BossConfig) {
-	for i := range *a {
-		(*a)[i].Update(&(*a)[i])
+	i := 0
+	for i < len(*a) {
+		if BossAttackCollision((*a)[i], b) || (*a)[i].Update(&(*a)[i]) {
+			*a = RemoveAtIndex(*a, i)
+		} else {
+			i++
+		}
+
 	}
 }
 
@@ -31,5 +37,3 @@ func (s *SoulShotList) Update(b *BossConfig) {
 	MoveSoulShots(s)
 	KillSoulShots(s)
 }
-
-

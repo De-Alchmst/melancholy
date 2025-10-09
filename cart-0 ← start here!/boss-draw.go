@@ -10,6 +10,13 @@ func DrawRectLines(x, y int, width, height uint) {
 }
 
 
+func (a *BossAttackList) Draw() {
+	for i := range *a {
+		(*a)[i].Draw(&(*a)[i])
+	}
+}
+
+
 func (s *Soul) Draw() {
 	*w4.DRAW_COLORS = s.Sprite.DrawColors
 	x := int  (s.Hitbox.X)

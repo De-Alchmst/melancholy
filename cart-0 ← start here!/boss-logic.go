@@ -5,14 +5,25 @@ import (
 	"math"
 )
 
+type Vect struct {
+	X, Y float32
+}
+		
 const(
 	soulSpeed = 1.4
 	soulShotSpeed = 1.6
 	handSpeed = 0.02
 )
 
+var (
+	HandsTakenUp    = false
+	HandsTakenRight = false
+	HandsTakenDown  = false
+	HandsTakenLeft  = false
+)
+
 // a lot of garbage here...
-func removeAtIndex[T any](s []T, i int) []T {
+func RemoveAtIndex[T any](s []T, i int) []T {
 	return append(s[:i], s[i+1:]...)
 }
 
@@ -109,6 +120,7 @@ func UpdateSoulShooting(s *Soul, b *BossConfig) {
 	if Held(KeyX) && s.Cooldown <= 0 {
 		s.Cooldown = cooldown
 		b.SoulShots = append(b.SoulShots, newSoulShot(s))
+		PlayShootingSound()
 	}
 }
 
@@ -131,48 +143,71 @@ func MoveSoulShots(sl *SoulShotList) {
 
 
 func KillSoulShots(l *SoulShotList) {
-	for i, s := range *l {
-		h := s.Hitbox
+	i := 0
+	for i < len(*l) {
+		h := (*l)[i].Hitbox
 		if h.X < 0 || h.Y < 0 || h.X+h.Width > 160 || h.Y+h.Height > 160 {
-			*l = removeAtIndex(*l, i)
+			*l = RemoveAtIndex(*l, i)
+		} else {
+			i++
 		}
 	}
 }
 
 
-func newHand() BossPart {
+func newHand(b *BossConfig) BossPart {
 	var (
 		width, height, x, y  float32
 		counter float64 = 0
+		randomDir Direction
 	)
 
 	sprite    := BossHandSprite
 	flags     := sprite.Flags
-	randomDir := [4]Direction {DirUp, DirRight, DirDown, DirLeft}[GetRandomN(4)]
-	switch (randomDir) {
-	case DirUp:
-		flags |= w4.BLIT_FLIP_Y | w4.BLIT_FLIP_X
-		width  = float32(sprite.PiceWidth)
-		height = float32(sprite.PiceHeight)
-		x      = (160 - float32(sprite.PiceWidth)) / 2
-		y      = (160)
-	case DirRight:
-		flags |=  w4.BLIT_ROTATE
-		width  = float32(sprite.PiceHeight)
-		height = float32(sprite.PiceWidth)
-		x      = (    - float32(sprite.PiceHeight)) 
-		y      = (160 - float32(sprite.PiceWidth)) / 2
-	case DirDown:
-		width  = float32(sprite.PiceWidth)
-		height = float32(sprite.PiceHeight)
-		x      = (160 - float32(sprite.PiceWidth)) / 2
-		y      = (    - float32(sprite.ArchHeight) )
-	case DirLeft:
-		flags |= w4.BLIT_FLIP_Y | w4.BLIT_ROTATE | w4.BLIT_FLIP_X
-		width  = float32(sprite.PiceHeight)
-		height = float32(sprite.PiceWidth)
-		x      = (160)
-		y      = (160 - float32(sprite.PiceWidth)) / 2
+
+	for true {
+		randomDir = [4]Direction {DirUp, DirRight, DirDown, DirLeft}[GetRandomN(4)]
+		switch (randomDir) {
+		case DirUp:
+			if HandsTakenUp { continue }
+			HandsTakenUp = true
+
+			flags |= w4.BLIT_FLIP_Y | w4.BLIT_FLIP_X
+			width  = float32(sprite.PiceWidth)
+			height = float32(sprite.PiceHeight)
+			x      = (160 - float32(sprite.PiceWidth)) / 2
+			y      = (160)
+
+		case DirRight:
+			if HandsTakenRight { continue }
+			HandsTakenRight = true
+
+			flags |=  w4.BLIT_ROTATE
+			width  = float32(sprite.PiceHeight)
+			height = float32(sprite.PiceWidth)
+			x      = (    - float32(sprite.PiceHeight)) 
+			y      = (160 - float32(sprite.PiceWidth)) / 2
+
+		case DirDown:
+			if HandsTakenDown { continue }
+			HandsTakenDown = true
+
+			width  = float32(sprite.PiceWidth)
+			height = float32(sprite.PiceHeight)
+			x      = (160 - float32(sprite.PiceWidth)) / 2
+			y      = (    - float32(sprite.ArchHeight) )
+
+		case DirLeft:
+			if HandsTakenLeft { continue }
+			HandsTakenLeft = true
+
+			flags |= w4.BLIT_FLIP_Y | w4.BLIT_ROTATE | w4.BLIT_FLIP_X
+			width  = float32(sprite.PiceHeight)
+			height = float32(sprite.PiceWidth)
+			x      = (160)
+			y      = (160 - float32(sprite.PiceWidth)) / 2
+		}
+		break
 	}
 
 	part := BossPart {
@@ -201,17 +236,37 @@ func newHand() BossPart {
 				self.Hitbox.X = x - sinc
 				self.Hitbox.Y = y + cosc
 			}
-			return counter > math.Pi
+
+			if counter > math.Pi {
+				switch (randomDir) {
+				case DirUp:    HandsTakenUp     = false
+				case DirRight: HandsTakenRight  = false
+				case DirDown:  HandsTakenDown   = false
+				case DirLeft:  HandsTakenLeft   = false
+				}
+				return true
+			}
+
+			return false
 		},
 	}
+
+	spawnBossAttacks(x, y, randomDir, &b.BossAttacks)
 
 	return part
 }
 
 
-func HandleHandsPopulation(parts *BossPartList) {
-	if len(*parts) == 0 {
-		*parts = append(*parts, newHand())
+func HandleHandsPopulation(parts *BossPartList, b *BossConfig) {
+	var handsNum int = 0
+	if b.HP < 37 {
+		handsNum = 3
+	} else if (b.HP < 75) {
+		handsNum = 2
+	}
+
+	if len(*parts) == handsNum {
+		*parts = append(*parts, newHand(b))
 	}
 }
 
@@ -219,11 +274,74 @@ func HandleHandsPopulation(parts *BossPartList) {
 func UpdateHands(b *BossConfig) {
 	parts := &b.BossParts
 
-	HandleHandsPopulation(parts)
+	HandleHandsPopulation(parts, b)
 
-	for i := range *parts {
+	i := 0
+	for i < len(*parts) {
 		if (*parts)[i].Update(&(*parts)[i]) {
-			*parts = removeAtIndex(*parts, i)
+			*parts = RemoveAtIndex(*parts, i)
+		} else {
+			i++
 		}
 	}
+}
+
+
+func getVectOffset(start, end float32) float32 {
+	return start + float32(GetRandomN(int((end-start)*100)))/100
+}
+
+
+func spawnBossAttacks(startX, startY float32, direction Direction, list *BossAttackList) {
+	for range 15 + GetRandomN(10) {
+		primary   := -1   - getVectOffset(0, 2)
+		secondary := -0.5 + getVectOffset(0, 1)
+
+		var vect Vect
+		switch (direction) {
+		case DirUp:    vect = Vect { X:  secondary , Y:  primary   }
+		case DirRight: vect = Vect { X: -primary   , Y:  secondary }
+		case DirDown:  vect = Vect { X:  secondary , Y: -primary   }
+		case DirLeft:  vect = Vect { X:  primary   , Y:  secondary }
+		}
+
+
+		*list = append(*list, BossAttack {
+			Hitbox: Hitbox{
+				X: startX - float32(BossShotSprite.ArchWidth)  /2 + float32(GetRandomN(20)),
+				Y: startY - float32(BossShotSprite.ArchHeight) /2 + float32(GetRandomN(20)),
+				Width:      float32(BossShotSprite.PiceWidth),
+				Height:     float32(BossShotSprite.PiceHeight),
+			},
+		})
+
+		attack := &(*list)[len(*list)-1]
+
+		attack.Update = func(self *BossAttack) bool {
+			attack.Hitbox.X += vect.X
+			attack.Hitbox.Y += vect.Y
+
+			return attack.Hitbox.X < -attack.Hitbox.Width  ||
+						 attack.Hitbox.X > 160                   ||
+						 attack.Hitbox.Y < -attack.Hitbox.Height ||
+						 attack.Hitbox.Y > 160
+		}
+
+		attack.Draw = func(self *BossAttack) {
+			*w4.DRAW_COLORS = BossShotSprite.DrawColors
+			w4.Blit(&BossShotSprite.Data[0], int(attack.Hitbox.X), int(attack.Hitbox.Y), BossShotSprite.PiceWidth, BossFaceSprite.PiceHeight, BossShotSprite.Flags)
+		}
+	}
+}
+
+
+func BossAttackCollision(a BossAttack, b *BossConfig) bool {
+	if b.Soul.Hitbox.Collides(a.Hitbox) {
+		b.HP += BossHealFactor
+		if b.HP > BossMaxHealth {
+			b.HP = BossMaxHealth
+		}
+		return true
+	}
+	return false
 }
