@@ -13,7 +13,10 @@ make
 Then run it with:
 
 ```shell
+# on the WORLD WIDE WEB (just the browser really)
 w4 run build/cart.wasm
+# or locally
+w4 run-local build/cart.wasm
 ```
 
 For more info about setting up WASM-4, see the [quickstart guide](https://wasm4.org/docs/getting-started/setup?code-lang=go#quickstart).

@@ -902,7 +902,27 @@ var (
 				Pallete: PalleteBlessing,
 				DrawColors: 0x31,
 				Entities: OverworldEntityList{},
-				Events: PositionalEventList{},
+				Events: PositionalEventList{
+					{
+						Hitbox: Hitbox{
+							X: tileToPos(1), Y: tileToPos(4),
+							Width: 16, Height: 16,
+						},
+						OnInteract: func () {
+							State.Status = StatusMessage
+							State.CurrentMessage = Message {
+								Texts: []MessageText {
+									{ Text: "Present Day", // huh
+										X: 10, Y: 30,  DrawColors: 0x2 },
+									{ Text: "Present Time", // HaHaHahaha..
+										X: 50, Y: 130,  DrawColors: 0x2 },
+								},
+								Images: []MessageImage{},
+								After: BackToOverworld,
+							}
+						},
+					},
+				},
 			},
 		},
 

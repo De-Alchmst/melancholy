@@ -8,9 +8,10 @@ func start() { // gruvbox light
 	 // here is where I would put my 'load save function...'
 	//  if I had any!     
 
+	/* THE DEBUG SECTION */
 	// State.Status = StatusOverworld
 	// State.Status = StatusBoss
-	// SwitchRoom(12)
+	// SwitchRoom(15)
 	// SetPallete(PalleteRustGold)
 	// RegisterEvent("got_second_key", 1)
 	// RegisterEvent("boss_defeated", 1)
