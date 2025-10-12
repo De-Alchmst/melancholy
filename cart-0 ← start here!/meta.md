@@ -1,10 +1,10 @@
 ---
 author: Đe-Alchmst
 github: de-alchmst
-date: 2025-10-09
+date: 2025-10-12
 ---
 
-# Melancholy
+# Melancholy: cart 0
 
 A top grade `[E X P E R I E N C E]`, right there on your WASM-4 device!
 
