@@ -2,7 +2,7 @@ const nil = null
 
 function cons(h, t) {
   return {
-    "contents of the address part of register number": h,
+    "contents of the address part of register number":   h,
     "contents of the decrement part of register number": t,
   }
 }
@@ -16,12 +16,41 @@ function cdr(cell) {
 }
 
 
+function consp(x) {
+  return "contents of the address part of register number"   in x ||
+         "contents of the decrement part of register number" in x
+}
+
+
 const l = list
 function list(...argv) {
   if (argv.length == 0)
     return nil
   else
     return cons(argv[0], list(...argv.slice(1)))
+}
+
+function length(l) {
+  let aux = (acc, l) => {
+    if (!consp(l)) return acc
+    else           return aux(acc+1, cdr(l))
+  }
+  return aux(0, l)
+}
+
+function lstring(l) {
+  let aux = (str, first, lst) => {
+    if (lst == nil) return str + ")"
+    else if (first) return aux(str +        String(car(lst)), false, cdr(lst))
+    else            return aux(str + ", " + String(car(lst)), false, cdr(lst))
+  }
+  return aux("list(", true, l)
+}
+
+
+function lmap(l, f) {
+  if (l == nil) return nil
+  else          return cons(f(car(l)), lmap(cdr(l), f))
 }
 
 
