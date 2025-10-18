@@ -1,0 +1,22 @@
+:root {
+  background-color: lightgray;
+}
+
+#text-area {
+  margin-top: 1em;
+  padding-inline: 0.5em;
+  border: 2px solid gray;
+}
+
+#text-area p {
+  color: green;
+  margin-block: 4px;
+}
+
+#text-area p.eliza {
+  color: blue;
+}
+
+#inp {
+  width: 70%;
+}

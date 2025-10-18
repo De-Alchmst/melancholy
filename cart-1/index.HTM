@@ -3,16 +3,44 @@
 <head>
   <title>CART 1.0000000000037</title>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="./digital.style.css">
 </head>
 <body>
-  <a href="javascript:f('hi')">HI</a>
+  <form action="javascript:evalForm()">
+    <input type="submit" value="$>">
+    <input type="text" id="inp">
+    <div id="text-area">
+      <p class="eliza">Eliza | HI~</p>
+    </div>
+  </form>
 </body>
 <script src="./lists.js"></script>
+<script src="./Eliza.js"></script>
 <script>
-  function f(x) {
-    alert("HI")
+  function evalForm() {
+    let text = readline()
+    if (text.length != 0){
+      println("anon", text)
+      println("eliza", EEval(text))
+    }
   }
-  let lst = list(1, 2, 3, 4, 5)
-  console.log(lstring(lmap(lst, (x) => {return x*3})))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  const textArea = document.getElementById("text-area")
+  const input    = document.getElementById("inp")
+
+  function readline() {
+    let val = input.value
+    input.value = ""
+    return val
+  }
+
+  function println(who, what) {
+    let e = document.createElement("p")
+    e.class = who.toLowerCase()
+    e.innerHTML = who + " | " + what
+    textArea.insertBefore(e, textArea.firstChild)
+  }
 </script>
 </html>
