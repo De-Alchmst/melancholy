@@ -1,3 +1,15 @@
+/*
+
+        ~::CONS::~
+Who needs objects anyways?
+
++---+---+   +---+---+
+| O | O---->| O | O---->nil
++-|-+---+   +-|-+---+
+  |           |
+  V           V
+  4           2
+*/
 const nil = null
 
 function cons(h, t) {
@@ -24,10 +36,8 @@ function consp(x) {
 
 const l = list
 function list(...argv) {
-  if (argv.length == 0)
-    return nil
-  else
-    return cons(argv[0], list(...argv.slice(1)))
+  if (argv.length == 0) return nil
+  else                  return cons(argv[0], list(...argv.slice(1)))
 }
 
 function length(l) {
