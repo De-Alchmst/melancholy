@@ -40,9 +40,9 @@
 
   function println(who, what) {
     let e = document.createElement("p")
-    e.class = who.toLowerCase()
+    e.className = who.toLowerCase()
     e.innerHTML = who + " | " + what
-    textArea.insertBefore(e, textArea.firstChild)
+    textArea.prepend(e)
   }
 </script>
 </html>
