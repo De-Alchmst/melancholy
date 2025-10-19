@@ -29,16 +29,26 @@ function cdr(cell) {
 
 
 function consp(x) {
-  return "contents of the address part of register number"   in x ||
+  return x &&
+         "contents of the address part of register number"   in x &&
          "contents of the decrement part of register number" in x
+}
+
+
+function arr2list(argv) {
+  let res = nil
+  argv.forEach((s) => {
+    res = cons(s, res)
+  })
+  return lrev(res)
 }
 
 
 const l = list
 function list(...argv) {
-  if (argv.length == 0) return nil
-  else                  return cons(argv[0], list(...argv.slice(1)))
+  return arr2list(argv)
 }
+
 
 function length(l) {
   let aux = (acc, l) => {
@@ -47,6 +57,7 @@ function length(l) {
   }
   return aux(0, l)
 }
+
 
 function lstring(l) {
   let aux = (str, first, lst) => {
@@ -61,6 +72,24 @@ function lstring(l) {
 function lmap(l, f) {
   if (l == nil) return nil
   else          return cons(f(car(l)), lmap(cdr(l), f))
+}
+
+
+function lrev(lst) {
+  let aux = (acc, l) => {
+    if (!consp(l)) return acc
+    else return aux(cons(car(l), acc), cdr(l))
+  }
+  return aux(nil, lst)
+}
+
+
+function lrandom(lst) {
+  let aux = (n, ls) => {
+    if (n == 0) return lst
+    else        return aux(n-1, cdr(ls))
+  }
+  return car(aux(Math.random(lst), lst))
 }
 
 
