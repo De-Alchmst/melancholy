@@ -4,10 +4,12 @@ function EEval(input) {
   return resolve(tokenize(input.toLowerCase().replace(/[,.~!;?]/, '')))
 }
 
+// string to list of tokens
 const t = tokenize
 function tokenize(str) {
   return arr2list(str.trim().split(/[\s]+/).filter(x => x != ""))
 }
+
 
 function resolve(tok) {
   let matched = matchWithRules(tok)
@@ -15,6 +17,8 @@ function resolve(tok) {
 }
 
 
+// finds which rule matches given tokens and returns random response from it,
+// or nil if no match (won't happen, since last in RULES t("?x"))
 function matchWithRules(tok) {
   let aux = (rls) => {
     if (rls == nil) return nil
@@ -28,30 +32,34 @@ function matchWithRules(tok) {
 }
 
 
+// matches against specific rule and keep track of saved wildcards
+// if matched, returns list of substituted responses, else return nil
 function match(tok, rule) {
   let patt  = car(rule)
   let resp  = cdr(rule)
   let state = {}
 
-  let aux   = (curr, lst, pat) => {
+  let aux = (curr, lst, pat) => {
     if (lst == nil) {
-      if (allWild(pat)) return true
-      else              return false
+      if (allWildp(pat)) return true // some patterns might be left empty
+      else               return false
     }
 
     let next = car(lst)
-    if (wild(curr)) {
+    if (wildp(curr)) { // if wildcard, store empty list if first time
       if (!curr in state) state[curr] = list()
 
+      // if token after wildcard matches, wildcard ends, skip the matched, and
+      // continue
       if (pat != nil && next == car(pat))
         return aux(cadr(pat), cdr(lst), cddr(pat))
-      else {
+      else { // else prepend the current token to state
         state[curr] = cons(next, state[curr])
         return aux(curr, cdr(lst), pat)
       }
     }
 
-    else {
+  else { // tamecards, return false if not matching, else just continue forwards
       if (next == curr) return aux(car(pat), cdr(lst), cdr(pat))
       else              return false
     }
@@ -63,39 +71,36 @@ function match(tok, rule) {
 }
 
 
-// function revState(state) {
-//   for (key in state) {
-//     state[key] = lrev(state[key])
-//   }
-//   return state
-// }
-
-
-function wild(str) {
+function wildp(str) {
   return str.startsWith('?')
 }
 
 
-function allWild(lst) {
+function allWildp(lst) {
   if (lst == nil) return true
-  else if(wild(car(lst))) return allWild(cdr(lst))
+  else if(wildp(car(lst))) return allWildp(cdr(lst))
   else return false
 }
 
 
+// map wildcard matches to responses
 function patch(state, lists) {
   let patchList = (acc, lst) => {
+    // all reversed until returned
     if (lst == nil) return lrev(acc)
 
-    let frst = car(lst)
-    if (wild(frst)) return patchList(ljoin(state[frst], acc), cdr(lst))
-    else            return patchList(cons(frst, acc), cdr(lst))
+    let frst = car(lst) // state[frst] might be empty, if so use empty list
+    if (wildp(frst)) return patchList(ljoin(state[frst] ?? l(), acc), cdr(lst))
+    else             return patchList(cons(frst, acc), cdr(lst))
   }
 
   return lmap(lists, (lst) => patchList(list(), lst))
 }
 
 
+// list of lists of lists of tokens
+// first token list pattern, rest responses
+// tokens starting with '?' are wild
 const RULES =
   l(l(t("?x hello ?y"),
       t("How do you do. Please state your problem."),
