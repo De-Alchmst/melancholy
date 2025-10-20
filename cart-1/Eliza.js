@@ -1,12 +1,12 @@
 // https://github.com/norvig/paip-lisp/blob/main/lisp/eliza.lisp
 
 function EEval(input) {
-  return resolve(tokenize(input.toLowerCase()))
+  return resolve(tokenize(input.toLowerCase().replace('?', '.')))
 }
 
 const t = tokenize
 function tokenize(str) {
-  return arr2list(str.trim().split(/[\s,.~!?]+/))
+  return arr2list(str.trim().split(/[\s,.~!;]+/))
 }
 
 function resolve(tok) {
@@ -29,11 +29,45 @@ function matchWithRules(tok) {
 
 
 function match(tok, rule) {
-  let pat  = car(rule)
-  let resp = cdr(rule)
-  console.log(pat)
-  console.log(resp)
-  return resp
+  let patt  = car(rule)
+  let resp  = cdr(rule)
+  let state = {}
+  console.log(lstring(patt))
+
+  let aux   = (curr, lst, pat) => {
+    if (lst == nil) {
+      if (allWild(pat)) return true
+      else              return false
+    }
+
+    let next = car(lst)
+    if (curr.startsWith('?')) {
+      if (!curr in state) state[curr] = list()
+
+      if (pat != nil && next == car(pat))
+        return aux(cadr(pat), cdr(lst), cddr(pat))
+      else {
+        state[curr] = cons(next, state[curr])
+        return aux(curr, cdr(lst), pat)
+      }
+    }
+
+    else {
+      if (next == curr) return aux(car(pat), cdr(lst), cdr(pat))
+      else              return false
+    }
+  }
+
+  let matched = aux(car(patt), tok, cdr(patt))
+  if (matched) return resp
+  else         return nil
+}
+
+
+function allWild(lst) {
+  if (lst == nil) return true
+  else if(car(lst).startsWith('?')) return allWild(cdr(lst))
+  else return false
 }
 
 

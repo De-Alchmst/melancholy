@@ -98,7 +98,7 @@ function lrandom(lst) {
     if (n <= 0) return ls
     else        return aux(n-1, cdr(ls))
   }
-  return car(aux(Math.floor((Math.random() * length(lst)) -0.000001), lst))
+  return car(aux(Math.floor((Math.random() * length(lst)) -0.00000001), lst))
 }
 
 
