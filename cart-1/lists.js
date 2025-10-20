@@ -84,7 +84,7 @@ function lrev(lst) {
 }
 
 
-function ljoin(sep, lst) {
+function lstrJoin(sep, lst) {
   let aux = (acc, ls) => {
     if (ls == nil) return acc
     else           return aux(acc + sep + car(ls), cdr(ls))
@@ -99,6 +99,15 @@ function lrandom(lst) {
     else        return aux(n-1, cdr(ls))
   }
   return car(aux(Math.floor((Math.random() * length(lst)) -0.00000001), lst))
+}
+
+
+function ljoin(frst, scnd) {
+  let aux = (f, s) => {
+    if (f == nil) return s
+    else          return aux(cdr(f), cons(car(f), s))
+  }
+  return aux(lrev(frst), scnd)
 }
 
 
