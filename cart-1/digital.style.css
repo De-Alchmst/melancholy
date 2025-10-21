@@ -6,6 +6,8 @@
   margin-top: 1em;
   padding-inline: 0.5em;
   border: 2px solid gray;
+  max-width: 96ch;
+  text-align: left;
 }
 
 #text-area p {
