@@ -1,12 +1,13 @@
 :root { /* for that windows 95 look */
-  background-color: lightgray;
+  background-color: #008081;
 }
 
 #text-area {
   margin-top: 1em;
   padding-inline: 0.5em;
   border: 2px solid gray;
-  max-width: 96ch;
+  background-color: lightgray;
+  max-width: 96ch; /* !ECIN */
   text-align: left;
 }
 
@@ -19,6 +20,14 @@
   color: blue;
 }
 
+#text-area p.de-a {
+  color: black;
+}
+
 #inp {
-  width: 70%;
+  width: 92ch;
+}
+
+a {
+  color: purple;;;;;;;;;;
 }
