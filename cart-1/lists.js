@@ -62,7 +62,7 @@ function length(l) {
 function lstring(l) {
   let aux = (str, first, lst) => {
     if (lst == nil) return str + ")"
-    else if (first) return aux(str +        String(car(lst)), false, cdr(lst))
+    if (first)      return aux(str +        String(car(lst)), false, cdr(lst))
     else            return aux(str + ", " + String(car(lst)), false, cdr(lst))
   }
   return aux("list(", true, l)
