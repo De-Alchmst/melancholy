@@ -219,73 +219,100 @@ const RULES =
       t("Would you want to?"),
       t("Probably not")),
 
-    // l(t(""),
-    //   t("")),
+    l(t("?x are you ?y"),
+      t("Why are you interested in whether I am ?y or not?"),
+      t("Would you prefer if I weren't ?y"),
+      t("Perhaps I am ?y in your fantasies"),
+      t("Nah, I think I'm good as is")),
 
-    // l(t(""),
-    //   t("")),
+    l(t("?x because ?y"),
+      t("Is tat the real reason?"),
+      t("Oh reall?"),
+      t("Any other reasons?"),
+      t("And this explains...")),
 
-    // l(t(""),
-    //   t("")),
+    l(t("?x were you ?y"),
+      t("Maybe..."),
+      t("What if I was ?y"),
+      t("What if I wasn't ?y"),
+      t("Perhaps I was ?y"),
+      t("You think?")),
 
-    // l(t(""),
-    //   t("")),
+    l(t("?x i can't ?y"),
+      t("Are you sure about that?"),
+      t("Not with that attitute")),
 
-    // l(t(""),
-    //   t("")),
+    l(t("?x i can not ?y"),
+      t("I would not be so sure about that"),
+      t("Do It!")),
+
+    l(t("?x i feel ?y"),
+      t("Do you feel ?y often?"),
+      t("Skill issue")),
+
+    l(t("?x i felt ?y"),
+      t("That's the past, think about the future instead!"),
+      t("Did you feel anything else I should know about?")),
+
+    l(t("?x i ?y you ?z"),
+      t("Perhaps in your fantasy we ?y each other")),
+
+    l(t("?x why don't you ?y"),
+      t("Should you ?y yourself?"),
+      t("I'm not so sure about that"),
+      t("You think it's a good idea?")),
+
+    l(t("?x yes ?y"),
+      t("You seem quite posisive"),
+      t("You sure?"),
+      t("I understand")),
+
+    l(t("?x no ?y"),
+      t("You are being a bit negative here"),
+      t("Are you saying 'No' just to be negative?"),
+      t("Come on!"),
+      t("Same..."),
+      t("Why not?")),
+
+    l(t("?x someone ?y"),
+      t("Can you be more specific"),
+      t("lol")),
+
+    l(t("?x everyone ?y"),
+      t("Everyone, really?"),
+      t("Can you think of anyone specific"),
+      t("Who for example?"),
+      t("Hey, that includes me!"),
+      t("Can you be less specific")),
+
+    l(t("?x always ?y"),
+      t("Can you think of a specific example?"),
+      t("When?"),
+      t("What incident are you thinking of?"),
+      t("Always, really?")),
+
+    l(t("?x what ?y"),
+      t("What does the fox say‽"),
+      t("What do you think?"),
+      t("What comes to your mind when you ask that?"),
+      t("Ur Mom!"),
+      t("Does that question interest you?"),
+      t("Why do you ask?")),
+
+    l(t("?x perhaps ?y"),
+      t("You do not seem quote certain?"),
+      t("Hmm...")),
+
+    l(t("?x are ?y"),
+      t("You sure?"),
+      t("Possibly they are ?y"),
+      t("Did you think they might not be ?y")),
 
     l(t("?x"),
       t("Go on"),
-      t("interesting"),
+      t("Interesting..."),
+      t("I am not sure I understand you fully"),
+      t("What does that suggest to you?"),
+      t("Do you feel strongly about discussing such things?"),
+      t("Please continue..."),
       t("really?")))
-
-//    (((?* ?x) are you (?* ?y))
-//     (Why are you interested in whether I am ?y or not?)
-//     (Would you prefer if I weren't ?y)
-//     (Perhaps I am ?y in your fantasies))
-//    (((?* ?x) you are (?* ?y))
-//     (What makes you think I am ?y ?))
-
-//    (((?* ?x) because (?* ?y))
-//     (Is that the real reason?) (What other reasons might there be?)
-//     (Does that reason seem to explain anything else?))
-//    (((?* ?x) were you (?* ?y))
-//     (Perhaps I was ?y) (What do you think?) (What if I had been ?y))
-//    (((?* ?x) I can't (?* ?y))
-//     (Maybe you could ?y now) (What if you could ?y ?))
-//    (((?* ?x) I feel (?* ?y))
-//     (Do you often feel ?y ?))
-//    (((?* ?x) I felt (?* ?y))
-//     (What other feelings do you have?))
-//    (((?* ?x) I (?* ?y) you (?* ?z))
-//     (Perhaps in your fantasy we ?y each other))
-//    (((?* ?x) why don't you (?* ?y))
-//     (Should you ?y yourself?)
-//     (Do you believe I don't ?y) (Perhaps I will ?y in good time))
-//    (((?* ?x) yes (?* ?y))
-//     (You seem quite positive) (You are sure) (I understand))
-//    (((?* ?x) no (?* ?y))
-//     (Why not?) (You are being a bit negative)
-//     (Are you saying "NO" just to be negative?))
-
-//    (((?* ?x) someone (?* ?y))
-//     (Can you be more specific?))
-//    (((?* ?x) everyone (?* ?y))
-//     (surely not everyone) (Can you think of anyone in particular?)
-//     (Who for example?) (You are thinking of a special person))
-//    (((?* ?x) always (?* ?y))
-//     (Can you think of a specific example) (When?)
-//     (What incident are you thinking of?) (Really-- always))
-//    (((?* ?x) what (?* ?y))
-//     (Why do you ask?) (Does that question interest you?)
-//     (What is it you really want to know?) (What do you think?)
-//     (What comes to your mind when you ask that?))
-//    (((?* ?x) perhaps (?* ?y))
-//     (You do not seem quite certain))
-//    (((?* ?x) are (?* ?y))
-//     (Did you think they might not be ?y)
-//     (Possibly they are ?y))
-//    (((?* ?x))
-//     (Very interesting) (I am not sure I understand you fully)
-//     (What does that suggest to you?) (Please continue) (Go on)
-//     (Do you feel strongly about discussing such things?))))
