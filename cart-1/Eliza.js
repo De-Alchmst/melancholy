@@ -284,9 +284,6 @@ const RULES =
       t("I'm not so sure about that"),
       t("You think it's a good idea?")),
 
-    l(t("lisp"),
-      t("LISP!")),
-
     l(t("?x lisp ?y"),
       t("(cons 'YES (cons 'LISP (cons 'INDEED! nil)))"),
       t("https://call-cc.org"),
@@ -304,6 +301,9 @@ const RULES =
       t("Come on!"),
       t("Same..."),
       t("Why not?")),
+
+    l(t("?x responsibility ?y"),
+      t("Responsibility is for the weak!")),
 
     l(t("?x someone ?y"),
       t("Can you be more specific"),
