@@ -1,4 +1,6 @@
-// https://github.com/norvig/paip-lisp/blob/main/lisp/eliza.lisp
+  /////////////////////////////////////////////////////////////////////
+ /// https://github.com/norvig/paip-lisp/blob/main/lisp/eliza.lisp ///
+/////////////////////////////////////////////////////////////////////
 
 function EEval(input) {
   return resolve(tokenize(input.toLowerCase().replace(/[,.~!;?]/, '')))
@@ -11,7 +13,7 @@ function tokenize(str) {
 }
 
 
-function resolve(tok) {
+function resolve(tok) { // it's like DNS, but worse (so NIS?)
   let matched = matchWithRules(tok)
   return lstrJoin(" ", matched)
 }
@@ -142,10 +144,19 @@ const RULES =
     l(t("?x sorry ?y"),
       t("No need to apologize, I'm but a soules atutomata")),
 
+    l(t("javascript"),
+      t("You got problems with JS?"),
+      t("I've seen worse"),
+      t("JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP JavaScript is LISP")),
+
     l(t("?x I remember ?y"),
       t("Do you think about ?y often?"),
       t("Are you scared of it?"),
       t("what exactly reminds you of ?y")),
+
+    l(t("?[[[ the world ?]]]"),
+      t("The world has abadoned you, return to the machine spirit."),
+      t("Have you ever considered giving up on the world?")),
 
     l(t("?x do you remember ?y"),
       t("I'm not sure I remember ?y"),
@@ -172,6 +183,13 @@ const RULES =
     l(t("?x I am sad"),
       t("That is sad..."),
       t("When I am sad, I usually LISP")),
+
+    l(t("?x OS ?y"),
+      t("Have you tried FreeDOS?"),
+      t("Have you tried Haiku?"),
+      t("Have you tried TRON?"),
+      t("Have you tried ITS?"),
+      t("Have you tried making your own?")),
 
 
     l(t("?x I'am sad"),
@@ -238,6 +256,10 @@ const RULES =
       t("Perhaps I was ?y"),
       t("You think?")),
 
+    l(t("?x lost ?y"),
+      t("Mee to friend; mee too..."),
+      t("How about not?")),
+
     l(t("?x i can't ?y"),
       t("Are you sure about that?"),
       t("Not with that attitute")),
@@ -261,6 +283,15 @@ const RULES =
       t("Should you ?y yourself?"),
       t("I'm not so sure about that"),
       t("You think it's a good idea?")),
+
+    l(t("lisp"),
+      t("LISP!")),
+
+    l(t("?x lisp ?y"),
+      t("(cons 'YES (cons 'LISP (cons 'INDEED! nil)))"),
+      t("https://call-cc.org"),
+      t("Is Clojure LISP?"),
+      t("Is fennel LISP?")),
 
     l(t("?x yes ?y"),
       t("You seem quite posisive"),
