@@ -290,6 +290,12 @@ const RULES =
       t("Is Clojure LISP?"),
       t("Is fennel LISP?")),
 
+    l(t("?x scheme ?y"),
+      t("JS indeed."),
+      t("(cons 'YES (cons 'SCHEME (cons 'INDEED! nil)))"),
+      t("https://call-cc.org"),
+      t("YEA!")),
+
     l(t("?x yes ?y"),
       t("You seem quite posisive"),
       t("You sure?"),
