@@ -308,6 +308,11 @@ const RULES =
       t("Same..."),
       t("Why not?")),
 
+    l(t("?x BAST ?y"),
+      t("We were promised gold, but all I found were broken parsers"),
+      t("https://github.com/bext-lang/b"),
+      t("The development is going on, but I must say, I'm not happy")),
+
     l(t("?x responsibility ?y"),
       t("Responsibility is for the weak!")),
 
