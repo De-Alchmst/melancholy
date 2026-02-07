@@ -18,9 +18,10 @@ document.addEventListener("keyup", (event) => {
 
 const textArea     = document.getElementById('text-area')    ;
 const contentImage = document.getElementById('content-image');
+const zeButton     = document.getElementById('ze-btn')       ;
 const nametag      = document.getElementById('nametag')      ;
 let   audioPlaying = false                                   ;
-let   index        = 230                                       ; 
+let   index        = 230                                     ; 
 let   isWriting    = false                                   ;
 
 
@@ -54,6 +55,9 @@ function nextFrame() {
 
     nextFrame();
   }
+
+  if (index >= data.length)
+    zeButton.style.display = "none";
 }
 
 
