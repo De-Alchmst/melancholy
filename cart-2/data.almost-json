@@ -234,20 +234,26 @@ const data =
   [ "img", "img/sitting1.png" ],
   "You understand?",
   [ "img", "img/bread1.jpg" ],
+  BREAD,
   "...",
   [ "img", "img/sitting2.png" ],
+  HAXXOR,
   "",
   [ "img", "img/bread2.jpg" ],
+  BREAD,
   "...",
   [ "img", "img/glide5.png" ],
+  HAXXOR,
   "",
   [ "img", "img/bread4.jpg" ],
+  BREAD,
   "...",
-// *throws a shoe/notebook at the bread*
-// Well Fuck YOU then!
+  [ "img", "img/le-video-3000.GIF"],
+  HAXXOR,
+  "Well Fuck YOU then!",
   [ "name", "[[Ze Company]]" ],
   [ "img", "img/END.jpg"],
-  "<a href='https://audionautix.com'>https://audionautix.com/</a>",
+  "<a href='https://audionautix.com' target='_blank'>https://audionautix.com/</a>",
 ]
 
 /*
