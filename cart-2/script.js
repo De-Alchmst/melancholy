@@ -20,7 +20,7 @@ const textArea     = document.getElementById('text-area')    ;
 const contentImage = document.getElementById('content-image');
 const nametag      = document.getElementById('nametag')      ;
 let   audioPlaying = false                                   ;
-let   index        = 116                                     ; 
+let   index        = 0                                       ; 
 let   isWriting    = false                                   ;
 
 

@@ -7,7 +7,7 @@ const data =
   "",
   [ "img", "img/sitting1.png" ],
   HAXXOR,
-  "So, you want me to expain call/cc again.",
+  "So, you want me to expain all/cc again.",
   [ "img", "img/END.jpg" ],
   [ "img", "img/bread1.jpg" ],
   BREAD,
@@ -16,13 +16,14 @@ const data =
   HAXXOR,
   "",
   [ "img", "img/sitting1.png" ],
-  "Well, allright then, but I'm NOT installing \"guix\" this time *pronounced GUIX*",
+  "Well, allright then, but I'm NOT installing \"guix\" this time",
   [ "img", "img/bread1.jpg" ],
   BREAD,
   "...",
   [ "img", "img/sitting1.png" ],
   HAXXOR,
-  "\"guix\"! Anyways, call/cc, call-with-concurrent-continuation...",
+  "\"guix\"!",
+  " Anyways, <code>call/cc</code>, call-with-concurrent-continuation...",
   "call-with-continous-continuation...",
   [ "img", "img/glide1.png" ],
   "call-with-continous-corruption",
@@ -44,7 +45,7 @@ const data =
   "call-of-the-clowning-collaboration",
   [ "img", "img/sitting2.png" ],
   "call-of-cthulu...",
-  "weren't we supposed to play yesterday...",
+  "Wait! Weren't we supposed to play yesterday...",
   [ "img", "img/pointing-upwards.png" ],
   "ANYWAYS!",
   [ "img", "img/api.call-cc.org.png" ],
@@ -52,26 +53,26 @@ const data =
   [ "img", "img/intersection1.png" ],
   "see the rationale below",
   [ "img", "img/api.call-cc.org.png" ],
-  "as an \"escape procedure\" and passes it as an argument to proc. The escape procedure is a Scheme procedure that",
-  "if it is later called",
+  "as an \"escape procedure\" and passes it as an argument to proc. The escape procedure is a Scheme procedure that...",
+  "if it is later called...",
   "will abandon whatever continuation is in effect at that later time and will instead use the continuation that was in effect when the escape procedure was created.",
   "Calling the escape procedure may cause the invocation of before and after thunks installed using dynamic-wind.",
   [ "img", "img/sitting2.png" ],
-  "What the hell is a \"dynamic-wind\"?! Isn't  that a JoJo thing.",
+  "What the hell is a \"dynamic-wind\"‽ Isn't  that a JoJo thing or something?",
   [ "img", "img/gold-calculus.jpg" ],
   "Wait, is Araki actually an epic LISP hacker?",
   [ "img", "img/high-in-heaven.jpg" ],
   " Maybe I should finally get to reading \"The Stoned Oceani\". sounds kinda dope actually.",
   "...",
-  [ "img", "img/explaning1.png" ],
-  "So, call/cc is a function",
+  [ "img", "img/explaining1.png" ],
+  "So, <code>call/cc</code> is a function",
   [ "img", "img/procedure.png" ],
   "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
-  [ "img", "img/explaning2.png" ],
+  [ "img", "img/explaining2.png" ],
   "taking a function",
   [ "img", "img/procedure.png" ],
   "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
-  [ "img", "img/explaning2.png" ],
+  [ "img", "img/explaining2.png" ],
   "taking a function",
   [ "img", "img/procedure.png" ],
   "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
@@ -89,29 +90,31 @@ const data =
   [ "img", "img/sidesit1.png" ],
   "Continuation is a data structure representing CURRENT CONTINUATION!",
   [ "img", "img/sidesit5.png" ],
-  "It's call-with-current-continuation.",
+  "It's <code>call-with-current-continuation</code>.",
   [ "img", "img/sidesit1.png" ],
   "Yea.",
   "Where was I?",
   [ "img", "img/sidesit1.png" ],
   "Yea, Continuation is a data structure representing the state of the program at a specific point in time.",
   [ "img", "img/sidesit2.png" ],
-  "Imagine writing a C program, but being owerwhelmed by the masculine urge to write a bunch of messy ASM to store",
+  "Imagine writing a C program, but being owerwhelmed by the masculine urge to write a bunch of messy ASM to store...",
   [ "img", "img/sidesit3.png" ],
-  "and then later restore, the program counter and return stack, except it is a function that replaces itself on the call stack with it's argument.",
+  "and then later restore...",
+  [ "img", "img/sidesit2.png" ],
+  " the program counter and return stack, except it is a function that replaces itself on the call stack with it's argument.",
   [ "img", "img/sidesit4.png" ],
   "In practice, it is more optimal to think of it as a form of time travel, even if scoped only to the program part of your Von-Neumann data pile.",
 
   [ "img", "img/usenet.png" ],
-  "As one hacker in the perl6 usenet group",
+  "As one hacker in the perl6 usenet group...",
   [ "img", "img/raku.png" ],
-  "because of course it's fokkin Raku",
+  "because of course it's fokkin Raku...",
   [ "img", "img/usenet.png" ],
   "puts it:",
 
   [ "img", "img/LIV.jpg" ],
   [ "name", "<span style='color: blue;'>Luke Palmer</span>" ],
-  "to be made...",
+  "TO BE MADE...",
   "Say you're in the kitchen in front of the refrigerator, thinking about a sandwitch.",
   "You take a continuation right there and stick it in your pocket.",
   "Then you get some turkey and bread out of the refrigerator and make yourself a sandwitch, which is now sitting on the counter.",
@@ -135,130 +138,129 @@ const data =
   [ "img", "img/LIV.jpg" ],
   "TO BE FILLED",
 
-  [ "img", "img/sitting1.jpg" ],
+  [ "img", "img/sitting1.png" ],
   "Anyways...",
 
-// *wikipedia scrolls by*
-// Continuations are also used in models of computation including denotational semantics, the actor model, process calculi
-// facepalm
-// WHAT THE HELL AM I READING?!
-// uhhh... maybe some examples could help.
-// def1
-// Let's look at the following definition.
-// ------
-// (define (factorial num)
-//   (call/cc (lambda (k)
-//     (let loopty-loop ((acc 1) (num num))
-//       (if (> num 0)
-//         (loopty-loop (* acc num) (- num 1))
-//         acc)))))
-// ------
-// reading1
-// this example... does not use the continuation. It is good at showcasing, that you probably don't need call/cc anyways.
-// Probably...
-// def2
-// Next example!
-// ------
-// (define (first-positive lst)
-//   (call-with-current-continuation
-//     (lambda (return)
-//       (for-each
-//         (lambda (itm)
-//           (when (and (number? itm) (> itm 0))
-//             (return itm)))
-//         lst)
-//       #F)))
-// ------
-// Great, now we know that one can use continuations to turn Scheme into a shitty Python. 
-// Is this a good thing?
-// reading-intersection
-// Who knows!
-// Can you turn python into a shitty Scheme?
-// reading-intersection
-// Probably.
-// But the main idea one should take from this example is that you can use both call/cc and call-with-current-continuation to call a function with the current continuation.
-// Also, note that call/cc passes it's continuation to it's argument.
-// explaning1
-// The argument lambda can return a value like normal, but the call/cc also returns when it's continuation is called, kind of like a return in Algolic languages.
-// ih1
-// This mignt not be that interesting,
-// i-hear-you-say
-// I hear you say.
-// ih2
-// This is not why I converted!
-// i-hear-you-say
-// I hear you say.
-// ih3
-// You still own me money,
-// i-hear-you-say
-// I hear you say.
-// explaning2
-// Well, the funner part is that continuations are not limited to the call/ccs scope.
-// def3
-// Consider this example.
-// ------
-// (define (fou xx xy)
-//   (let ((K (call/cc (lambda (K) K))))
-//     (if (procedure? K)
-//       K
-//       (xx (xy K)))))
-//     
-// (define brar
-//   (fou (lambda (x)
-//          (+ 69 x))
-//        (lambda (x)
-//          (* 3  x))))
-//     
-// (if (procedure? brar)
-//   (brar 117)
-//   (display brar))
-// ------
-// If my code,
-// pointing-forward
-// by which I mean your Scheme,
-// is correct, it should return a funny number.
-// Here we see that when the continuation is called, it actually resets the program counter to the point where it was created, but replaces itself with the argument, meaning that brar actually gets redefined as well.
-// reading2
-// If this just looks like a more esoteric goto...
-// def4
-// Next example.
-// *drawing of the tree of life with some lambda-nonsence sprinkled in*
-// Here we can...
-// def5
-// Next example.
-// *goes back to the previous example*
-// Here notice how when we bind a continuation to K, we can check for it with procedure?, because it's still just a function *or procedure shot* after all.
-// Then when we call the continuation with a slightly less funny number, it is no longer a *function or procedure thing* and  we return (xx (xy)) with it.
-// This then gets returned to the brar definition and gets displayed.
-// How do we handle passing a function *the procedure thing* to the contnuation?
-// sitting-intersectin
-// Who knows,
-// it's not like this is the intended usecase anyways...
-// The intended usecase is to write macros to emulate Algolian switch or try, so naturally no-one does that for purism reasons or something.
-// You can use it for return, however. But if you use CHICKEN
-// pointing-forward
-// (as you should),
-// there is a let/cc in miscmacros to make your life easier
-// ------
-// (include scheme (chicken base)
-//          miscmacros)
-// 
-// (define foorfoor (*pentagram*)
-//   (let/cc exit
-//      (exit 666)))
-// ------
-// sitting1
-// You understand?
-// *shot of bread*
-// *shot of hax0r*
-// *shot of bread*
-// *shot of hax0r*
-// *shot of bread*
+  [ "img", "img/wiki.png" ],
+  "Continuations are also used in models of computation including denotational semantics, the actor model, process calculi-",
+  [ "img", "img/facepalm.png" ],
+  "WHAT THE HELL AM I READING‽",
+  "uhhh... maybe some examples could help.",
+  [ "img", "img/def1.png" ],
+  "Take for example the following example.",
+  [ "img", "img/code1.png" ],
+  "This example...",
+  [ "img", "img/reading1.png" ],
+  "does not use the continuation.",
+  [ "img", "img/code1.png" ],
+  "It is, however, good at showcasing, that you probably don't need <code>call/cc</code> anyways.",
+  "Probably...",
+  [ "img", "img/def2.png" ],
+  "Next example!",
+  [ "img", "img/code2.png" ],
+  "Great, now we know that one can use continuations to turn Scheme into a shitty Python. ",
+  "Is that a good thing?",
+  [ "img", "img/reading-inersection.png" ],
+  "Who knows!",
+  [ "img", "img/code2.png" ],
+  "Can you turn python into a shitty Scheme?",
+  "Probably.",
+  [ "img", "img/code2.png" ],
+  "But the main idea one should take from this example is that you can use both <code>call/cc</code> and <code>call-with-current-continuation</code> to call a function with the current continuation.",
+  "Also, note that <code>call/cc</code> passes it's continuation to it's argument.",
+  [ "img", "img/explaining1.png" ],
+  "The argument lambda can return a value like normal, but the <code>call/cc</code> also returns when it's continuation is called, kind of like a return in Algolic languages.",
+  [ "img", "img/ih1.png" ],
+  "This mignt not be that interesting,",
+  [ "img", "img/i-hear-you-say.png" ],
+  "I hear you say.",
+  [ "img", "img/ih2.png" ],
+  "This is not why I converted!",
+  [ "img", "img/i-hear-you-say.png" ],
+  "I hear you say.",
+  [ "img", "img/ih3.png" ],
+  "You still own me money,",
+  [ "img", "img/i-hear-you-say.png" ],
+  "I hear you say.",
+  [ "img", "img/explaining2.png" ],
+  "Well, the funner part is that continuations are not limited to the <code>call/cc</code>'s scope.",
+  [ "img", "img/def3.png" ],
+  "Consider this example.",
+  [ "img", "img/code3.png" ],
+  "If my code,",
+  [ "img", "img/pointing-forward.png" ],
+  "by which I mean your Scheme,",
+  [ "img", "img/code3.png" ],
+  "is correct, it should return a funny number.",
+  "Here we see that when the continuation is called, it actually resets the program counter to the point where it was created, but replaces itself with the argument, meaning that <code>brar</code> actually gets redefined as well.",
+  "If this just looks like a more esoteric <code>GOTO</code>...",
+  [ "img", "img/def4.png" ],
+  "Next example.",
+  [ "img", "img/tree.jpg" ],
+  "",
+  "Here we can...",
+  [ "img", "img/def3.png" ],
+  "Next example.",
+  [ "img", "img/code3.png" ],
+  "Here notice how when we bind a continuation to <code>K</code>, we can check for it with <code style='color: green'>procedure?</code>, because it's still just a function",
+  [ "img", "img/procedure.png" ],
+  "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
+  [ "img", "img/code3.png" ],
+  "after all.",
+  "Then, when we call the continuation with a slightly less funny number, it is no longer a function",
+  [ "img", "img/procedure.png" ],
+  "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
+  [ "img", "img/code3.png" ],
+  "and  we return <code>(xx (xy K))</code>.",
+  "This then gets returned to the <code>brar</code> definition and gets displayed.",
+  "But how do we handle passing a function",
+  [ "img", "img/procedure.png" ],
+  "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
+  [ "img", "img/code3.png" ],
+  "to the contnuation?",
+  [ "img", "img/sitting-intersection.png" ],
+  "Who knows,",
+  [ "img", "img/code3.png" ],
+  "it's not like this is the intended usecase anyways...",
+  "The intended usecase is to write macros to emulate Algolian switch or try, so naturally no-one does that;",
+  "for purism reasons or something. I don't know...",
+  "You can use it for return, however.",
+  "...",
+  " But if you use CHICKEN...",
+  [ "img", "img/pointing-forward.png" ],
+  "as you should...",
+  [ "img", "img/code4.png" ],
+  "there is a let/cc in miscmacros to make your life easier",
+  [ "img", "img/sitting1.png" ],
+  "You understand?",
+  [ "img", "img/bread1.jpg" ],
+  "...",
+  [ "img", "img/sitting2.png" ],
+  "",
+  [ "img", "img/bread2.jpg" ],
+  "...",
+  [ "img", "img/glide5.png" ],
+  "",
+  [ "img", "img/bread4.jpg" ],
+  "...",
 // *throws a shoe/notebook at the bread*
 // Well Fuck YOU then!
-// *creddits*
-// *EDN*
   [ "name", "[[Ze Company]]" ],
   [ "img", "img/END.jpg"],
   "<a href='https://audionautix.com'>https://audionautix.com/</a>",
 ]
+
+/*
+ * tak končí naše komedie
+ * zlo prohrává a dobro žije
+ * vám, paní, vidím, se slza v oku blyští
+ * že chodí to tak pouze na jevišti
+ * v životě našem opáčně to bývá
+ * tam dobrák úpí, vrch má duše křivá
+ * jak ale říkám na každičké štaci
+ * svět bude lepší, dáme-li si práci
+ * je marné žehrat, modliti se zdrávas
+ * vše záleží jen na vás
+ * na nás
+ * A HLAVNĚ TEDA NA VÁS!
+ */
