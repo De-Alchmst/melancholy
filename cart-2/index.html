@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <audio id="music" src="music/CorporationMotivation.mp3" loop></audio>
     <div id="container">
       <img id="content-image"
-           src="./img/LIV.jpg"
+           src="./img/BENINGING.jpg"
            alt="And here we will se the mythical 'programmer art'...">
       <div id="bar">
         <strong id="nametag">[[Ze Company]]</strong>
-        <button>Ze Button</button>
+        <button onclick="nextFrame()">Ze Button</button>
       </div>
-      <div id="text-area">
-        PRESS <code>[[SPACE]]</code> OR CLICK ZE BUTTON TO CONTINUE.....
+      <div id="text-area" style="display: none">
+        <!-- there's nobody  h e r e  . . . .-->
       </div>
     </div>
     <script src="script.js"></script>
