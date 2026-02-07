@@ -20,7 +20,7 @@ const textArea     = document.getElementById('text-area')    ;
 const contentImage = document.getElementById('content-image');
 const nametag      = document.getElementById('nametag')      ;
 let   audioPlaying = false                                   ;
-let   index        = 72                                      ; 
+let   index        = 116                                     ; 
 let   isWriting    = false                                   ;
 
 
@@ -71,7 +71,7 @@ async function typeWrite(txt) {
   for (const ch of txt) {
     buffer += ch
     textArea.innerHTML = buffer;
-    await sleep((((((((((((((((((((((((6.9))))))))))))))))))))))));
+    await sleep((((((((((((((((((((((((3.7))))))))))))))))))))))));
   }
 
   isWriting = false;
