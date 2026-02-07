@@ -1,80 +1,118 @@
+const HAXXOR = [ "name", "h4x0r" ];
+const BREAD  = [ "name", "br34d" ];
+
 const data =
 [
   [ "img", "img/LIV.jpg" ],
   "",
   [ "img", "img/sitting1.png" ],
-  [ "name", "h4x0r" ],
+  HAXXOR,
   "So, you want me to expain call/cc again.",
   [ "img", "img/END.jpg" ],
-  [ "name", "[[Ze Company]]" ],
-  "<a href='https://audionautix.com'>https://audionautix.com/</a>",
-  [ "img", "img/END.jpg"],
-// *loong frame of the bread*
-// thinking1
-// Well, allright then, but I'm NOT installing "guix" this time *pronounced GUIX*
-// sitting1
-// *shot of bread (indended to correct me)*
-// "guix"*pronounced GUIX*! Anyways, call/cc, call-with-concurrent-continuation... call-with-continous-continuation...
-// glide1-8
-// call-with-continous-corruption, call-with-creepy-credentials, call-the-chicken-coder, call-with-clean-contraction, call-the-KDE-klan (written in old latin), call-wit-current-continuation, call-wthout-current-continuation, call-of-the-clowning-collaboration, call-of-cthulu...
-// sitting2
-// weren't we supposed to play yesterday...
-// pointing-upwards
-// ANYWAYS!
-// *with api.call-cc.org text scrolling*
-// Proc must be a procedure of one argument. The procedure call-with-current-continuation packages up the current continuation
-// intersection1
-// *hax0r shot* (see the rationale below)
-// as an "escape procedure" and passes it as an argument to proc. The escape procedure is a Scheme procedure that,
-// intersection1
-// *hax0r shot* if it is later called,
-// will abandon whatever continuation is in effect at that later time and will instead use the continuation that was in effect when the escape procedure was created. Calling the escape procedure may cause the invocation of before and after thunks installed using dynamic-wind.
-// *back to hax0r*
-// confused-reading
-// What the hell is a "dynamic-wind"?! Isn't  that a JoJo thing. Wait, is Araki actually an epic LISP hacker? Maybe I should finally get to reading "The Stoned Ocean". sounds kinda dope actually.
-// *acompanied \w pics of some (golden wind)/(lambda shit) and stoned Pucci*
-// ...
-// explaning2
-// So, call/cc is a function,
-// procedure
-// or """"procedure"""" if you want to be technical,
-// explaning2
-// taking a function *the same procedure shot* *the same from taking point*, which is the continuation.
-// 
-// sitting1
-// But what is a continuation I hear you ask.
-// 
-// *shot of bread*
-// 
-// sidesit1
+  [ "img", "img/bread1.jpg" ],
+  BREAD,
+  "...",
+  [ "img", "img/thinking.png" ],
+  HAXXOR,
+  "",
+  [ "img", "img/sitting1.png" ],
+  "Well, allright then, but I'm NOT installing \"guix\" this time *pronounced GUIX*",
+  [ "img", "img/bread1.jpg" ],
+  BREAD,
+  "...",
+  [ "img", "img/sitting1.png" ],
+  HAXXOR,
+  "\"guix\"! Anyways, call/cc, call-with-concurrent-continuation...",
+  "call-with-continous-continuation...",
+  [ "img", "img/glide1.png" ],
+  "call-with-continous-corruption",
+  [ "img", "img/glide2.png" ],
+  "call-with-creepy-credentials",
+  [ "img", "img/glide3.png" ],
+  "call-the-chicken-coder",
+  [ "img", "img/glide4.png" ],
+  "call-with-clean-contraction",
+  [ "img", "img/glide5.png" ],
+  "call-the-KDE-klan",
+  [ "img", "img/glide5.5.png" ],
+  "(written in old latin)",
+  [ "img", "img/glide6.png" ],
+  "call-wit-current-continuation",
+  [ "img", "img/glide7.png" ],
+  "call-wthout-current-continuation",
+  [ "img", "img/glide8.png" ],
+  "call-of-the-clowning-collaboration",
+  [ "img", "img/sitting2.png" ],
+  "call-of-cthulu...",
+  "weren't we supposed to play yesterday...",
+  [ "img", "img/pointing-upwards.png" ],
+  "ANYWAYS!",
+  [ "img", "img/api.call-cc.org.png" ],
+  "Proc must be a procedure of one argument. The procedure call-with-current-continuation packages up the current continuation",
+  [ "img", "img/intersection1.png" ],
+  "see the rationale below",
+  [ "img", "img/api.call-cc.org.png" ],
+  "as an \"escape procedure\" and passes it as an argument to proc. The escape procedure is a Scheme procedure that",
+  "if it is later called",
+  "will abandon whatever continuation is in effect at that later time and will instead use the continuation that was in effect when the escape procedure was created.",
+  "Calling the escape procedure may cause the invocation of before and after thunks installed using dynamic-wind.",
+  [ "img", "img/sitting2.png" ],
+  "What the hell is a \"dynamic-wind\"?! Isn't  that a JoJo thing.",
+  [ "img", "img/gold-calculus.jpg" ],
+  "Wait, is Araki actually an epic LISP hacker?",
+  [ "img", "img/high-in-heaven.jpg" ],
+  " Maybe I should finally get to reading \"The Stoned Oceani\". sounds kinda dope actually.",
+  "...",
+  [ "img", "img/explaning1.png" ],
+  "So, call/cc is a function",
+  [ "img", "img/procedure.png" ],
+  "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
+  [ "img", "img/explaning2.png" ],
+  "taking a function",
+  [ "img", "img/procedure.png" ],
+  "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
+  [ "img", "img/explaning2.png" ],
+  "taking a function",
+  [ "img", "img/procedure.png" ],
+  "or \"\"\"\"procedure\"\"\"\" if you want to be technical",
+  [ "img", "img/sitting1.png" ],
+  "which is the continuation.",
+  "But what is a continuation I hear you ask.",
+
+
+  [ "img", "img/bread2.jpg" ],
+  BREAD,
+  ""
+  "..."
+  [ "img", "img/sidesit1.png" ],
 // Continuation is a data structure representing CURRENT CONTINUATION!
-// sidesit5
+  [ "img", "img/sidesit5.png" ],
 // It's call-with-current-continuation. Yea. Where was I?
-// sidesit1
+  [ "img", "img/sidesit1.png" ],
 // Yea, Continuation is a data structure representing the state of the program at a specific point in time.
-// sidesit2
+  [ "img", "img/sidesit2.png" ],
 // Imagine writing a C program, but being owerwhelmed by the masculine urge to write a bunch of messy ASM to store,
-// sidesit3
+  [ "img", "img/sidesit3.png" ],
 // and then later restore, the program counter and return stack, except it is a function that replaces itself on the call stack with it's argument.
-// sidesit4
+  [ "img", "img/sidesit4.png" ],
 // In practice, it is more optimal to think of it as a form of time travel, even if scoped only to the program part of your Von-Neumann data pile.
 // 
-// usenet
+  [ "img", "img/usenet.png" ],
 // As one hacker in the perl6 usenet group
-// raku
-// (because of course it's fokkin Raku)
-// usenet
+  [ "img", "img/raku.png" ],
+// because of course it's fokkin Raku
+  [ "img", "img/usenet.png" ],
 // puts it:
 // 
-// *with demonstration*
-// Say you're in the kitchen in front of the refrigerator, thinking about a
-// sandwitch. You take a continuation right there and stick it in your
-// pocket. Then you get some turkey and bread out of the refrigerator and
-// make yourself a sandwitch, which is now sitting on the counter. You
-// invoke the continuation in your pocket, and you find yourself standing
-// in front of the refrigerator again, thinking about a sandwitch. But
-// fortunately, there's a sandwitch on the counter, and all the materials
-// used to make it are gone. So you eat it. SMILEY FACE!
+  [ "img", "img/LIV.png" ],
+  [ "name", "<span style="color: blue;">Luke Palmer</span>" ]
+  "to be made...",
+// Say you're in the kitchen in front of the refrigerator, thinking about a sandwitch.
+// You take a continuation right there and stick it in your pocket.
+// Then you get some turkey and bread out of the refrigerator and make yourself a sandwitch, which is now sitting on the counter.
+// You invoke the continuation in your pocket, and you find yourself standing in front of the refrigerator again, thinking about a sandwitch.
+// But fortunately, there's a sandwitch on the counter, and all the materials used to make it are gone.
+//  So you eat it. SMILEY FACE!
 // *takes a bite of the sandwitch*
 // *shot of bread*
 // *shot of eating sandwitch*
@@ -204,4 +242,7 @@ const data =
 // Well Fuck YOU then!
 // *creddits*
 // *EDN*
+  [ "name", "[[Ze Company]]" ],
+  [ "img", "img/END.jpg"],
+  "<a href='https://audionautix.com'>https://audionautix.com/</a>",
 ]

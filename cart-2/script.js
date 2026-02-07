@@ -1,5 +1,15 @@
+let down =  false;
 document.addEventListener("keydown", (event) => {
-  if (event.code === "Space") nextFrame();
+  if (!down && event.code === "Space") {
+    down = true;
+    nextFrame();
+  }
+})
+
+document.addEventListener("keyup", (event) => {
+  if (event.code === "Space") {
+    down = false;
+  }
 })
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -10,7 +20,7 @@ const textArea     = document.getElementById('text-area')    ;
 const contentImage = document.getElementById('content-image');
 const nametag      = document.getElementById('nametag')      ;
 let   audioPlaying = false                                   ;
-let   index        = 0                                       ; 
+let   index        = 72                                      ; 
 let   isWriting    = false                                   ;
 
 
