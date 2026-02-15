@@ -7,7 +7,6 @@ html, body {
 #container {
   border: 1px solid black;
   margin: .5em;
-  max-width: 120vh;
   height: calc(100vh - 2em);
   text-align: center;
 }

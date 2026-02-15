@@ -21,7 +21,7 @@ const contentImage = document.getElementById('content-image');
 const zeButton     = document.getElementById('ze-btn')       ;
 const nametag      = document.getElementById('nametag')      ;
 let   audioPlaying = false                                   ;
-let   index        = 230                                     ; 
+let   index        = 0                                       ; 
 let   isWriting    = false                                   ;
 
 
