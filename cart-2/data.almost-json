@@ -239,7 +239,7 @@ const data =
   [ "img", "img/pointing-forward.png" ],
   "as you should...",
   [ "img", "img/code4.png" ],
-  "there is a <code>let/cc</code> in <a href="https://api.call-cc.org/5/doc/miscmacros"><code>miscmacros</code></a> to make your life easier",
+  "there is a <code>let/cc</code> in <a href=\"https://api.call-cc.org/5/doc/miscmacros\"><code>miscmacros</code></a> to make your life easier",
   [ "img", "img/sitting1.png" ],
   "You understand?",
   [ "img", "img/bread1.jpg" ],
