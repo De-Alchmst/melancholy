@@ -8,8 +8,10 @@ switch_mode :: proc "c" (mode: Game_Mode) {
 	switch mode {
 	case .Map:  w4.PALETTE^ = MAP_PALETTE
 	case .Text: w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
+	case .GG:   w4.PALETTE^ = MAP_PALETTE
 	case .Game:
 		w4.PALETTE^ = LEVELS[global_state.level_index].palette
+		global_state.game_ticks = 0
 		flush_entities()
 		load_entities()
 	}
@@ -29,7 +31,10 @@ load_entities :: proc "c" () {
 		for x : i32 = 0; x < 20; x += 1 {
 			switch LEVELS[global_state.level_index].layout[y][x] {
 				case TILE_PLAYER:
-					global_state.hero_pos = { x, y }
+					global_state.hero_state = {
+						pos = { x, y },
+						direction = .Nihil,
+					}
 					// also skip, he's aside
 					free_index -= 1
 

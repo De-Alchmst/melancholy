@@ -84,4 +84,14 @@ ALEXANDRIA : []Text_Data = {
 		next_game_mode = .Game,
 		palette = L1_PALETTE,
 	},
+	{
+		lines = {
+			{
+				str = "GG?",
+				pos = Point{ 10, 10 },
+			},
+		},
+		next_game_mode = .GG,
+		palette = MAP_PALETTE,
+	},
 }

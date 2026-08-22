@@ -17,5 +17,7 @@ update :: proc "c" () {
 		case .Game:
 			update_game()
 			draw_game()
+		case .GG:
+			draw_game_over()
 	}
 }

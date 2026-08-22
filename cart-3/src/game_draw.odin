@@ -3,6 +3,9 @@ package main
 import "w4"
 
 draw_game :: proc "c" () {
+	// skip if game already ended
+	if global_state.game_mode != .Game do return
+
 	// draw the map
 	for y : i32 = 0; y < 20; y += 1 {
 		for x : i32 = 0; x < 20; x += 1 {
@@ -41,6 +44,6 @@ draw_game :: proc "c" () {
 
 	w4.DRAW_COLORS^ = 0x41
 	w4.blit(&HERO_GAME_SPRITE[0],
-	      	global_state.hero_pos.x*8, global_state.hero_pos.y*8,
+	      	global_state.hero_state.pos.x*8, global_state.hero_state.pos.y*8,
 					8, 8)
 }
