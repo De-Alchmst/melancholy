@@ -80,7 +80,7 @@ draw_map :: proc "c" () {
 
 	// and apply it
 	w4.DRAW_COLORS^= 0x41
-	w4.blit(&hero_map_sprite[0],
+	w4.blit(&HERO_MAP_SPRITE[0],
 		the_path[global_state.map_index].x + Δx - 8,
 		the_path[global_state.map_index].y + Δy - 16,
 		16, 16)
@@ -91,6 +91,6 @@ draw_map :: proc "c" () {
 	if global_state.map_ticks > 150 {
 		global_state.map_ticks  = 0
 		global_state.map_index += 1
-		global_state.game_mode  = .Text
+		switch_mode(.Text)
 	}
 }

@@ -4,16 +4,17 @@ import "w4"
 
 Text_Line :: struct {
 	str: cstring,
-	pos: Point
+	pos: Point,
 }
 
 Text_Data :: struct {
 	lines: []Text_Line,
 	next_game_mode: Game_Mode,
+	palette: w4.Palette,
 }
 
 draw_text :: proc "c" () {
-	text := ALEXANDRIA[global_state.text_index]
+	text := &ALEXANDRIA[global_state.text_index]
 
 	w4.DRAW_COLORS^= 0x14
 	for line in text.lines {
@@ -24,7 +25,7 @@ draw_text :: proc "c" () {
 	if .A in global_state.clicked_gamepad \
 	|| .B in global_state.clicked_gamepad {
 		global_state.text_index += 1
-		global_state.game_mode  = text.next_game_mode
+		switch_mode(text.next_game_mode)
 	}
 }
 
@@ -44,7 +45,8 @@ ALEXANDRIA : []Text_Data = {
 				pos = Point{ 5, 60 },
 			},
 		},
-		next_game_mode = .Text
+		next_game_mode = .Text,
+		palette = MAP_PALETTE,
 	},
 	{
 		lines = {
@@ -69,6 +71,17 @@ ALEXANDRIA : []Text_Data = {
 				pos = Point{ 20, 140 },
 			},
 		},
-		next_game_mode = .Map
+		next_game_mode = .Map,
+		palette = MAP_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "Kill them all!",
+				pos = Point{ 20, 30 },
+			},
+		},
+		next_game_mode = .Game,
+		palette = L1_PALETTE,
 	},
 }
