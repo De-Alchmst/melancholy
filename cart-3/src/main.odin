@@ -6,5 +6,15 @@ start :: proc "c" () {
 
 @export
 update :: proc "c" () {
-	draw_map()
+	read_input()
+
+	switch (global_state.game_mode) {
+		case .Map:
+			draw_map()
+		case .Text:
+			draw_text()
+		case .Game:
+			update_game()
+			draw_game()
+	}
 }

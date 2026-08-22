@@ -3,39 +3,40 @@ package main
 import "w4"
 import "base:intrinsics"
 
-The_Path :: [6]Point
+The_Path :: [7]Point
 
 
 draw_map :: proc "c" () {
 	CENTER :: Point { 80, 80 }
+	ORIGIN :: Point { 20, -10 }
 	RADIUS :: 60
 
 	// LinkError: WebAssembly.instantiate(): Import #3 "env" "sinf": function import requires a callable
 	// so magic numbers it is!
 	// STEP   :: 2 * math.π / 5
-	head := Point {
+	head :: Point {
 		CENTER.x,
 		CENTER.y - RADIUS,
 	}
 	right_arm := Point {
 		CENTER.x - (i32)(intrinsics.constant_floor(RADIUS * -0.951056)),
-		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * 0.309017)),
+		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * +0.309017)),
 	}
 	right_leg := Point {
 		CENTER.x - (i32)(intrinsics.constant_floor(RADIUS * -0.587785)),
 		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * -0.809017)),
 	}
 	left_leg := Point {
-		CENTER.x - (i32)(intrinsics.constant_floor(RADIUS * 0.587785)),
+		CENTER.x - (i32)(intrinsics.constant_floor(RADIUS * +0.587785)),
 		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * -0.809017)),
 	}
 	left_arm := Point {
-		CENTER.x - (i32)(intrinsics.constant_floor(RADIUS * 0.951056)),
-		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * 0.309017)),
+		CENTER.x - (i32)(intrinsics.constant_floor(RADIUS * +0.951056)),
+		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * +0.309017)),
 	}
 
 	the_path : The_Path = {
-		head, right_leg, left_arm, right_arm, left_leg, CENTER
+		ORIGIN, head, right_leg, left_arm, right_arm, left_leg, CENTER
 	}
 	
 	/// first draw the circle
@@ -45,9 +46,9 @@ draw_map :: proc "c" () {
 
 	/// then draw The Path
 	w4.DRAW_COLORS^= 0x3
-	for i := 0; i < 5; i += 1 {
-		from := the_path[    i    ]
-		to   := the_path[(i+1) % 5] // last line to head instead of center
+	for i in 1..=5 { // from `head` to `left_leg`
+		from := the_path[     i     ]
+		to   := the_path[1 + (i % 5)] // last line to `head` instead of `center`
 		w4.line(from.x, from.y, to.x, to.y)
 	}
 
@@ -58,6 +59,7 @@ draw_map :: proc "c" () {
 	w4.oval(CENTER.x-4, CENTER.y-5, 10, 10)
 	w4.DRAW_COLORS^= 0x33
 	w4.oval(CENTER.x-1, CENTER.y-2, 4, 4)
+	// I feel watched
 
 	/// and finally, the hero
 
@@ -70,8 +72,8 @@ draw_map :: proc "c" () {
 	hero_percent = (hero_percent / 3) * 3
 
 	// get progress position
-	total_Δx := the_path[global_state.map_stage+1].x - the_path[global_state.map_stage].x
-	total_Δy := the_path[global_state.map_stage+1].y - the_path[global_state.map_stage].y
+	total_Δx := the_path[global_state.map_index+1].x - the_path[global_state.map_index].x
+	total_Δy := the_path[global_state.map_index+1].y - the_path[global_state.map_index].y
 
 	Δx := i32((f16(total_Δx * hero_percent) / 100))
 	Δy := i32((f16(total_Δy * hero_percent) / 100))
@@ -79,13 +81,16 @@ draw_map :: proc "c" () {
 	// and apply it
 	w4.DRAW_COLORS^= 0x41
 	w4.blit(&hero_map_sprite[0],
-		the_path[global_state.map_stage].x + Δx - 8,
-		the_path[global_state.map_stage].y + Δy - 16,
+		the_path[global_state.map_index].x + Δx - 8,
+		the_path[global_state.map_index].y + Δy - 16,
 		16, 16)
 
 	// progress onto the next stage
+	// which is done via the text section
+	// for reasons, I am sure...
 	if global_state.map_ticks > 150 {
-		global_state.map_ticks = 0
-		global_state.map_stage = ((global_state.map_stage + 1) % 5)
+		global_state.map_ticks  = 0
+		global_state.map_index += 1
+		global_state.game_mode  = .Text
 	}
 }
