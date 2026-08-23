@@ -87,11 +87,23 @@ ALEXANDRIA : []Text_Data = {
 	{
 		lines = {
 			{
-				str = "GG?",
+				str = "The magæ have",
 				pos = Point{ 10, 10 },
 			},
+			{
+				str = "arrived!",
+				pos = Point{ 50, 20 },
+			},
+			{
+				str = "Beware the ballz",
+				pos = Point{ 40, 50 },
+			},
+			{
+				str = "... of FIRE",
+				pos = Point{ 30, 70 },
+			},
 		},
-		next_game_mode = .GG,
-		palette = MAP_PALETTE,
+		next_game_mode = .Game,
+		palette = L2_PALETTE,
 	},
 }

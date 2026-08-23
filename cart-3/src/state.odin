@@ -35,6 +35,7 @@ global_state := State {
 	map_ticks             = 0    ,
 	game_ticks            = 0    ,
 	map_index             = 0    ,
+	text_index            = 4    ,
 	level_index           = 0    ,
 	challange_start_index = 0    ,
 	challange_pos         = 0    ,
