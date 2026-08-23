@@ -25,7 +25,7 @@ State :: struct {
 	  // I have considered putting this on the heap, but adding all the code
 	 // needed for allocation (`core:runtime`) took way more space than this did
 	// so stack-only it is
-	game_entities: [15]Game_Entity,
+	game_entities: [20]Game_Entity,
 
 	held_gamepad, clicked_gamepad: w4.Buttons,
 }
@@ -35,7 +35,7 @@ global_state := State {
 	map_ticks             = 0    ,
 	game_ticks            = 0    ,
 	map_index             = 0    ,
-	level_index           = 1    ,
+	level_index           = 2    ,
 	challange_start_index = 0    ,
 	challange_pos         = 0    ,
 	level_completed       = false,
