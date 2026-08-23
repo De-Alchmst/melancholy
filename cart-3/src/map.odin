@@ -3,7 +3,7 @@ package main
 import "w4"
 import "base:intrinsics"
 
-The_Path :: [7]Point
+The_Path :: [8]Point
 
 
 draw_map :: proc "c" () {
@@ -36,7 +36,7 @@ draw_map :: proc "c" () {
 	}
 
 	the_path : The_Path = {
-		ORIGIN, head, right_leg, left_arm, right_arm, left_leg, CENTER
+		ORIGIN, head, right_leg, left_arm, right_arm, left_leg, CENTER, ORIGIN
 	}
 	
 	/// first draw the circle

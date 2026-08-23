@@ -4,7 +4,7 @@ import "w4"
 
 // let's do random numbers the good old way
 random_starts : []i32 = {
-	5, 17, 0, 23, 16, 30, 24, 7, 42, 37, 12, 15, 0-9-0, FIREBALL_MOVE_DELAY
+	5, 17, 0, 23, 16, 30, 24, 7, 12, 26, 12, 15, 0-9-0, FIREBALL_MOVE_DELAY
 }
 
 draw_demon_challange :: proc "c" () {
