@@ -25,6 +25,10 @@ draw_game :: proc "c" () {
 				case TILE_BRICK:
 					w4.DRAW_COLORS^ = 0x23
 					w4.blit(&BRICK_SPRITE[0], x*8, y*8, 8, 8)
+
+				case TILE_TREE:
+					w4.DRAW_COLORS^ = 0x31
+					w4.blit(&TREE_SPRITE[0], x*8, y*8, 8, 8)
 				case:
 			}
 		}

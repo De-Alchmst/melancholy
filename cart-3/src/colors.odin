@@ -18,6 +18,13 @@ L1_PALETTE :: w4.Palette {
 	0x77BEF0,
 }
 
+L2_PALETTE :: w4.Palette {
+	0xC1E2A4,
+	0xFDFAD9,
+	0x86D293,
+	0x6256CA,
+}
+
 // https://lospec.com/palette-list/wish-gb
 L5_PALETTE :: w4.Palette {
 	0x608fcf,

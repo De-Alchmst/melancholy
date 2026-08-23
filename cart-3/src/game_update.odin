@@ -134,12 +134,23 @@ update_entities :: proc "c" () {
 
 		// MAGÆ
 		if global_state.game_ticks % FIREBALL_SPAWN_DELAY == 0 {
-			play_fireball_spawn()
 			#partial switch ent.type {
-				case .Maga_Up    : spawn_entity(.Fireball_Up   , ent.pos.x  , ent.pos.y-1)
-				case .Maga_Right : spawn_entity(.Fireball_Right, ent.pos.x+1, ent.pos.y  )
-				case .Maga_Down  : spawn_entity(.Fireball_Down , ent.pos.x  , ent.pos.y+1)
-				case .Maga_Left  : spawn_entity(.Fireball_Left , ent.pos.x-1, ent.pos.y  )
+				case .Maga_Up:
+					spawn_entity(.Fireball_Up   , ent.pos.x  , ent.pos.y-1)
+					play_fireball_spawn()
+					kill_entities_at(global_state.hero_state.pos)
+				case .Maga_Right:
+					spawn_entity(.Fireball_Right, ent.pos.x+1, ent.pos.y  )
+					play_fireball_spawn()
+					kill_entities_at(global_state.hero_state.pos)
+				case .Maga_Down:
+					spawn_entity(.Fireball_Down , ent.pos.x  , ent.pos.y+1)
+					play_fireball_spawn()
+					kill_entities_at(global_state.hero_state.pos)
+				case .Maga_Left:
+					spawn_entity(.Fireball_Left , ent.pos.x-1, ent.pos.y  )
+					play_fireball_spawn()
+					kill_entities_at(global_state.hero_state.pos)
 			}
 		}
 
@@ -154,6 +165,7 @@ update_entities :: proc "c" () {
 					case .Fireball_Left  : ent.pos.x -= 1
 				}
 
+				kill_entities_at(global_state.hero_state.pos)
 				if (solid_tile_pos_p(ent.pos))  do  ent.type = .Nihil
 			}
 
