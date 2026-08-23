@@ -14,6 +14,7 @@ TILE_MAGA_UP    :Tile: 07
 TILE_MAGA_RIGHT :Tile: 08
 TILE_MAGA_DOWN  :Tile: 09
 TILE_MAGA_LEFT  :Tile: 10
+TILE_BRICK      :Tile: 11
 
 Game_Level :: struct {
 	layout: [20][20]Tile,
@@ -24,7 +25,8 @@ Game_Level :: struct {
 solid_tile_pos_p :: proc "c" (pos: Point) -> bool {
 	tile := LEVELS[global_state.level_index].layout[pos.y][pos.x]
 
-	return tile == TILE_SUSE || tile == TILE_BOX || tile == TILE_ROCK
+	return tile == TILE_SUSE || tile == TILE_BOX || tile == TILE_ROCK \
+	    || tile == TILE_BRICK
 }
 
 
@@ -47,10 +49,10 @@ LEVELS : []Game_Level = {
 			{ 3, 0, 2, 1, 2, 2, 0, 0, 0, 3, 0, 5, 0, 0, 0, 0, 0, 0, 0, 3 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 1, 0, 0, 0, 0, 0, 3 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 1, 1, 0, 0, 0, 0, 3 },
-			{ 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
+			{ 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,11,11,11, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,11,11,11, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,11,11,11, 3 },
 			{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 }
 		}
 	},
