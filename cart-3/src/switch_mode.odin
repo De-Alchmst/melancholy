@@ -8,7 +8,7 @@ switch_mode :: proc "c" (mode: Game_Mode) {
 	switch mode {
 		case .Map:  w4.PALETTE^ = MAP_PALETTE
 		case .Text: w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
-		case .GG:   w4.PALETTE^ = MAP_PALETTE
+		case .GG:   w4.PALETTE^ = HIS_PALETTE
 		case .Game:
 			w4.PALETTE^ = LEVELS[global_state.level_index].palette
 			global_state.game_ticks = 0

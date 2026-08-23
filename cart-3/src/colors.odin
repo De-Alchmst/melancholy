@@ -46,3 +46,11 @@ L5_PALETTE :: w4.Palette {
 	0x622e4c,
 	0x8be5ff,
 }
+
+// https://lospec.com/palette-list/rust-gold-8
+HIS_PALETTE :: w4.Palette {
+	0x202020,
+	0xac6b26,
+	0x393939,
+	0xf6cd26,
+}

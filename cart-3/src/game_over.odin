@@ -3,5 +3,7 @@ package main
 import "w4"
 
 draw_game_over :: proc "c" () {
-	w4.text("GG, Well Played", 20, 70)
+	w4.DRAW_COLORS^ = 0x41
+	w4.text("Or was thre", 20, 42)
+	w4.text("another way?", 30, 50)
 }

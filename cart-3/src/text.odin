@@ -87,23 +87,213 @@ ALEXANDRIA : []Text_Data = {
 	{
 		lines = {
 			{
-				str = "The magæ have",
-				pos = Point{ 10, 10 },
+				str = "The mag\xE6 have",
+				pos = Point{ 10, 30 },
 			},
 			{
 				str = "arrived!",
-				pos = Point{ 50, 20 },
+				pos = Point{ 50, 40 },
 			},
 			{
 				str = "Beware the ballz",
-				pos = Point{ 40, 50 },
+				pos = Point{ 20, 100 },
 			},
 			{
-				str = "... of FIRE",
-				pos = Point{ 30, 70 },
+				str = "...",
+				pos = Point{ 10, 115 },
+			},
+			{
+				str = "of FIRE",
+				pos = Point{ 40, 130 },
 			},
 		},
 		next_game_mode = .Game,
 		palette = L2_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "You enter the cave",
+				pos = Point{ 5, 80 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = L3_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "It leads to victory",
+				pos = Point{ 5, 80 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = L3_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "You are sure of it!",
+				pos = Point{ 5, 80 },
+			},
+		},
+		next_game_mode = .Game,
+		palette = L3_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "!! D E E E M O N !!",
+				pos = Point{ 5, 80 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = L4_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "Beware the demonic",
+				pos = Point{ 10, 50 },
+			},
+			{
+				str = "menace!",
+				pos = Point{ 90, 65 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = L4_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "They do not go",
+				pos = Point{ 10, 90 },
+			},
+			{
+				str = "down so easily",
+				pos = Point{ 30, 115 },
+			},
+		},
+		next_game_mode = .Game,
+		palette = L4_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "You are this close",
+				pos = Point{ 10, 30 },
+			},
+			{
+				str = "Just a little more",
+				pos = Point{ 10, 90 },
+			},
+			{
+				str = "Almost done",
+				pos = Point{ 60, 140 },
+			},
+		},
+		next_game_mode = .Game,
+		palette = L5_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "The ritual has",
+				pos = Point{ 25, 80 },
+			},
+			{
+				str = "b e g o n e",
+				pos = Point{ 35, 90 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = MAP_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "END",
+				pos = Point{ 60, 70 },
+			},
+			{
+				str = "IT",
+				pos = Point{ 70, 80 },
+			},
+			{
+				str = "NOW",
+				pos = Point{ 71, 90 },
+			},
+		},
+		next_game_mode = .Game,
+		palette = MAP_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "You have defeated",
+				pos = Point{ 10, 50 },
+			},
+			{
+				str = "the archmagus",
+				pos = Point{ 30, 80 },
+			},
+			{
+				str = "...",
+				pos = Point{ 70, 100 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = MAP_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "But this is",
+				pos = Point{ 30, 60 },
+			},
+			{
+				str = "not the end",
+				pos = Point{ 20, 70 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = MAP_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "it is never",
+				pos = Point{ 40, 80 },
+			},
+			{
+				str = "The End",
+				pos = Point{ 100, 140 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = MAP_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "There",
+				pos = Point{ 10, 30 },
+			},
+			{
+				str = "Is",
+				pos = Point{ 50, 60 },
+			},
+			{
+				str = "Never",
+				pos = Point{ 70, 90 },
+			},
+			{
+				str = "Peace",
+				pos = Point{ 110, 120 },
+			},
+		},
+		next_game_mode = .GG,
+		palette = MAP_PALETTE,
 	},
 }

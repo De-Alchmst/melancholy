@@ -48,7 +48,12 @@ update_game :: proc "c" () {
 	// end after 1s/3 as to not seem too scuffed
 	if global_state.level_completed && global_state.game_ticks == 20 {
 		global_state.level_index += 1
-		switch_mode(.Map)
+		// on last level straigt to text
+		if global_state.level_index == 6 {
+			switch_mode(.Text)
+		} else {
+			switch_mode(.Map)
+		}
 	}
 }
 
