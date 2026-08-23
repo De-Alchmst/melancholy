@@ -67,6 +67,8 @@ draw_map :: proc "c" () {
 	global_state.map_ticks += 1
 	hero_percent := global_state.map_ticks
 	if hero_percent > 100 do hero_percent = 100
+	// else walking, so make some noise
+	else if hero_percent % 20 == 0 do play_footstep()
 
 	// unsmooth hero progression
 	hero_percent = (hero_percent / 3) * 3

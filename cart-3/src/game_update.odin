@@ -66,6 +66,10 @@ update_player :: proc "c" () {
 			global_state.hero_state.direction = .Left
 		}
 
+		if global_state.hero_state.direction != .Nihil {
+			play_hero_launch()
+		}
+
 	// if in motion
 	} else {
 		if global_state.game_ticks % HERO_MOVE_DELAY == 0 {
@@ -105,6 +109,9 @@ kill_entities_at :: proc "c" (pos: Point) {
 				switch_mode(.Game)
 			}
 			else do global_state.game_entities[i].type = .Dead 
+
+			// either way, something dies today
+				play_death()
 		}
 	}
 }
@@ -120,6 +127,7 @@ update_entities :: proc "c" () {
 
 		// MAGÆ
 		if global_state.game_ticks % FIREBALL_SPAWN_DELAY == 0 {
+			play_fireball_spawn()
 			#partial switch ent.type {
 				case .Maga_Up    : spawn_entity(.Fireball_Up   , ent.pos.x  , ent.pos.y-1)
 				case .Maga_Right : spawn_entity(.Fireball_Right, ent.pos.x+1, ent.pos.y  )
