@@ -17,3 +17,7 @@ play_hero_launch :: proc "c" () {
 play_death :: proc "c" () {
 	w4.tone(290 | (210 << 16), (5 << 8) | (25 << 16), 7, .Noise)
 }
+
+play_challange_success :: proc "c" () {
+	w4.tone(750, 3 | (2 << 8) | (15 << 16), 22, .Pulse1)
+}

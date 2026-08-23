@@ -19,5 +19,7 @@ update :: proc "c" () {
 			draw_game()
 		case .GG:
 			draw_game_over()
+		case .Demon_Challange:
+			draw_demon_challange()
 	}
 }

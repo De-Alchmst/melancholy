@@ -11,8 +11,9 @@ Game_Entity_Type :: enum {
 	Dead     ,
 	Maga_Right,
 	Maga_Down ,
-	Maga_Left  ,
-	Maga_Up     ,
+	Maga_Left ,
+	Maga_Up    ,
+	Demon       ,
 	Fireball_Up  ,
 	Fireball_Right,
 	Fireball_Down ,
@@ -101,17 +102,23 @@ update_player :: proc "c" () {
 kill_entities_at :: proc "c" (pos: Point) {
 	for i in 0..<(len(global_state.game_entities)) {
 		ent := global_state.game_entities[i]
-		if (ent.pos == pos) {
 
+		 // don't kill the dead and eldrich beings
+		//  they don't deserve it :(
+		if ent.type == .Nihil || ent.type == .Dead do continue
+		if (ent.pos == pos) {
 			// if the killed entity is a fireball, kills the player instead
 			if ent.type == .Fireball_Up   || ent.type == .Fireball_Right \
 			|| ent.type == .Fireball_Down || ent.type == .Fireball_Left { \
 				switch_mode(.Game)
-			}
-			else do global_state.game_entities[i].type = .Dead 
+
+			} else do global_state.game_entities[i].type = .Dead 
+
+			// if demon, challange it
+			if ent.type == .Demon do switch_mode(.Demon_Challange)
 
 			// either way, something dies today
-				play_death()
+			play_death()
 		}
 	}
 }

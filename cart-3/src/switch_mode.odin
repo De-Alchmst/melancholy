@@ -6,15 +6,20 @@ import "w4"
 switch_mode :: proc "c" (mode: Game_Mode) {
 	global_state.game_mode  = mode
 	switch mode {
-	case .Map:  w4.PALETTE^ = MAP_PALETTE
-	case .Text: w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
-	case .GG:   w4.PALETTE^ = MAP_PALETTE
-	case .Game:
-		w4.PALETTE^ = LEVELS[global_state.level_index].palette
-		global_state.game_ticks = 0
-		global_state.level_completed = false
-		flush_entities()
-		load_entities()
+		case .Map:  w4.PALETTE^ = MAP_PALETTE
+		case .Text: w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
+		case .GG:   w4.PALETTE^ = MAP_PALETTE
+		case .Game:
+			w4.PALETTE^ = LEVELS[global_state.level_index].palette
+			global_state.game_ticks = 0
+			global_state.level_completed = false
+			flush_entities()
+			load_entities()
+
+		case .Demon_Challange:
+			global_state.challange_pos          = random_starts[global_state.challange_start_index]
+			global_state.challange_start_index += 1
+			global_state.challange_start_index %= u8(len(random_starts))
 	}
 }
 
@@ -73,6 +78,12 @@ load_entities :: proc "c" () {
 					global_state.game_entities[free_index] = {
 						pos = { x, y },
 						type = .Maga_Left,
+					}
+
+				case TILE_DEMON:
+					global_state.game_entities[free_index] = {
+						pos = { x, y },
+						type = .Demon,
 					}
 
 				case:

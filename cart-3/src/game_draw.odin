@@ -50,6 +50,10 @@ draw_game :: proc "c" () {
 				w4.DRAW_COLORS^ = 0x21
 				w4.blit(&FIREBALL_SPRITE[0], ent.pos.x*8, ent.pos.y*8, 8, 8)
 
+			case .Demon:
+				w4.DRAW_COLORS^ = 0x31
+				w4.blit(&DEMON_SPRITE[0], ent.pos.x*8, ent.pos.y*8, 8, 8)
+
 			case .Nihil:
 		}
 	}
