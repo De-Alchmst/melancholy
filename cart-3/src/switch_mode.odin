@@ -12,6 +12,7 @@ switch_mode :: proc "c" (mode: Game_Mode) {
 	case .Game:
 		w4.PALETTE^ = LEVELS[global_state.level_index].palette
 		global_state.game_ticks = 0
+		global_state.level_completed = false
 		flush_entities()
 		load_entities()
 	}
@@ -50,6 +51,30 @@ load_entities :: proc "c" () {
 						type = .Dead,
 					}
 
+				case TILE_MAGA_UP:
+					global_state.game_entities[free_index] = {
+						pos = { x, y },
+						type = .Maga_Up,
+					}
+
+				case TILE_MAGA_RIGHT:
+					global_state.game_entities[free_index] = {
+						pos = { x, y },
+						type = .Maga_Right,
+					}
+
+				case TILE_MAGA_DOWN:
+					global_state.game_entities[free_index] = {
+						pos = { x, y },
+						type = .Maga_Down,
+					}
+
+				case TILE_MAGA_LEFT:
+					global_state.game_entities[free_index] = {
+						pos = { x, y },
+						type = .Maga_Left,
+					}
+
 				case:
 					// skip
 					free_index -= 1
@@ -58,29 +83,4 @@ load_entities :: proc "c" () {
 			free_index += 1
 		}
 	}
-}
-
-
-// https://colorhunt.co/palette/5e00069b0f06d53e0feed9b9
-MAP_PALETTE :: w4.Palette {
-	0x9B0F06,
-	0xD53E0F,
-	0x5E0006,
-	0xEED9B9,
-}
-
-// https://colorhunt.co/palette/77bef0ffcb61ff894fea5b6f
-L1_PALETTE :: w4.Palette {
-	0xFF894F,
-	0xFFCB61,
-	0xEA5B6F,
-	0x77BEF0,
-}
-
-// https://lospec.com/palette-list/wish-gb
-L5_PALETTE :: w4.Palette {
-	0x608fcf,
-	0x7550e8,
-	0x622e4c,
-	0x8be5ff,
 }

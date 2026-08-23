@@ -38,6 +38,14 @@ draw_game :: proc "c" () {
 				w4.DRAW_COLORS^ = 0x21
 				w4.blit(&DEAD_SPRITE   [0], ent.pos.x*8, ent.pos.y*8, 8, 8)
 
+			case .Maga_Up, .Maga_Right, .Maga_Down, .Maga_Left:
+				w4.DRAW_COLORS^ = 0x21
+				w4.blit(&MAGA_SPRITE[0], ent.pos.x*8, ent.pos.y*8, 8, 8)
+
+			case .Fireball_Up, .Fireball_Right, .Fireball_Down, .Fireball_Left:
+				w4.DRAW_COLORS^ = 0x21
+				w4.blit(&FIREBALL_SPRITE[0], ent.pos.x*8, ent.pos.y*8, 8, 8)
+
 			case .Nihil:
 		}
 	}
