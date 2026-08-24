@@ -48,6 +48,7 @@ update_game :: proc "c" () {
 	// end after 1s/3 as to not seem too scuffed
 	if global_state.level_completed && global_state.game_ticks == 20 {
 		global_state.level_index += 1
+
 		// on last level straigt to text
 		if global_state.level_index == 6 {
 			switch_mode(.Text)
@@ -94,6 +95,12 @@ update_player :: proc "c" () {
 			if solid_tile_pos_p(new_pos) {
 				global_state.hero_state.direction = .Nihil
 
+				tile := tile_at_pos(new_pos)
+				switch tile {
+					case TILE_SECRET_MAZE:
+						switch_mode(.Secret_Maze)
+				}
+
 			// else
 			} else {
 				global_state.hero_state.pos = new_pos
@@ -111,6 +118,7 @@ kill_entities_at :: proc "c" (pos: Point) {
 		 // don't kill the dead and eldrich beings
 		//  they don't deserve it :(
 		if ent.type == .Nihil || ent.type == .Dead do continue
+
 		if (ent.pos == pos) {
 			// if the killed entity is a fireball, kills the player instead
 			if ent.type == .Fireball_Up   || ent.type == .Fireball_Right \
@@ -119,7 +127,7 @@ kill_entities_at :: proc "c" (pos: Point) {
 
 			} else do global_state.game_entities[i].type = .Dead 
 
-			// if demon, challange it
+			// if a deeemon, challange it
 			if ent.type == .Demon do switch_mode(.Demon_Challange)
 
 			// either way, something dies today
@@ -202,6 +210,6 @@ spawn_entity :: proc "c" (type: Game_Entity_Type, x, y: i32) {
 		}
 	}
 
-	// if no empty space, just ignore, lel
+	// if no empty space, just ignore it, lel
 	return
 }

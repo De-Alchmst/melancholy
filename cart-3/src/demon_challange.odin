@@ -8,6 +8,7 @@ random_starts : []i32 = {
 }
 
 draw_demon_challange :: proc "c" () {
+	// electric eye
 	w4.DRAW_COLORS^= 0x32
 	w4.oval(80 - 70, 80 - 25, 140, 50)
 	w4.DRAW_COLORS^= 0x31
@@ -15,6 +16,7 @@ draw_demon_challange :: proc "c" () {
 	w4.DRAW_COLORS^= 0x33
 	w4.oval(80 - 10, 80 - 10, 20, 20)
 
+	// move thinngy
 	global_state.challange_pos += 3
 	if global_state.challange_pos > 160 {
 		play_death()
@@ -22,9 +24,11 @@ draw_demon_challange :: proc "c" () {
 		return
 	}
 
+	// draw the thingy
 	w4.DRAW_COLORS^= 0x4
 	w4.rect(global_state.challange_pos, 80 - 30, 5, 60)
 
+	// click the thingy
 	if .A in global_state.clicked_gamepad \
   || .B in global_state.clicked_gamepad {
 		// hit

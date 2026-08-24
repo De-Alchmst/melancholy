@@ -13,7 +13,8 @@ Text_Data :: struct {
 	palette: w4.Palette,
 }
 
-draw_text :: proc "c" () {
+
+draw_text :: proc "c" (/* read the ancient texts */) {
 	text := &ALEXANDRIA[global_state.text_index]
 
 	w4.DRAW_COLORS^= 0x14

@@ -1,7 +1,7 @@
 package main
 
 import "w4"
-import "base:intrinsics"
+import "base:intrinsics" // damn you bill!
 
 The_Path :: [8]Point
 
@@ -35,13 +35,14 @@ draw_map :: proc "c" () {
 		CENTER.y - (i32)(intrinsics.constant_floor(RADIUS * +0.309017)),
 	}
 
+	// to the mountain and back home
 	the_path : The_Path = {
 		ORIGIN, head, right_leg, left_arm, right_arm, left_leg, CENTER, ORIGIN
 	}
 	
 	/// first draw the circle
+	// add a bit of radius, just in case
 	w4.DRAW_COLORS^= 0x31
-	/// add a bit of radius, just in case
 	w4.oval(CENTER.x - RADIUS, CENTER.y - RADIUS, RADIUS*2+1, RADIUS*2+1)
 
 	/// then draw The Path
@@ -59,7 +60,8 @@ draw_map :: proc "c" () {
 	w4.oval(CENTER.x-4, CENTER.y-5, 10, 10)
 	w4.DRAW_COLORS^= 0x33
 	w4.oval(CENTER.x-1, CENTER.y-2, 4, 4)
-	// I feel watched
+
+	// I feel watched now
 
 	/// and finally, the hero
 

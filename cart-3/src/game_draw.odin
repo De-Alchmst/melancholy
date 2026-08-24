@@ -18,7 +18,7 @@ draw_game :: proc "c" () {
 					w4.DRAW_COLORS^ = 0x31
 					w4.blit(&BOX_SPRITE[0], x*8, y*8, 8, 8)
 
-				case TILE_ROCK:
+				case TILE_ROCK, TILE_FAKE_ROCK, TILE_SECRET_MAZE:
 					w4.DRAW_COLORS^ = 0x31
 					w4.blit(&ROCK_SPRITE[0], x*8, y*8, 8, 8)
 
@@ -34,15 +34,14 @@ draw_game :: proc "c" () {
 		}
 	}
 
-	// draw the living things
-
+	// and the living things
 	for ent in global_state.game_entities {
 		switch ent.type {
 			case .Cultist:
 				w4.DRAW_COLORS^ = 0x31
 				w4.blit(&CULTIST_SPRITE[0], ent.pos.x*8, ent.pos.y*8, 8, 8)
 
-			case .Dead:
+			case .Dead: // except this one, of course
 				w4.DRAW_COLORS^ = 0x21
 				w4.blit(&DEAD_SPRITE   [0], ent.pos.x*8, ent.pos.y*8, 8, 8)
 
@@ -62,6 +61,7 @@ draw_game :: proc "c" () {
 		}
 	}
 
+	// and also you
 	w4.DRAW_COLORS^ = 0x41
 	w4.blit(&HERO_GAME_SPRITE[0],
 	      	global_state.hero_state.pos.x*8, global_state.hero_state.pos.y*8,

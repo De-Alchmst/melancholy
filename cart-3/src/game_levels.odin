@@ -3,20 +3,22 @@ package main
 import "w4"
 
 Tile :: distinct u8
-TILE_NIHIL      :Tile: 00
-TILE_SUSE       :Tile: 01
-TILE_BOX        :Tile: 02
-TILE_ROCK       :Tile: 03
-TILE_PLAYER     :Tile: 04
-TILE_CULTIST    :Tile: 05
-TILE_DEAD       :Tile: 06
-TILE_MAGA_UP    :Tile: 07
-TILE_MAGA_RIGHT :Tile: 08
-TILE_MAGA_DOWN  :Tile: 09
-TILE_MAGA_LEFT  :Tile: 10
-TILE_BRICK      :Tile: 11
-TILE_DEMON      :Tile: 12
-TILE_TREE       :Tile: 13
+TILE_NIHIL       :Tile: 00
+TILE_SUSE        :Tile: 01
+TILE_BOX         :Tile: 02
+TILE_ROCK        :Tile: 03
+TILE_PLAYER      :Tile: 04
+TILE_CULTIST     :Tile: 05
+TILE_DEAD        :Tile: 06
+TILE_MAGA_UP     :Tile: 07
+TILE_MAGA_RIGHT  :Tile: 08
+TILE_MAGA_DOWN   :Tile: 09
+TILE_MAGA_LEFT   :Tile: 10
+TILE_BRICK       :Tile: 11
+TILE_DEMON       :Tile: 12
+TILE_TREE        :Tile: 13
+TILE_FAKE_ROCK   :Tile: 14
+TILE_SECRET_MAZE :Tile: 15
 
 Game_Level :: struct {
 	layout: [20][20]Tile,
@@ -25,10 +27,14 @@ Game_Level :: struct {
 
 
 solid_tile_pos_p :: proc "c" (pos: Point) -> bool {
-	tile := LEVELS[global_state.level_index].layout[pos.y][pos.x]
+	tile := tile_at_pos(pos)
 
-	return tile == TILE_SUSE  || tile == TILE_BOX || tile == TILE_ROCK \
-	    || tile == TILE_BRICK || tile == TILE_TREE
+	return tile == TILE_SUSE  || tile == TILE_BOX  || tile == TILE_ROCK \
+	    || tile == TILE_BRICK || tile == TILE_TREE || tile == TILE_SECRET_MAZE \
+}
+
+tile_at_pos :: proc "c" (pos: Point) -> Tile {
+	return LEVELS[global_state.level_index].layout[pos.y][pos.x]
 }
 
 
@@ -52,8 +58,8 @@ LEVELS : []Game_Level = {
 			{ 3, 1, 0, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 3, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0,14,14,15 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3 },
 			{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 }
 		}
@@ -158,8 +164,8 @@ LEVELS : []Game_Level = {
 			{13,13, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,13,13,13 }
 		}
 	},
-	{
-		palette = MAP_PALETTE,
+	{ // this is why we can't have -n-i-c-e---t-h-i-n-g-s-
+		palette = MAP_PALETTE, //    20 enemy slots
 		layout  = {
 			{13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13 },
 			{13, 4, 0,12, 0,12,13,13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13 },
