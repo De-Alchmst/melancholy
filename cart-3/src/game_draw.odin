@@ -14,15 +14,15 @@ draw_game :: proc "c" () {
 					w4.DRAW_COLORS^ = 0x21
 					w4.blit(&SUSE_SPRITE[0], x*8, y*8, 8, 8)
 
-				case TILE_BOX:
+				case TILE_BOX, TILE_SECRET_MAZE_3:
 					w4.DRAW_COLORS^ = 0x31
 					w4.blit(&BOX_SPRITE[0], x*8, y*8, 8, 8)
 
-				case TILE_ROCK, TILE_FAKE_ROCK, TILE_SECRET_MAZE:
+				case TILE_ROCK, TILE_FAKE_ROCK, TILE_SECRET_MAZE_1:
 					w4.DRAW_COLORS^ = 0x31
 					w4.blit(&ROCK_SPRITE[0], x*8, y*8, 8, 8)
 
-				case TILE_BRICK:
+				case TILE_BRICK, TILE_FAKE_BRICK:
 					w4.DRAW_COLORS^ = 0x23
 					w4.blit(&BRICK_SPRITE[0], x*8, y*8, 8, 8)
 

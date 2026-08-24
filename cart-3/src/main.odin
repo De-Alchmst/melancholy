@@ -2,7 +2,7 @@ package main
 
 @export
 start :: proc "c" () {
-	switch_mode(.Secret_Maze)
+	switch_mode(.Text)
 }
 
 @export
@@ -19,6 +19,8 @@ update :: proc "c" () {
 			draw_game()
 		case .GG:
 			draw_game_over()
+		case .End:
+			draw_game_won()
 		case .Demon_Challange:
 			draw_demon_challange()
 		case .Secret_Maze:

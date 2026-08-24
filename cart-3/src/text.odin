@@ -297,4 +297,56 @@ ALEXANDRIA : []Text_Data = {
 		next_game_mode = .GG,
 		palette = MAP_PALETTE,
 	},
+	{
+		lines = {
+			{
+				str = "You have looked",
+				pos = Point{ 10, 80 },
+			},
+			{
+				str = "deep inside",
+				pos = Point{ 40, 90 },
+			},
+			{
+				str = "yourself",
+				pos = Point{ 70, 100 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = HIS_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "And you left...",
+				pos = Point{ 30, 130 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = HIS_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "You decided to",
+				pos = Point{ 10, 30 },
+			},
+			{
+				str = "leave things be",
+				pos = Point{ 30, 50 },
+			},
+		},
+		next_game_mode = .Text,
+		palette = HIS_PALETTE,
+	},
+	{
+		lines = {
+			{
+				str = "You know peace now",
+				pos = Point{ 10, 120 },
+			},
+		},
+		next_game_mode = .End,
+		palette = HIS_PALETTE,
+	},
 }

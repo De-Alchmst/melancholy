@@ -3,22 +3,26 @@ package main
 import "w4"
 
 Tile :: distinct u8
-TILE_NIHIL       :Tile: 00
-TILE_SUSE        :Tile: 01
-TILE_BOX         :Tile: 02
-TILE_ROCK        :Tile: 03
-TILE_PLAYER      :Tile: 04
-TILE_CULTIST     :Tile: 05
-TILE_DEAD        :Tile: 06
-TILE_MAGA_UP     :Tile: 07
-TILE_MAGA_RIGHT  :Tile: 08
-TILE_MAGA_DOWN   :Tile: 09
-TILE_MAGA_LEFT   :Tile: 10
-TILE_BRICK       :Tile: 11
-TILE_DEMON       :Tile: 12
-TILE_TREE        :Tile: 13
-TILE_FAKE_ROCK   :Tile: 14
-TILE_SECRET_MAZE :Tile: 15
+TILE_NIHIL         :Tile: 00
+TILE_SUSE          :Tile: 01
+TILE_BOX           :Tile: 02
+TILE_ROCK          :Tile: 03
+TILE_PLAYER        :Tile: 04
+TILE_CULTIST       :Tile: 05
+TILE_DEAD          :Tile: 06
+TILE_MAGA_UP       :Tile: 07
+TILE_MAGA_RIGHT    :Tile: 08
+TILE_MAGA_DOWN     :Tile: 09
+TILE_MAGA_LEFT     :Tile: 10
+TILE_BRICK         :Tile: 11
+TILE_DEMON         :Tile: 12
+TILE_TREE          :Tile: 13
+TILE_FAKE_ROCK     :Tile: 14
+TILE_SECRET_MAZE_1 :Tile: 15
+TILE_FAKE_BRICK    :Tile: 16
+TILE_SECRET_MAZE_2 :Tile: 17
+TILE_SECRET_MAZE_3 :Tile: 18
+TILE_ESCAPE        :Tile: 19
 
 Game_Level :: struct {
 	layout: [20][20]Tile,
@@ -29,8 +33,11 @@ Game_Level :: struct {
 solid_tile_pos_p :: proc "c" (pos: Point) -> bool {
 	tile := tile_at_pos(pos)
 
-	return tile == TILE_SUSE  || tile == TILE_BOX  || tile == TILE_ROCK \
-	    || tile == TILE_BRICK || tile == TILE_TREE || tile == TILE_SECRET_MAZE \
+	return tile == TILE_SUSE  || tile == TILE_BOX  || tile == TILE_ROCK        \
+	    || tile == TILE_BRICK || tile == TILE_TREE || tile == TILE_SECRET_MAZE_1\
+			||                                            tile == TILE_SECRET_MAZE_2 \
+			||                                            tile == TILE_SECRET_MAZE_3  \
+			||                                            tile == TILE_ESCAPE          \
 }
 
 tile_at_pos :: proc "c" (pos: Point) -> Tile {
@@ -43,7 +50,7 @@ LEVELS : []Game_Level = {
 		palette = L1_PALETTE,
 		layout  = {
 			{ 3, 3, 3, 3, 3,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11 },
-			{ 3, 4, 0, 0, 0,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11 },
+			{ 3, 4, 0, 0,00,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 2, 5, 0, 0, 2, 2,11,11,11,11,11,11 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 2,11,11,11,11,11,11 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0,11,11,11,11,11,11 },
@@ -57,8 +64,8 @@ LEVELS : []Game_Level = {
 			{ 3, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 3 },
 			{ 3, 1, 0, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3 },
-			{ 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 3, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 3 },
+			{ 3, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 3, 0, 0, 0, 0, 0, 3, 3, 3 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0,14,14,15 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3 },
 			{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 }
@@ -92,8 +99,8 @@ LEVELS : []Game_Level = {
 	{
 		palette = L3_PALETTE,
 		layout  = {
-			{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,11,11, 0, 0,11,11, 3, 3 },
-			{ 3, 0, 0, 0, 2, 3, 0, 0, 0, 0, 0, 0,11,11, 0, 0,11,11, 9, 3 },
+			{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,11,11,17,17,11,11, 3, 3 },
+			{ 3, 0, 0, 0, 2, 3, 0, 0, 0, 0, 0, 0,11,11, 0, 0,16,16, 9, 3 },
 			{ 3, 0, 5, 0, 0, 3, 0, 6, 0, 0, 0, 0,11,11, 0, 0,11,11, 9, 3 },
 			{ 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0,11,11, 0, 0,11,11, 0, 3 },
 			{ 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0,10,11,11, 0, 0,11,11, 0, 3 },
@@ -118,13 +125,13 @@ LEVELS : []Game_Level = {
 		palette = L4_PALETTE,
 		layout  = {
 			{ 3, 3, 3, 3, 3, 3,11,11,11,11,11,11,11,11,11,11,11,11,11,11 },
-			{ 3, 0, 5, 0, 0, 9,11, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,11 },
+			{ 3, 0, 5, 0, 0, 9,11,18, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,11 },
 			{ 3, 0, 0, 0, 3, 0,11, 0, 2, 0, 0, 0, 0, 0, 0, 0,11, 0, 0,11 },
 			{ 3, 0,12, 0, 3, 0,11, 0, 0, 0, 0, 0, 0, 0, 0, 0,11, 0,12,11 },
 			{ 3, 0, 0, 0, 3, 0,11, 0, 0, 0, 0, 0, 0, 0, 0, 0,11, 0, 2,11 },
 			{ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0,11, 2, 2,11 },
 			{ 3, 0, 0, 0, 0, 0,11, 0, 0,11,11,11,11,11,11, 0,11,11,11,11 },
-			{ 3, 0, 0, 0, 0, 0,11, 0, 0,11, 0, 0, 0, 0, 0, 0,11, 0, 0,11 },
+			{ 3, 0, 0, 0, 0, 0,11, 0, 0,16, 0, 0, 0, 0, 0, 0,11, 0, 0,11 },
 			{ 3, 0, 0, 0, 0, 0,11,11,11,11, 0, 0, 0, 0, 0, 0,11, 5, 0,11 },
 			{ 3, 0, 0, 0, 0, 0,11, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0,10,11 },
 			{ 3, 1, 0, 0, 0, 0,11, 0, 0, 0, 0,11,11,11,11,11,11,11,11,11 },

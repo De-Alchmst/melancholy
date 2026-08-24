@@ -97,8 +97,12 @@ update_player :: proc "c" () {
 
 				tile := tile_at_pos(new_pos)
 				switch tile {
-					case TILE_SECRET_MAZE:
+					case TILE_SECRET_MAZE_1, TILE_SECRET_MAZE_2, TILE_SECRET_MAZE_3:
 						switch_mode(.Secret_Maze)
+
+					case TILE_ESCAPE:
+						global_state.text_index = 17
+						switch_mode(.Map)
 				}
 
 			// else

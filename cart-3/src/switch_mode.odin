@@ -9,6 +9,7 @@ switch_mode :: proc "c" (mode: Game_Mode) {
 		case .Map:    w4.PALETTE^ = MAP_PALETTE
 		case .Text:   w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
 		case .GG:     w4.PALETTE^ = HIS_PALETTE
+		case .End:    w4.PALETTE^ = HIS_PALETTE
 		case .Gnosis: w4.PALETTE^ = HIS_PALETTE
 		case .Game:
 			w4.PALETTE^ = LEVELS[global_state.level_index].palette
@@ -25,7 +26,14 @@ switch_mode :: proc "c" (mode: Game_Mode) {
 
 		case .Secret_Maze:
 			w4.PALETTE^ = HIS_PALETTE
-			global_state.secret_pos = SECRET_MAZE_START_POS
+			switch global_state.gnosis_found {
+				case 0:
+					global_state.secret_pos = SECRET_MAZE_START_POS_1
+				case 1:
+					global_state.secret_pos = SECRET_MAZE_START_POS_2
+				case 2:
+				case:
+			}
 	}
 }
 

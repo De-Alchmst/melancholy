@@ -2,13 +2,59 @@ package main
 
 import "w4"
 
-SECRET_MAZE_START_POS :Point: {  1,  1 }
-SECRET_MAZE_END_POS   :Point: { 37, 37 }
+// I know
+SECRET_MAZE_START_POS_1 :Point: {  1,  1 }
+SECRET_MAZE_END_POS_1   :Point: { 37, 37 }
+SECRET_MAZE_START_POS_2 :Point: { 37, 37 }
+SECRET_MAZE_END_POS_2   :Point: {  5,  9 }
+
+VISION :: 1
 
 draw_secret_maze :: proc "c" () {
-	// move
+	move_in_maze()
+
+	// draw the map
+	if global_state.gnosis_found != 0 {
+		w4.DRAW_COLORS^ = 0x33
+		for y in 0..<40 {
+			for x in 0..<40 {
+				if MAZE[y][x] == 1 {
+					w4.rect(i32(x)*4, i32(y)*4, 4, 4)
+				}
+			}
+		}
+	}
+
+	// draw the player
+	w4.DRAW_COLORS^ = 0x22
+	w4.rect(global_state.secret_pos.x*4 , global_state.secret_pos.y*4 , 4 , 4)
+
+	// draw the gnosis
+	if global_state.gnosis_found == 0 {
+		w4.DRAW_COLORS^ = 0x44
+		w4.rect(SECRET_MAZE_END_POS_1.x*4, SECRET_MAZE_END_POS_1.y*4, 4, 4)
+	}
+
+	if global_state.gnosis_found == 1                                     \
+	&& abs(global_state.secret_pos.x - SECRET_MAZE_END_POS_2.x) <= VISION  \
+	&& abs(global_state.secret_pos.y - SECRET_MAZE_END_POS_2.y) <= VISION   {
+		w4.DRAW_COLORS^ = 0x44
+		w4.rect(SECRET_MAZE_END_POS_2.x*4, SECRET_MAZE_END_POS_2.y*4, 4, 4)
+  }
+
+	// find gnosis
+	if (global_state.gnosis_found == 0 && global_state.secret_pos == SECRET_MAZE_END_POS_1) \
+	|| (global_state.gnosis_found == 1 && global_state.secret_pos == SECRET_MAZE_END_POS_2) {
+		global_state.gnosis_found += 1
+		switch_mode(.Gnosis)
+		fix_level()
+	}
+}
+
+move_in_maze :: proc "c" () {
 	new_pos := global_state.secret_pos
 
+	// move
 	switch {
 		case .UP    in global_state.clicked_gamepad: new_pos.y -= 1
 		case .RIGHT in global_state.clicked_gamepad: new_pos.x += 1
@@ -16,27 +62,31 @@ draw_secret_maze :: proc "c" () {
 		case .LEFT  in global_state.clicked_gamepad: new_pos.x -= 1
 	}
 
-	if new_pos == SECRET_MAZE_END_POS {
-		global_state.gnosis_found += 1
-		LEVELS[0].layout[17][19] = 3 // close the passageway
-		LEVELS[0].palette        = HIS_PALETTE
-		switch_mode(.Gnosis)
-	}
-
 	// move, but for real this time
-	if MAZE[new_pos.y][new_pos.x] == 0 {
+	if MAZE[new_pos.y][new_pos.x] != 1 {
 		global_state.secret_pos = new_pos
 	}
-
-	// draw
-	w4.DRAW_COLORS^ = 0x33
-	w4.rect(global_state.secret_pos.x*4 , global_state.secret_pos.y*4 , 4 , 4)
-	w4.DRAW_COLORS^ = 0x44
-	w4.rect(    SECRET_MAZE_END_POS.x*4 ,     SECRET_MAZE_END_POS.y*4 , 4 , 4)
 }
 
 
-MAZE := [40][40]u8 {
+fix_level :: proc "c" () {
+	switch global_state.level_index {
+		case 0:
+			LEVELS[0].layout[17][19] = 3 // close the passageway
+			LEVELS[0].palette        = HIS_PALETTE
+
+		case 2:
+			LEVELS[2].layout[0][14] = 3 // close the passageway
+			LEVELS[2].layout[0][15] = 3 // and close it again
+			LEVELS[2].palette       = HIS_PALETTE
+
+		case 3:
+		case:
+	}
+}
+
+                                                                  // almost fits
+MAZE := [40][40]u8 {                                             //            ↓
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	{1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 	{1,0,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -51,9 +101,9 @@ MAZE := [40][40]u8 {
 	{1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,1,1,0,0,0,0,0,0,0,1,0,1,1,1,1,1},
 	{1,0,1,0,0,1,0,1,0,0,0,1,1,1,0,0,1,0,1,1,1,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,0,0,0,1},
 	{1,0,1,0,0,1,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,1,0,1,0,0,1,1,1,1,0,0,1},
-	{1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,1,0,0,1},
+	{1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
 	{1,0,1,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,1,1,1,1},
-	{1,0,1,0,0,0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,1},
+	{1,0,1,0,0,0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,9,1,0,1,0,0,0,1,0,0,0,0,0,0,0,1},
 	{1,0,1,0,0,0,1,0,1,0,0,1,0,1,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
 	{1,0,1,1,1,1,1,0,0,1,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,0,0,1,1,0,0,1},
 	{1,0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,0,1,0,1,1,0,0,0,0,1,1,0,0,1,0,1,0,0,0,0,1,0,0,1},
@@ -65,7 +115,7 @@ MAZE := [40][40]u8 {
 	{1,0,1,0,1,0,0,1,1,1,0,1,0,1,0,0,0,1,0,1,0,1,1,1,1,1,1,0,0,1,0,0,1,0,0,0,0,1,0,1},
 	{1,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,1,1,0,1,0,0,1,0,0,1,0,1,0,1},
 	{1,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1},
 	{1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,1,0,1,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,1,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,1,0,1,1,1},
 	{1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1,0,0,0,1},
@@ -75,6 +125,9 @@ MAZE := [40][40]u8 {
 	{1,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1},
 	{1,0,1,0,0,1,0,1,0,1,0,0,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,1,1,1,0,1},
 	{1,1,1,1,0,0,0,1,0,0,0,0,1,0,1,1,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0,1,1,1,1,0,9,0,1},
-	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 }
+
+ // don't worry, there is nothing there with you
+// at least as far as you can tell
