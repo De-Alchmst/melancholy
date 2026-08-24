@@ -2,7 +2,7 @@ package main
 
 @export
 start :: proc "c" () {
-	switch_mode(.Text)
+	switch_mode(.End)
 }
 
 @export
