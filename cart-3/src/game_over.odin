@@ -12,6 +12,7 @@ draw_game_over :: proc "c" () {
 
 draw_game_won :: proc "c" () {
 	w4.DRAW_COLORS^ = 0x14
-	w4.text("You won", 20, 40)
-	w4.text("The End.", 30, 50)
+	w4.text("Not today,", 5, 40)
+	w4.text("Yaldabaoth", 50, 50)
+	w4.text("Not today", 70, 90)
 }

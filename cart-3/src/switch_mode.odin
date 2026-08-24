@@ -27,11 +27,9 @@ switch_mode :: proc "c" (mode: Game_Mode) {
 		case .Secret_Maze:
 			w4.PALETTE^ = HIS_PALETTE
 			switch global_state.gnosis_found {
-				case 0:
-					global_state.secret_pos = SECRET_MAZE_START_POS_1
-				case 1:
-					global_state.secret_pos = SECRET_MAZE_START_POS_2
-				case 2:
+				case 0: global_state.secret_pos = SECRET_MAZE_START_POS_1
+				case 1: global_state.secret_pos = SECRET_MAZE_START_POS_2
+				case 2: global_state.secret_pos = SECRET_MAZE_START_POS_3
 				case:
 			}
 	}

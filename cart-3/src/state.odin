@@ -45,10 +45,10 @@ global_state := State {
 	game_ticks            = 0    ,
 	map_index             = 0    ,
 	text_index            = 0    ,
-	level_index           = 2    ,
+	level_index           = 0    ,
 	challange_start_index = 0    ,
 	challange_pos         = 0    ,
-	gnosis_found          = 1    ,
+	gnosis_found          = 0    ,
 	level_completed       = false,
 
 	held_gamepad    = { /* THERE'S NOBODY HERE */ },

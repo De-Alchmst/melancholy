@@ -7,6 +7,8 @@ SECRET_MAZE_START_POS_1 :Point: {  1,  1 }
 SECRET_MAZE_END_POS_1   :Point: { 37, 37 }
 SECRET_MAZE_START_POS_2 :Point: { 37, 37 }
 SECRET_MAZE_END_POS_2   :Point: {  5,  9 }
+SECRET_MAZE_START_POS_3 :Point: {  5,  9 }
+SECRET_MAZE_END_POS_3   :Point: {  4, 32 }
 
 VISION :: 1
 
@@ -42,10 +44,16 @@ draw_secret_maze :: proc "c" () {
 		w4.rect(SECRET_MAZE_END_POS_2.x*4, SECRET_MAZE_END_POS_2.y*4, 4, 4)
   }
 
+	if global_state.gnosis_found == 2 {
+		w4.DRAW_COLORS^ = 0x44
+		w4.rect(SECRET_MAZE_END_POS_3.x*4, SECRET_MAZE_END_POS_3.y*4, 4, 4)
+	}
+
 	// find gnosis
 	if (global_state.gnosis_found == 0 && global_state.secret_pos == SECRET_MAZE_END_POS_1) \
-	|| (global_state.gnosis_found == 1 && global_state.secret_pos == SECRET_MAZE_END_POS_2) {
-		global_state.gnosis_found += 1
+	|| (global_state.gnosis_found == 1 && global_state.secret_pos == SECRET_MAZE_END_POS_2)  \
+	|| (global_state.gnosis_found == 2 && global_state.secret_pos == SECRET_MAZE_END_POS_3)   {
+		global_state.gnosis_found   += 1
 		switch_mode(.Gnosis)
 		fix_level()
 	}
@@ -72,16 +80,23 @@ move_in_maze :: proc "c" () {
 fix_level :: proc "c" () {
 	switch global_state.level_index {
 		case 0:
-			LEVELS[0].layout[17][19] = 3 // close the passageway
+			LEVELS[0].layout[17][19] = TILE_ROCK // close the passageway
 			LEVELS[0].palette        = HIS_PALETTE
 
 		case 2:
-			LEVELS[2].layout[0][14] = 3 // close the passageway
-			LEVELS[2].layout[0][15] = 3 // and close it again
-			LEVELS[2].palette       = HIS_PALETTE
+			LEVELS[2].layout[0][14]  = TILE_ROCK // close the passageway
+			LEVELS[2].layout[0][15]  = TILE_ROCK // and close it again
+			LEVELS[2].palette        = HIS_PALETTE
 
 		case 3:
+			LEVELS[3].layout[1][7]   = TILE_BOX // close the box?
+			LEVELS[3].palette        = HIS_PALETTE
+
 		case:
+	}
+
+	if global_state.gnosis_found == 3 {
+		LEVELS[5].layout[6][0]     = TILE_ESCAPE
 	}
 }
 
@@ -119,7 +134,7 @@ MAZE := [40][40]u8 {                                             //            â
 	{1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,1,0,1,0,0,1,1,1,0,0,0,0,1,1,1,1,1,0,1,0,0,0,1},
 	{1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,1,0,1,1,1},
 	{1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,1,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,1,0,0,0,1},
-	{1,0,0,1,0,1,0,1,0,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1},
+	{1,0,0,1,9,1,0,1,0,0,0,1,1,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,1,1,1,0,1,0,1,1,1,0,1},
 	{1,0,0,0,1,1,0,1,0,0,0,0,1,0,1,1,1,1,1,0,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,1},
 	{1,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,1,1,1},
 	{1,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1},
