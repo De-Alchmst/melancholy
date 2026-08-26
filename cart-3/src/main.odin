@@ -2,7 +2,7 @@ package main
 
 @export
 start :: proc "c" () {
-	switch_mode(.End)
+	switch_mode(.Main_Menu)
 }
 
 @export
@@ -27,5 +27,25 @@ update :: proc "c" () {
 			draw_secret_maze()
 		case .Gnosis:
 			draw_gnosis()
+		case .Main_Menu:
+			draw_main_menu()
 	}
+}
+
+
+import "w4"
+
+
+draw_main_menu :: proc "c" () {
+	// continue ...
+	if .A in global_state.clicked_gamepad {
+		switch_mode(.Text)
+	}
+
+	// colors are fun
+	if   .B in global_state.held_gamepad do w4.PALETTE^ = HIS_PALETTE
+	else                                 do w4.PALETTE^ = L3_PALETTE
+
+	w4.DRAW_COLORS^ = 0x1324
+	w4.blit(&MAIN_MENU_SPRITE[0], 0, 0, MAIN_MENU_WIDTH, MAIN_MENU_HEIGHT, MAIN_MENU_FLAGS)
 }

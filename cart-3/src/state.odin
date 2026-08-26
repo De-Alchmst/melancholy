@@ -6,9 +6,10 @@ Game_Mode :: enum {
 		GG,
 		Map,
 		End,
-		Text, // <-- you are here
+		Text, // <-- -y-o-u--a-r-e--h-e-r-e-
 		Game,
 		Gnosis,
+		Main_Menu, // <-- actualy here, never mind...
 		Secret_Maze,
 		Demon_Challange,
 }

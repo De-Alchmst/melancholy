@@ -6,11 +6,12 @@ import "w4"
 switch_mode :: proc "c" (mode: Game_Mode) {
 	global_state.game_mode  = mode
 	switch mode {
-		case .Map:    w4.PALETTE^ = MAP_PALETTE
-		case .Text:   w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
-		case .GG:     w4.PALETTE^ = HIS_PALETTE
-		case .End:    w4.PALETTE^ = HIS_PALETTE
-		case .Gnosis: w4.PALETTE^ = HIS_PALETTE
+		case .Text:      w4.PALETTE^ = ALEXANDRIA[global_state.text_index].palette
+		case .Map:       w4.PALETTE^ = MAP_PALETTE
+		case .GG:        w4.PALETTE^ = HIS_PALETTE
+		case .End:       w4.PALETTE^ = HIS_PALETTE
+		case .Gnosis:    w4.PALETTE^ = HIS_PALETTE
+		case .Main_Menu: w4.PALETTE^ = L3_PALETTE
 		case .Game:
 			w4.PALETTE^ = LEVELS[global_state.level_index].palette
 			global_state.game_ticks = 0
